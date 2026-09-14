@@ -1,0 +1,19 @@
+星云智能科技｜AI Agent 应用开发工程师（校招）
+
+岗位职责
+1. 负责基于大语言模型的 AI Agent 应用设计与开发；
+2. 使用 Python、FastAPI 构建稳定的 REST API；
+3. 参与 LangGraph 工作流、RAG 检索和工具调用模块的开发；
+4. 设计结构化输出、异常处理、日志追踪和自动测试；
+5. 与产品团队协作，完成 Agent 应用从原型到部署。
+
+任职要求
+1. 本科及以上学历，计算机、人工智能、自动化等相关专业；
+2. 必须熟悉 Python、FastAPI、LangGraph、RAG、Tool Calling、REST API、SQL 和 Git；
+3. 理解 LLM 和 AI Agent 的基本原理，有完整项目经验；
+4. 熟悉 JSON、Pydantic，具备良好的工程习惯。
+
+加分项
+1. 熟悉 Docker、MCP 或 LangSmith；
+2. 有开源项目、线上演示或技术文章者优先。
+
