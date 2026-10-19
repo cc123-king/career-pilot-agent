@@ -236,13 +236,22 @@ def test_evidence_collector_records_actual_step_status(
         assert options["timeout"] == 120
         return subprocess.CompletedProcess(command, returncode, "7 passed\n", "")
 
-    monkeypatch.setattr(subprocess, "run", fake_run)
+    from types import SimpleNamespace
+
+    main = runpy.run_path(str(collector))["main"]
+    # Replace only the collector's process dependency. A global subprocess.run
+    # patch also intercepts platform.platform() -> uname on Linux.
+    monkeypatch.setitem(
+        main.__globals__,
+        "subprocess",
+        SimpleNamespace(run=fake_run, TimeoutExpired=subprocess.TimeoutExpired),
+    )
     if returncode:
         with pytest.raises(SystemExit) as error:
-            runpy.run_path(str(collector), run_name="__main__")
+            main()
         assert error.value.code == 1
     else:
-        runpy.run_path(str(collector), run_name="__main__")
+        main()
     manifest_path = next(tmp_path.glob("evidence-*/manifest.json"))
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     assert manifest["all_steps_succeeded"] is (returncode == 0)
