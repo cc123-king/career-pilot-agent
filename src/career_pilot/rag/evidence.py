@@ -1,5 +1,6 @@
 """Check answer sufficiency separately from a retriever's ranking score."""
 
+import json
 import logging
 import re
 from collections.abc import Sequence
@@ -10,6 +11,7 @@ from pydantic import Field, StrictBool, StrictInt, ValidationError, model_valida
 
 from career_pilot.models import StrictModel
 from career_pilot.rag.context import build_retrieval_context
+from career_pilot.rag.diagnostics import provider_error_fields
 from career_pilot.rag.models import SearchHit
 
 logger = logging.getLogger(__name__)
@@ -141,7 +143,8 @@ class EvidenceGate:
         ) as error:
             # Provider bodies and exception text may contain private information.
             logger.warning(
-                "evidence_check_unavailable error_type=%s", type(error).__name__
+                "evidence_check_unavailable stage=evidence metadata=%s",
+                json.dumps(provider_error_fields(error), sort_keys=True),
             )
             return EvidenceDecision(
                 status="unavailable",

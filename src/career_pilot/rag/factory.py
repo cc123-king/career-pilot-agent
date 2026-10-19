@@ -8,11 +8,12 @@ from career_pilot.rag.hybrid_retrieval import HybridCandidateRetriever, HybridRe
 from career_pilot.rag.models import KnowledgeChunk
 from career_pilot.rag.reranking import ScoreFusionReranker
 from career_pilot.rag.service import RAGService
+from career_pilot.rag.source_scope import APIAwareRetriever
 from career_pilot.rag.vector_index import InMemoryVectorIndex
 from career_pilot.rag.windows import NeighborWindowRetriever
 
 DEFAULT_RAG_CONFIG = {
-    "pipeline_version": "grounded-rag-v6.2",
+    "pipeline_version": "grounded-rag-v8-scope",
     "max_characters": 300,
     "top_k": 6,
     "min_score": 0.0,
@@ -48,6 +49,7 @@ def create_grounded_rag_service(
             lexical_weight=config["lexical_weight"],
         ),
     )
+    retriever = APIAwareRetriever(chunks, retriever)
     if config.get("window_radius", 0):
         retriever = NeighborWindowRetriever(
             chunks, retriever, radius=config["window_radius"]

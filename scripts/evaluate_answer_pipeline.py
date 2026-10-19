@@ -204,6 +204,13 @@ def prepare_scope(dataset, knowledge_dir, cases, chunks):
         "src/career_pilot/rag/hybrid_retrieval.py",
         "src/career_pilot/rag/windows.py",
     ]
+    paths = sorted(
+        set(paths)
+        | {
+            str(path.relative_to(ROOT)).replace("\\", "/")
+            for path in (ROOT / "src/career_pilot/rag").glob("*.py")
+        }
+    )
     unique_texts = list(
         dict.fromkeys(
             normalize_text(text)

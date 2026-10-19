@@ -1,0 +1,626 @@
+[
+  {
+    "case_id": "v7-new-01",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "json.dump启用skipkeys=True后，非基本类型的字典键如何处理？",
+    "evidence": [
+      {
+        "source": "python_json_00.md",
+        "anchor": "If *skipkeys* is true (default: ``False``), then dict keys that are not\n   of a basic type (:class:`str`, :class:`int`, :class:`float`, :class:`bool`,\n   ``None``) will be skipped instead of raising a :exc:`TypeError`."
+      }
+    ],
+    "answer_checks": [
+      [
+        "跳过",
+        "skip"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-02",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "要去掉JSON元素之间和键值之间的空格，separators应设置成哪两个分隔符？",
+    "evidence": [
+      {
+        "source": "python_json_00.md",
+        "anchor": "If specified, *separators* should be an ``(item_separator, key_separator)``\n   tuple.  The default is ``(', ', ': ')`` if *indent* is ``None`` and\n   ``(',', ': ')`` otherwise.  To get the most compact JSON representation,\n   you should specify ``(',', ':')`` to eliminate whitespace."
+      }
+    ],
+    "answer_checks": [
+      [
+        "(',', ':')",
+        "逗号",
+        "comma"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-03",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "json.dump的default回调遇到不可直接序列化的对象时，应返回什么；不能转换时应抛出什么异常？",
+    "evidence": [
+      {
+        "source": "python_json_00.md",
+        "anchor": "If specified, *default* should be a function that gets called for objects that\n   can't otherwise be serialized.  It should return a JSON encodable version of\n   the object or raise a :exc:`TypeError`.  If not specified, :exc:`TypeError`\n   is raised."
+      }
+    ],
+    "answer_checks": [
+      [
+        "JSON",
+        "可序列化"
+      ],
+      [
+        "TypeError"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-04",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "json.load同时提供object_hook和object_pairs_hook时哪个优先？后者收到什么形式的输入？",
+    "evidence": [
+      {
+        "source": "python_json_00.md",
+        "anchor": "*object_pairs_hook* is an optional function that will be called with the\n   result of any object literal decoded with an ordered list of pairs.  The\n   return value of *object_pairs_hook* will be used instead of the\n   :class:`dict`.  This feature can be used to implement custom decoders.  If\n   *object_hook* is also defined, the *object_pairs_hook* takes priority."
+      }
+    ],
+    "answer_checks": [
+      [
+        "object_pairs_hook"
+      ],
+      [
+        "有序",
+        "ordered",
+        "键值对"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-05",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "json.load的parse_float回调收到的是原始字符串还是已转换的浮点数？文档举了哪种替代数字类型？",
+    "evidence": [
+      {
+        "source": "python_json_00.md",
+        "anchor": "*parse_float* is an optional function that will be called with the string of\n   every JSON float to be decoded.  By default, this is equivalent to\n   ``float(num_str)``.  This can be used to use another datatype or parser for\n   JSON floats (e.g. :class:`decimal.Decimal`)."
+      }
+    ],
+    "answer_checks": [
+      [
+        "字符串",
+        "string"
+      ],
+      [
+        "Decimal"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-06",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "对同一个文件对象重复调用json.dump写入多个对象，为什么会形成无效JSON文件？",
+    "evidence": [
+      {
+        "source": "python_json_00.md",
+        "anchor": "Unlike :mod:`pickle` and :mod:`marshal`, JSON is not a framed protocol,\n      so trying to serialize multiple objects with repeated calls to\n      :func:`dump` using the same *fp* will result in an invalid JSON file."
+      }
+    ],
+    "answer_checks": [
+      [
+        "framed",
+        "帧",
+        "分帧"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-07",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "Path.mkdir(parents=True)创建缺失父目录时，传入的mode是否用于这些父目录？",
+    "evidence": [
+      {
+        "source": "python_pathlib_02.md",
+        "anchor": "If *parents* is true, any missing parents of this path are created\n   as needed; they are created with the default permissions without taking\n   *mode* into account (mimicking the POSIX ``mkdir -p`` command)."
+      }
+    ],
+    "answer_checks": [
+      [
+        "默认",
+        "default"
+      ],
+      [
+        "mode"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-08",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "Path.mkdir(exist_ok=True)遇到一个已经存在的普通文件时，会不会抑制FileExistsError？",
+    "evidence": [
+      {
+        "source": "python_pathlib_02.md",
+        "anchor": "If *exist_ok* is true, :exc:`FileExistsError` will not be raised unless the given\n   path already exists in the file system and is not a directory (same\n   behavior as the POSIX ``mkdir -p`` command)."
+      }
+    ],
+    "answer_checks": [
+      [
+        "FileExistsError"
+      ],
+      [
+        "不会",
+        "仍",
+        "not"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-09",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "Path.unlink(missing_ok=True)在目标不存在时如何处理FileNotFoundError？",
+    "evidence": [
+      {
+        "source": "python_pathlib_02.md",
+        "anchor": "If *missing_ok* is true, :exc:`FileNotFoundError` exceptions will be\n   ignored (same behavior as the POSIX ``rm -f`` command)."
+      }
+    ],
+    "answer_checks": [
+      [
+        "忽略",
+        "ignore",
+        "不抛出"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-10",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "Path.write_text写入已存在的同名文件会追加还是覆盖？",
+    "evidence": [
+      {
+        "source": "python_pathlib_02.md",
+        "anchor": ".. method:: Path.write_text(data, encoding=None, errors=None, newline=None)\n\n   Open the file pointed to in text mode, write *data* to it, and close the\n   file::\n\n      >>> p = Path('my_text_file')\n      >>> p.write_text('Text file contents')\n      18\n      >>> p.read_text()\n      'Text file contents'\n\n   An existing file of the same name is overwritten. The optional parameters\n   have the same meaning as in :func:`open`.\n\n   .. versionadded:: 3.5\n\n   .. versionchanged:: 3.10\n      The *newline* parameter was added."
+      }
+    ],
+    "answer_checks": [
+      [
+        "覆盖",
+        "overwrit"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-11",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "Path.iterdir返回目录项的顺序有保证吗；是否包含特殊项点和双点？",
+    "evidence": [
+      {
+        "source": "python_pathlib_02.md",
+        "anchor": "The children are yielded in arbitrary order, and the special entries\n   ``'.'`` and ``'..'`` are not included.  If a file is removed from or added\n   to the directory after creating the iterator, it is unspecified whether\n   a path object for that file is included."
+      }
+    ],
+    "answer_checks": [
+      [
+        "任意",
+        "无",
+        "arbitrary"
+      ],
+      [
+        "不包含",
+        "不包括",
+        "not included"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-12",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "Path.read_bytes返回字符串还是bytes形式的文件内容？",
+    "evidence": [
+      {
+        "source": "python_pathlib_02.md",
+        "anchor": ".. method:: Path.read_bytes()\n\n   Return the binary contents of the pointed-to file as a bytes object::\n\n      >>> p = Path('my_binary_file')\n      >>> p.write_bytes(b'Binary file contents')\n      20\n      >>> p.read_bytes()\n      b'Binary file contents'\n\n   .. versionadded:: 3.5"
+      }
+    ],
+    "answer_checks": [
+      [
+        "bytes",
+        "字节"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-13",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "使用asyncio.shield保护任务时，如果外层协程被取消，受保护任务是否取消、外层await是否仍抛出CancelledError？",
+    "evidence": [
+      {
+        "source": "python_asyncio_task_01.md",
+        "anchor": "*except* that if the coroutine containing it is cancelled, the\n   Task running in ``something()`` is not cancelled.  From the point\n   of view of ``something()``, the cancellation did not happen.\n   Although its caller is still cancelled, so the \"await\" expression\n   still raises a :exc:`CancelledError`."
+      }
+    ],
+    "answer_checks": [
+      [
+        "不取消",
+        "不会被取消",
+        "not cancelled"
+      ],
+      [
+        "CancelledError"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-14",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "asyncio.timeout超时后把内部取消转换成什么异常？应该在上下文管理器内部还是外部捕获？",
+    "evidence": [
+      {
+        "source": "python_asyncio_task_01.md",
+        "anchor": "If ``long_running_task`` takes more than 10 seconds to complete,\n    the context manager will cancel the current task and handle\n    the resulting :exc:`asyncio.CancelledError` internally, transforming it\n    into a :exc:`TimeoutError` which can be caught and handled."
+      },
+      {
+        "source": "python_asyncio_task_01.md",
+        "anchor": "The :func:`asyncio.timeout` context manager is what transforms\n      the :exc:`asyncio.CancelledError` into a :exc:`TimeoutError`,\n      which means the :exc:`TimeoutError` can only be caught\n      *outside* of the context manager."
+      }
+    ],
+    "answer_checks": [
+      [
+        "TimeoutError"
+      ],
+      [
+        "外部",
+        "outside"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-15",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "await asyncio.sleep(0)是否会挂起当前任务？这对长时间运行的函数有什么作用？",
+    "evidence": [
+      {
+        "source": "python_asyncio_task_00.md",
+        "anchor": "``sleep()`` always suspends the current task, allowing other tasks\n   to run."
+      },
+      {
+        "source": "python_asyncio_task_00.md",
+        "anchor": "Setting the delay to 0 provides an optimized path to allow other\n   tasks to run. This can be used by long-running functions to avoid\n   blocking the event loop for the full duration of the function call."
+      }
+    ],
+    "answer_checks": [
+      [
+        "挂起",
+        "suspend"
+      ],
+      [
+        "其他任务",
+        "other tasks"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-16",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "asyncio.gather全部成功时，结果列表按传入顺序还是按任务完成顺序排列？",
+    "evidence": [
+      {
+        "source": "python_asyncio_task_00.md",
+        "anchor": "If all awaitables are completed successfully, the result is an\n   aggregate list of returned values.  The order of result values\n   corresponds to the order of awaitables in *aws*."
+      }
+    ],
+    "answer_checks": [
+      [
+        "传入",
+        "输入",
+        "aws",
+        "order of awaitables"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-17",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "gather(return_exceptions=True)如何处理子任务异常，异常会进入结果列表吗？",
+    "evidence": [
+      {
+        "source": "python_asyncio_task_00.md",
+        "anchor": "If *return_exceptions* is ``True``, exceptions are treated the\n   same as successful results, and aggregated in the result list."
+      }
+    ],
+    "answer_checks": [
+      [
+        "结果列表",
+        "result list",
+        "聚合"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-18",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "eager_task_factory下协程何时开始执行；在什么情况下任务才会被调度到事件循环？",
+    "evidence": [
+      {
+        "source": "python_asyncio_task_01.md",
+        "anchor": "When using this factory (via :meth:`loop.set_task_factory(asyncio.eager_task_factory) <loop.set_task_factory>`),\n    coroutines begin execution synchronously during :class:`Task` construction.\n    Tasks are only scheduled on the event loop if they block.\n    This can be a performance improvement as the overhead of loop scheduling\n    is avoided for coroutines that complete synchronously."
+      }
+    ],
+    "answer_checks": [
+      [
+        "同步",
+        "synchronous"
+      ],
+      [
+        "阻塞",
+        "block"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-19",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "Logger.exception使用哪个日志级别、是否添加异常信息，应从什么位置调用？",
+    "evidence": [
+      {
+        "source": "python_logging_01.md",
+        "anchor": ".. method:: Logger.exception(msg, *args, **kwargs)\n\n      Logs a message with level :const:`ERROR` on this logger. The arguments are\n      interpreted as for :meth:`debug`. Exception info is added to the logging\n      message. This method should only be called from an exception handler.\n\n\n   .. method:: Logger.addFilter(filter)\n\n      Adds the specified filter *filter* to this logger.\n\n\n   .. method:: Logger.removeFilter(filter)\n\n      Removes the specified filter *filter* from this logger.\n\n\n   .. method:: Logger.filter(record)\n\n      Apply this logger's filters to the record and return ``True`` if the\n      record is to be processed. The filters are consulted in turn, until one of\n      them returns a false value. If none of them return a false value, the record\n      will be processed (passed to handlers). If one returns a false value, no\n      further processing of the record occurs.\n\n\n   .. method:: Logger.addHandler(hdlr)\n\n      Adds the specified handler *hdlr* to this logger.\n\n\n   .. method:: Logger.removeHandler(hdlr)\n\n      Removes the specified handler *hdlr* from this logger.\n\n\n   .. method:: Logger.findCaller(stack_info=False, stacklevel=1)\n\n      Finds the caller's source filename and line number. Returns the filename, line\n      number, function name and stack information as a 4-element tuple. The stack\n      information is returned as ``None`` unless *stack_info* is ``True``.\n\n      The *stacklevel* parameter is passed from code calling the :meth:`debug`\n      and other APIs. If greater than 1, the excess is used to skip stack frames\n      before determining the values to be returned. This will generally be useful\n      when calling logging APIs from helper/wrapper code, so that the information\n      in the event log refers not to the helper/wrapper code, but to the code that\n      calls it.\n\n\n   .. method:: Logger.handle(record)\n\n      Handles a record by passing it to all handlers associated with this logger and\n      its ancestors (until a false value of *propagate* is found). This method is used\n      for unpickled records received from a socket, as well as those created locally.\n      Logger-level filtering is applied using :meth:`~Logger.filter`.\n\n\n   .. method:: Logger.makeRecord(name, level, fn, lno, msg, args, exc_info, func=None, extra=None, sinfo=None)\n\n      This is a factory method which can be overridden in subclasses to create\n      specialized :class:`LogRecord` instances.\n\n   .. method:: Logger.hasHandlers()\n\n      Checks to see if this logger has any handlers configured. This is done by\n      looking for handlers in this logger and its parents in the logger hierarchy.\n      Returns ``True`` if a handler was found, else ``False``. The method stops searching\n      up the hierarchy whenever a logger with the 'propagate' attribute set to\n      false is found - that will be the last logger which is checked for the\n      existence of handlers.\n\n      .. versionadded:: 3.2\n\n   .. versionchanged:: 3.7\n      Loggers can now be pickled and unpickled."
+      }
+    ],
+    "answer_checks": [
+      [
+        "ERROR"
+      ],
+      [
+        "异常处理",
+        "exception handler"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-20",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "Logger.hasHandlers怎样查找处理器，遇到propagate=False的logger时搜索在哪里停止？",
+    "evidence": [
+      {
+        "source": "python_logging_01.md",
+        "anchor": "Checks to see if this logger has any handlers configured. This is done by\n      looking for handlers in this logger and its parents in the logger hierarchy.\n      Returns ``True`` if a handler was found, else ``False``. The method stops searching\n      up the hierarchy whenever a logger with the 'propagate' attribute set to\n      false is found - that will be the last logger which is checked for the\n      existence of handlers."
+      }
+    ],
+    "answer_checks": [
+      [
+        "父",
+        "parent"
+      ],
+      [
+        "停止",
+        "stop"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-21",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "Logger.isEnabledFor判断时，logging.disable设置与logger有效级别的检查顺序是什么？",
+    "evidence": [
+      {
+        "source": "python_logging_00.md",
+        "anchor": "Indicates if a message of severity *level* would be processed by this logger.\n      This method checks first the module-level level set by\n      ``logging.disable(level)`` and then the logger's effective level as determined\n      by :meth:`getEffectiveLevel`."
+      }
+    ],
+    "answer_checks": [
+      [
+        "disable"
+      ],
+      [
+        "有效级别",
+        "effective level"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-22",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "Future.cancel在任务已经运行或已经完成时返回什么值？",
+    "evidence": [
+      {
+        "source": "python_concurrent_futures_00.md",
+        "anchor": ".. method:: cancel()\n\n      Attempt to cancel the call.  If the call is currently being executed or\n      finished running and cannot be cancelled then the method will return\n      ``False``, otherwise the call will be cancelled and the method will\n      return ``True``.\n\n   .. method:: cancelled()\n\n      Return ``True`` if the call was successfully cancelled.\n\n   .. method:: running()\n\n      Return ``True`` if the call is currently being executed and cannot be\n      cancelled.\n\n   .. method:: done()\n\n      Return ``True`` if the call was successfully cancelled or finished\n      running.\n\n   .. method:: result(timeout=None)\n\n      Return the value returned by the call. If the call hasn't yet completed\n      then this method will wait up to *timeout* seconds.  If the call hasn't\n      completed in *timeout* seconds, then a\n      :exc:`TimeoutError` will be raised. *timeout* can be\n      an int or float.  If *timeout* is not specified or ``None``, there is no\n      limit to the wait time.\n\n      If the future is cancelled before completing then :exc:`.CancelledError`\n      will be raised.\n\n      If the call raised an exception, this method will raise the same exception.\n\n   .. method:: exception(timeout=None)\n\n      Return the exception raised by the call.  If the call hasn't yet\n      completed then this method will wait up to *timeout* seconds.  If the\n      call hasn't completed in *timeout* seconds, then a\n      :exc:`TimeoutError` will be raised.  *timeout* can be\n      an int or float.  If *timeout* is not specified or ``None``, there is no\n      limit to the wait time.\n\n      If the future is cancelled before completing then :exc:`.CancelledError`\n      will be raised.\n\n      If the call completed without raising, ``None`` is returned.\n\n   .. method:: add_done_callback(fn)"
+      }
+    ],
+    "answer_checks": [
+      [
+        "False"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-23",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "Future.result(timeout=...)等待超过timeout后会抛出什么异常？",
+    "evidence": [
+      {
+        "source": "python_concurrent_futures_00.md",
+        "anchor": ".. method:: result(timeout=None)\n\n      Return the value returned by the call. If the call hasn't yet completed\n      then this method will wait up to *timeout* seconds.  If the call hasn't\n      completed in *timeout* seconds, then a\n      :exc:`TimeoutError` will be raised. *timeout* can be\n      an int or float.  If *timeout* is not specified or ``None``, there is no\n      limit to the wait time.\n\n      If the future is cancelled before completing then :exc:`.CancelledError`\n      will be raised.\n\n      If the call raised an exception, this method will raise the same exception.\n\n   .. method:: exception(timeout=None)\n\n      Return the exception raised by the call.  If the call hasn't yet\n      completed then this method will wait up to *timeout* seconds.  If the\n      call hasn't completed in *timeout* seconds, then a\n      :exc:`TimeoutError` will be raised.  *timeout* can be\n      an int or float.  If *timeout* is not specified or ``None``, there is no\n      limit to the wait time.\n\n      If the future is cancelled before completing then :exc:`.CancelledError`\n      will be raised.\n\n      If the call completed without raising, ``None`` is returned.\n\n   .. method:: add_done_callback(fn)"
+      }
+    ],
+    "answer_checks": [
+      [
+        "TimeoutError"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-24",
+    "group": "new_authored",
+    "answerable": true,
+    "question": "Executor.submit(fn,*args,**kwargs)返回的对象类型是什么，它封装了什么？",
+    "evidence": [
+      {
+        "source": "python_concurrent_futures_00.md",
+        "anchor": ".. method:: submit(fn, /, *args, **kwargs)\n\n      Schedules the callable, *fn*, to be executed as ``fn(*args, **kwargs)``\n      and returns a :class:`Future` object representing the execution of the\n      callable. ::\n\n         with ThreadPoolExecutor(max_workers=1) as executor:\n             future = executor.submit(pow, 323, 1235)\n             print(future.result())\n\n   .. method:: map(fn, *iterables, timeout=None, chunksize=1)\n\n      Similar to :func:`map(fn, *iterables) <map>` except:\n\n      * the *iterables* are collected immediately rather than lazily;\n\n      * *fn* is executed asynchronously and several calls to\n        *fn* may be made concurrently.\n\n      The returned iterator raises a :exc:`TimeoutError`\n      if :meth:`~iterator.__next__` is called and the result isn't available\n      after *timeout* seconds from the original call to :meth:`Executor.map`.\n      *timeout* can be an int or a float.  If *timeout* is not specified or\n      ``None``, there is no limit to the wait time.\n\n      If a *fn* call raises an exception, then that exception will be\n      raised when its value is retrieved from the iterator.\n\n      When using :class:`ProcessPoolExecutor`, this method chops *iterables*\n      into a number of chunks which it submits to the pool as separate\n      tasks.  The (approximate) size of these chunks can be specified by\n      setting *chunksize* to a positive integer.  For very long iterables,\n      using a large value for *chunksize* can significantly improve\n      performance compared to the default size of 1.  With\n      :class:`ThreadPoolExecutor`, *chunksize* has no effect.\n\n      .. versionchanged:: 3.5\n         Added the *chunksize* argument.\n\n   .. method:: shutdown(wait=True, *, cancel_futures=False)\n\n      Signal the executor that it should free any resources that it is using\n      when the currently pending futures are done executing.  Calls to\n      :meth:`Executor.submit` and :meth:`Executor.map` made after shutdown will\n      raise :exc:`RuntimeError`.\n\n      If *wait* is ``True`` then this method will not return until all the\n      pending futures are done executing and the resources associated with the\n      executor have been freed.  If *wait* is ``False`` then this method will\n      return immediately and the resources associated with the executor will be\n      freed when all pending futures are done executing.  Regardless of the\n      value of *wait*, the entire Python program will not exit until all\n      pending futures are done executing.\n\n      If *cancel_futures* is ``True``, this method will cancel all pending\n      futures that the executor has not started running. Any futures that\n      are completed or running won't be cancelled, regardless of the value\n      of *cancel_futures*.\n\n      If both *cancel_futures* and *wait* are ``True``, all futures that the\n      executor has started running will be completed prior to this method\n      returning. The remaining futures are cancelled.\n\n      You can avoid having to call this method explicitly if you use the\n      :keyword:`with` statement, which will shutdown the :class:`Executor`\n      (waiting as if :meth:`Executor.shutdown` were called with *wait* set to\n      ``True``)::\n\n         import shutil\n         with ThreadPoolExecutor(max_workers=4) as e:\n             e.submit(shutil.copy, 'src1.txt', 'dest1.txt')\n             e.submit(shutil.copy, 'src2.txt', 'dest2.txt')\n             e.submit(shutil.copy, 'src3.txt', 'dest3.txt')\n             e.submit(shutil.copy, 'src4.txt', 'dest4.txt')\n\n      .. versionchanged:: 3.9\n         Added *cancel_futures*.\n\n\nThreadPoolExecutor\n------------------\n\n:class:`ThreadPoolExecutor` is an :class:`Executor` subclass that uses a pool of\nthreads to execute calls asynchronously.\n\nDeadlocks can occur when the callable associated with a :class:`Future` waits on\nthe results of another :class:`Future`.  For example::\n\n   import time\n   def wait_on_b():\n       time.sleep(5)\n       print(b.result())  # b will never complete because it is waiting on a.\n       return 5\n\n   def wait_on_a():\n       time.sleep(5)\n       print(a.result())  # a will never complete because it is waiting on b.\n       return 6\n\n\n   executor = ThreadPoolExecutor(max_workers=2)\n   a = executor.submit(wait_on_b)\n   b = executor.submit(wait_on_a)\n\nAnd::\n\n   def wait_on_future():\n       f = executor.submit(pow, 5, 2)\n       # This will never complete because there is only one worker thread and\n       # it is executing this function.\n       print(f.result())\n\n   executor = ThreadPoolExecutor(max_workers=1)\n   executor.submit(wait_on_future)"
+      }
+    ],
+    "answer_checks": [
+      [
+        "Future"
+      ],
+      [
+        "执行",
+        "execution",
+        "可调用"
+      ]
+    ]
+  },
+  {
+    "case_id": "v7-new-25",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "这些资料指定的Redis集群主从节点数量是多少？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-26",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "这些资料记录的Kubernetes服务Pod的CPU配额是多少核？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-27",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "这份技术语料记载的Python解释器构建机器具体型号是什么？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-28",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "这些资料指定的Milvus集合分片数量是多少？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-29",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "这些资料给出的RabbitMQ队列消息存活时间是多少秒？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-30",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "这些资料规定的公司内部数据脱敏工单编号是什么？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-31",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "本项目S3归档桶启用的具体生命周期规则ID是什么？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-32",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "这些资料记录的线上Grafana告警联系人组ID是什么？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-33",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "json.load的parse_float回调接收什么形式的输入，以及本服务实际采用的货币小数舍入配置值是什么？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-34",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "Path.mkdir的parents=True如何处理父目录权限，以及本项目生产卷具体采用哪一种文件系统？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-35",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "Path.write_text会不会覆盖同名文件，以及本项目实际归档文件的加密密钥版本号是多少？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-36",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "asyncio.gather的结果按什么顺序排列，以及公司任务调度器在生产环境的具体优先级配置是什么？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-37",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "asyncio.sleep(0)如何让出执行机会，以及部署机器的实际CPU亲和性掩码是什么？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-38",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "Logger.exception应在哪调用，以及公司异常告警所关联的具体工单模板ID是什么？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-39",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "Future.result超时会抛出什么异常，以及生产线程池实际配置的队列容量是多少？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v7-new-40",
+    "group": "new_authored",
+    "answerable": false,
+    "question": "json.dump重复写同一文件为何可能无效，以及公司对象存储实际启用的分块上传阈值是多少MB？",
+    "evidence": [],
+    "answer_checks": []
+  }
+]

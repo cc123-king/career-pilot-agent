@@ -11,7 +11,10 @@ CHINESE_SEQUENCE_PATTERN = re.compile(r"[\u4e00-\u9fff]+")
 def _tokenize(text: str) -> set[str]:
     """Create a small deterministic token set for Chinese and English text."""
     normalized = normalize_text(text).casefold()
-    terms = set(ASCII_TERM_PATTERN.findall(normalized))
+    terms = {term.rstrip(".") for term in ASCII_TERM_PATTERN.findall(normalized)}
+    terms.update(
+        part for term in list(terms) for part in term.split(".") if len(part) > 1
+    )
 
     for sequence in CHINESE_SEQUENCE_PATTERN.findall(normalized):
         terms.update(sequence)

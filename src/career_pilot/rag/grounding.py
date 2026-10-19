@@ -11,8 +11,14 @@ from openai import OpenAIError
 from pydantic import Field, StrictBool, StrictInt, ValidationError, model_validator
 
 from career_pilot.models import StrictModel
+from career_pilot.rag.diagnostics import provider_error_fields
 from career_pilot.rag.evidence import EvidenceDecision, EvidenceQuote, _compact
-from career_pilot.rag.models import ContextSource, SearchHit
+from career_pilot.rag.models import ContextSource, SearchHit, SourceScope
+from career_pilot.rag.source_scope import (
+    ScopeMismatchError,
+    select_scopes,
+    validate_assignment_scope,
+)
 
 logger = logging.getLogger(__name__)
 ARABIC_NUMBER = re.compile(r"(?<![A-Za-z0-9_])\d+(?:[,.]\d+)*(?:[eE][+-]?\d+)?")
@@ -24,6 +30,7 @@ class VerifiedPassage(StrictModel):
     chunk_id: str
     source: str
     quotes: list[str] = Field(min_length=1, max_length=64)
+    source_scopes: list[SourceScope] = Field(default_factory=list, max_length=64)
 
 
 class AnswerMaterial(StrictModel):
@@ -33,7 +40,23 @@ class AnswerMaterial(StrictModel):
     sources: list[ContextSource] = Field(min_length=1, max_length=8)
 
     def model_payload(self) -> dict:
-        return self.model_dump(include={"question", "requirements", "passages"})
+        # Neighboring passages can share the same original paragraph. Send it
+        # once, preserving every quote and scope association without truncation.
+        payload = self.model_dump(include={"question", "requirements", "passages"})
+        registry, identifiers = [], {}
+        for passage, serialized in zip(self.passages, payload["passages"], strict=True):
+            scope_ids = []
+            for scope in passage.source_scopes:
+                identity = scope.model_dump_json()
+                if identity not in identifiers:
+                    identifier = f"scope-{len(registry) + 1}"
+                    identifiers[identity] = identifier
+                    registry.append({"scope_id": identifier, **scope.model_dump()})
+                scope_ids.append(identifiers[identity])
+            serialized.pop("source_scopes")
+            serialized["source_scope_ids"] = scope_ids
+        payload["source_scopes"] = registry
+        return payload
 
 
 class AnswerClaim(StrictModel):
@@ -165,6 +188,9 @@ def build_answer_material(
                 chunk_id=sources[i].chunk_id,
                 source=sources[i].source,
                 quotes=q,
+                source_scopes=select_scopes(
+                    by_chunk[sources[i].chunk_id].chunk.source_scopes, q
+                ),
             )
             for i, q in quotes.items()
         ],
@@ -214,6 +240,7 @@ def build_candidate_answer_material(
                 chunk_id=source.chunk_id,
                 source=source.source,
                 quotes=[by_chunk[source.chunk_id].chunk.content],
+                source_scopes=by_chunk[source.chunk_id].chunk.source_scopes,
             )
             for source in context.sources
         ],
@@ -251,6 +278,7 @@ def validate_draft(draft: GroundedDraft, material: AnswerMaterial) -> None:
                 _compact(evidence.quote) in _compact(q) for q in passage.quotes
             ):
                 raise ValueError("回答引用超出已核验的原文")
+        validate_assignment_scope(claim.text, claim.evidence, by_id)
         supporting_text = " ".join(e.quote for e in claim.evidence)
         if not _numbers(claim.text) <= _numbers(supporting_text):
             raise ValueError("回答新增了引用中不存在的数值")
@@ -283,7 +311,8 @@ class GroundedAnswerPipeline:
             raw = method(material.model_payload())
         except MODEL_ERRORS as error:
             logger.warning(
-                "answer_draft_unavailable error_type=%s", type(error).__name__
+                "answer_draft_unavailable stage=draft metadata=%s",
+                json.dumps(provider_error_fields(error), sort_keys=True),
             )
             return GroundedAnswerResult(
                 status="unavailable",
@@ -303,11 +332,19 @@ class GroundedAnswerPipeline:
             else:
                 draft = GroundedDraft.model_validate_json(raw)
             validate_draft(draft, material)
-        except (ValidationError, ValueError, TypeError):
+        except (ValidationError, ValueError, TypeError) as error:
+            reason = "invalid_or_untraceable_claims"
+            if isinstance(error, ScopeMismatchError):
+                reason = "claim_scope_mismatch"
+            elif isinstance(error, ValidationError):
+                reason = (
+                    "invalid_draft_json"
+                    if any(item["type"] == "json_invalid" for item in error.errors())
+                    else "invalid_draft_schema"
+                )
+            logger.warning("answer_draft_rejected reason=%s", reason)
             return GroundedAnswerResult(
-                status="invalid",
-                reason="invalid_or_untraceable_claims",
-                generation_calls=1,
+                status="invalid", reason=reason, generation_calls=1
             )
         claims = [c.model_dump() for c in draft.claims]
         try:
@@ -316,7 +353,8 @@ class GroundedAnswerPipeline:
             )
         except MODEL_ERRORS as error:
             logger.warning(
-                "answer_audit_unavailable error_type=%s", type(error).__name__
+                "answer_audit_unavailable stage=audit metadata=%s",
+                json.dumps(provider_error_fields(error), sort_keys=True),
             )
             return GroundedAnswerResult(
                 status="unavailable",

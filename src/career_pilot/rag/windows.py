@@ -68,6 +68,20 @@ class NeighborWindowRetriever:
                     position = center.position + direction * distance
                     if position not in group:
                         break
+                    center_apis = {
+                        scope.api for scope in center.source_scopes if scope.api
+                    }
+                    neighbor_apis = {
+                        scope.api
+                        for scope in group[position].source_scopes
+                        if scope.api
+                    }
+                    if (
+                        center_apis
+                        and neighbor_apis
+                        and not center_apis & neighbor_apis
+                    ):
+                        break
                     positions.add(position)
             members = [group[p] for p in sorted(positions)]
             text = "\n\n".join(c.content for c in members)
@@ -84,6 +98,13 @@ class NeighborWindowRetriever:
                         "position": members[0].position,
                         "content": text,
                         "constituent_chunk_ids": member_ids,
+                        "source_scopes": list(
+                            {
+                                s.model_dump_json(): s
+                                for c in members
+                                for s in c.source_scopes
+                            }.values()
+                        ),
                     }
                 )
             )

@@ -1,0 +1,240 @@
+{
+  "kind": "offline_diagnostic_required_source_spans",
+  "authored_after_frozen_run": true,
+  "does_not_replace_original_frozen_labels_or_scores": true,
+  "reason": "Original anchors for five questions included examples or multiple unrelated APIs; diagnostic spans retain only requested source facts.",
+  "cases": [
+    {
+      "case_id": "v7-new-01",
+      "evidence": [
+        {
+          "source": "python_json_00.md",
+          "anchor": "If *skipkeys* is true (default: ``False``), then dict keys that are not\n   of a basic type (:class:`str`, :class:`int`, :class:`float`, :class:`bool`,\n   ``None``) will be skipped instead of raising a :exc:`TypeError`."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-02",
+      "evidence": [
+        {
+          "source": "python_json_00.md",
+          "anchor": "If specified, *separators* should be an ``(item_separator, key_separator)``\n   tuple.  The default is ``(', ', ': ')`` if *indent* is ``None`` and\n   ``(',', ': ')`` otherwise.  To get the most compact JSON representation,\n   you should specify ``(',', ':')`` to eliminate whitespace."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-03",
+      "evidence": [
+        {
+          "source": "python_json_00.md",
+          "anchor": "If specified, *default* should be a function that gets called for objects that\n   can't otherwise be serialized.  It should return a JSON encodable version of\n   the object or raise a :exc:`TypeError`.  If not specified, :exc:`TypeError`\n   is raised."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-04",
+      "evidence": [
+        {
+          "source": "python_json_00.md",
+          "anchor": "*object_pairs_hook* is an optional function that will be called with the\n   result of any object literal decoded with an ordered list of pairs.  The\n   return value of *object_pairs_hook* will be used instead of the\n   :class:`dict`.  This feature can be used to implement custom decoders.  If\n   *object_hook* is also defined, the *object_pairs_hook* takes priority."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-05",
+      "evidence": [
+        {
+          "source": "python_json_00.md",
+          "anchor": "*parse_float* is an optional function that will be called with the string of\n   every JSON float to be decoded.  By default, this is equivalent to\n   ``float(num_str)``.  This can be used to use another datatype or parser for\n   JSON floats (e.g. :class:`decimal.Decimal`)."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-06",
+      "evidence": [
+        {
+          "source": "python_json_00.md",
+          "anchor": "Unlike :mod:`pickle` and :mod:`marshal`, JSON is not a framed protocol,\n      so trying to serialize multiple objects with repeated calls to\n      :func:`dump` using the same *fp* will result in an invalid JSON file."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-07",
+      "evidence": [
+        {
+          "source": "python_pathlib_02.md",
+          "anchor": "If *parents* is true, any missing parents of this path are created\n   as needed; they are created with the default permissions without taking\n   *mode* into account (mimicking the POSIX ``mkdir -p`` command)."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-08",
+      "evidence": [
+        {
+          "source": "python_pathlib_02.md",
+          "anchor": "If *exist_ok* is true, :exc:`FileExistsError` will not be raised unless the given\n   path already exists in the file system and is not a directory (same\n   behavior as the POSIX ``mkdir -p`` command)."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-09",
+      "evidence": [
+        {
+          "source": "python_pathlib_02.md",
+          "anchor": "If *missing_ok* is true, :exc:`FileNotFoundError` exceptions will be\n   ignored (same behavior as the POSIX ``rm -f`` command)."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-10",
+      "evidence": [
+        {
+          "source": "python_pathlib_02.md",
+          "anchor": "An existing file of the same name is overwritten."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-11",
+      "evidence": [
+        {
+          "source": "python_pathlib_02.md",
+          "anchor": "The children are yielded in arbitrary order, and the special entries\n   ``'.'`` and ``'..'`` are not included.  If a file is removed from or added\n   to the directory after creating the iterator, it is unspecified whether\n   a path object for that file is included."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-12",
+      "evidence": [
+        {
+          "source": "python_pathlib_02.md",
+          "anchor": ".. method:: Path.read_bytes()\n\n   Return the binary contents of the pointed-to file as a bytes object::\n\n      >>> p = Path('my_binary_file')\n      >>> p.write_bytes(b'Binary file contents')\n      20\n      >>> p.read_bytes()\n      b'Binary file contents'\n\n   .. versionadded:: 3.5"
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-13",
+      "evidence": [
+        {
+          "source": "python_asyncio_task_01.md",
+          "anchor": "*except* that if the coroutine containing it is cancelled, the\n   Task running in ``something()`` is not cancelled.  From the point\n   of view of ``something()``, the cancellation did not happen.\n   Although its caller is still cancelled, so the \"await\" expression\n   still raises a :exc:`CancelledError`."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-14",
+      "evidence": [
+        {
+          "source": "python_asyncio_task_01.md",
+          "anchor": "If ``long_running_task`` takes more than 10 seconds to complete,\n    the context manager will cancel the current task and handle\n    the resulting :exc:`asyncio.CancelledError` internally, transforming it\n    into a :exc:`TimeoutError` which can be caught and handled."
+        },
+        {
+          "source": "python_asyncio_task_01.md",
+          "anchor": "The :func:`asyncio.timeout` context manager is what transforms\n      the :exc:`asyncio.CancelledError` into a :exc:`TimeoutError`,\n      which means the :exc:`TimeoutError` can only be caught\n      *outside* of the context manager."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-15",
+      "evidence": [
+        {
+          "source": "python_asyncio_task_00.md",
+          "anchor": "``sleep()`` always suspends the current task, allowing other tasks\n   to run."
+        },
+        {
+          "source": "python_asyncio_task_00.md",
+          "anchor": "Setting the delay to 0 provides an optimized path to allow other\n   tasks to run. This can be used by long-running functions to avoid\n   blocking the event loop for the full duration of the function call."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-16",
+      "evidence": [
+        {
+          "source": "python_asyncio_task_00.md",
+          "anchor": "If all awaitables are completed successfully, the result is an\n   aggregate list of returned values.  The order of result values\n   corresponds to the order of awaitables in *aws*."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-17",
+      "evidence": [
+        {
+          "source": "python_asyncio_task_00.md",
+          "anchor": "If *return_exceptions* is ``True``, exceptions are treated the\n   same as successful results, and aggregated in the result list."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-18",
+      "evidence": [
+        {
+          "source": "python_asyncio_task_01.md",
+          "anchor": "When using this factory (via :meth:`loop.set_task_factory(asyncio.eager_task_factory) <loop.set_task_factory>`),\n    coroutines begin execution synchronously during :class:`Task` construction.\n    Tasks are only scheduled on the event loop if they block.\n    This can be a performance improvement as the overhead of loop scheduling\n    is avoided for coroutines that complete synchronously."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-19",
+      "evidence": [
+        {
+          "source": "python_logging_01.md",
+          "anchor": "Logs a message with level :const:`ERROR` on this logger."
+        },
+        {
+          "source": "python_logging_01.md",
+          "anchor": "Exception info is added to the logging message."
+        },
+        {
+          "source": "python_logging_01.md",
+          "anchor": "This method should only be called from an exception handler."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-20",
+      "evidence": [
+        {
+          "source": "python_logging_01.md",
+          "anchor": "Checks to see if this logger has any handlers configured. This is done by\n      looking for handlers in this logger and its parents in the logger hierarchy.\n      Returns ``True`` if a handler was found, else ``False``. The method stops searching\n      up the hierarchy whenever a logger with the 'propagate' attribute set to\n      false is found - that will be the last logger which is checked for the\n      existence of handlers."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-21",
+      "evidence": [
+        {
+          "source": "python_logging_00.md",
+          "anchor": "Indicates if a message of severity *level* would be processed by this logger.\n      This method checks first the module-level level set by\n      ``logging.disable(level)`` and then the logger's effective level as determined\n      by :meth:`getEffectiveLevel`."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-22",
+      "evidence": [
+        {
+          "source": "python_concurrent_futures_00.md",
+          "anchor": "If the call is currently being executed or finished running and cannot be cancelled then the method will return ``False``"
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-23",
+      "evidence": [
+        {
+          "source": "python_concurrent_futures_00.md",
+          "anchor": "If the call hasn't completed in *timeout* seconds, then a :exc:`TimeoutError` will be raised."
+        }
+      ]
+    },
+    {
+      "case_id": "v7-new-24",
+      "evidence": [
+        {
+          "source": "python_concurrent_futures_00.md",
+          "anchor": "returns a :class:`Future` object representing the execution of the callable."
+        }
+      ]
+    }
+  ]
+}

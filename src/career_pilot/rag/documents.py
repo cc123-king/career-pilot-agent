@@ -6,6 +6,7 @@ from career_pilot.rag.models import (
     KnowledgeChunk,
     KnowledgeDocument,
 )
+from career_pilot.rag.source_scope import ScopeTracker
 from career_pilot.text_utils import normalize_text
 
 
@@ -62,33 +63,41 @@ def chunk_document(
 
     raw_paragraphs = re.split(r"\n\s*\n", document.content)
     units: list[str] = []
+    scopes = []
+    tracker = ScopeTracker()
 
     for raw_paragraph in raw_paragraphs:
         paragraph = normalize_text(raw_paragraph)
         if not paragraph:
             continue
 
-        units.extend(
-            _split_long_paragraph(
-                paragraph,
-                max_characters,
-            )
+        tracker.observe(paragraph)
+        pieces = _split_long_paragraph(paragraph, max_characters)
+        units.extend(pieces)
+        scopes.extend(
+            tracker.context(paragraph, i * max_characters, len(piece))
+            for i, piece in enumerate(pieces)
         )
 
     chunk_texts: list[str] = []
     current = ""
+    chunk_scopes, current_scopes = [], []
 
-    for unit in units:
+    for unit, scope in zip(units, scopes, strict=True):
         candidate = unit if not current else f"{current}\n\n{unit}"
 
         if current and len(candidate) > max_characters:
             chunk_texts.append(current)
+            chunk_scopes.append(current_scopes)
             current = unit
+            current_scopes = [scope]
         else:
             current = candidate
+            current_scopes.append(scope)
 
     if current:
         chunk_texts.append(current)
+        chunk_scopes.append(current_scopes)
 
     return [
         KnowledgeChunk(
@@ -98,6 +107,9 @@ def chunk_document(
             source=document.source,
             content=content,
             position=position,
+            source_scopes=list(
+                {s.model_dump_json(): s for s in chunk_scopes[position]}.values()
+            ),
         )
         for position, content in enumerate(chunk_texts)
     ]
