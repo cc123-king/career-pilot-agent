@@ -1,0 +1,178 @@
+[
+  {
+    "name": "json",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/json.rst",
+    "bytes": 28836,
+    "sha256": "24a51581ebb4c8849c8159e98f1117d516dbba9fbf8fd1a563dee42f703e7b2a",
+    "section_source": "python_json_00.md",
+    "section_sha256": "e9abc7e7559b38af848481e7850b6f80ff50e69b06ac7cdd7dbf46cfe94f96c2"
+  },
+  {
+    "name": "json",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/json.rst",
+    "bytes": 28836,
+    "sha256": "24a51581ebb4c8849c8159e98f1117d516dbba9fbf8fd1a563dee42f703e7b2a",
+    "section_source": "python_json_01.md",
+    "section_sha256": "7822241fdeeb85681be74a942e97ada63e3a90a1b38f77fc1be4405d3af49536"
+  },
+  {
+    "name": "sqlite3",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/sqlite3.rst",
+    "bytes": 92515,
+    "sha256": "2c45fac1e4c025f130021a2000db8dd3ba78b32301a518c1a3125a8b5bffe7bb",
+    "section_source": "python_sqlite3_00.md",
+    "section_sha256": "7be2bfbe05094cf016b46306d4a32d1fa5c02704d1b93cc56e68751be9946fe3"
+  },
+  {
+    "name": "sqlite3",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/sqlite3.rst",
+    "bytes": 92515,
+    "sha256": "2c45fac1e4c025f130021a2000db8dd3ba78b32301a518c1a3125a8b5bffe7bb",
+    "section_source": "python_sqlite3_01.md",
+    "section_sha256": "5d20693e6f11e8b2cbfc459d0b4f74184b5f84d8f44df7c2785343be92c5a91d"
+  },
+  {
+    "name": "sqlite3",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/sqlite3.rst",
+    "bytes": 92515,
+    "sha256": "2c45fac1e4c025f130021a2000db8dd3ba78b32301a518c1a3125a8b5bffe7bb",
+    "section_source": "python_sqlite3_02.md",
+    "section_sha256": "0a6fd66dd56c9106641d7e985b377884472a12694d4018922894963191033ce6"
+  },
+  {
+    "name": "sqlite3",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/sqlite3.rst",
+    "bytes": 92515,
+    "sha256": "2c45fac1e4c025f130021a2000db8dd3ba78b32301a518c1a3125a8b5bffe7bb",
+    "section_source": "python_sqlite3_03.md",
+    "section_sha256": "d76bb8bd085decb9ae0a081fa4aec30e23e307724d200496d5165bc007cc1a12"
+  },
+  {
+    "name": "sqlite3",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/sqlite3.rst",
+    "bytes": 92515,
+    "sha256": "2c45fac1e4c025f130021a2000db8dd3ba78b32301a518c1a3125a8b5bffe7bb",
+    "section_source": "python_sqlite3_04.md",
+    "section_sha256": "7d4f4bffe5f342b2e99eaebc5e3622026c5f537194bc08ffaeb894fa2ba66b1d"
+  },
+  {
+    "name": "sqlite3",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/sqlite3.rst",
+    "bytes": 92515,
+    "sha256": "2c45fac1e4c025f130021a2000db8dd3ba78b32301a518c1a3125a8b5bffe7bb",
+    "section_source": "python_sqlite3_05.md",
+    "section_sha256": "5d96ce6436436cf76c63446359f60f3989bda32af062dea53d4dcad3859b5465"
+  },
+  {
+    "name": "pathlib",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/pathlib.rst",
+    "bytes": 51821,
+    "sha256": "1c4ba9aabc2e36321dcfdc3b86daebace41aa39969eaedb449e4a385d6011af1",
+    "section_source": "python_pathlib_00.md",
+    "section_sha256": "5601236488f5d884ef765d60dfde79cf5b236574a91ac970c6c9c3663c4c3009"
+  },
+  {
+    "name": "pathlib",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/pathlib.rst",
+    "bytes": 51821,
+    "sha256": "1c4ba9aabc2e36321dcfdc3b86daebace41aa39969eaedb449e4a385d6011af1",
+    "section_source": "python_pathlib_01.md",
+    "section_sha256": "285c0b274b1ffb169773bbddb6bb1aa71e001c9a5d2cb013a51ff058a53d42b7"
+  },
+  {
+    "name": "pathlib",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/pathlib.rst",
+    "bytes": 51821,
+    "sha256": "1c4ba9aabc2e36321dcfdc3b86daebace41aa39969eaedb449e4a385d6011af1",
+    "section_source": "python_pathlib_02.md",
+    "section_sha256": "6b2e49d8dd4c35d837689785c7bae8aed82da4fa2011541fc576700a62c47466"
+  },
+  {
+    "name": "pathlib",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/pathlib.rst",
+    "bytes": 51821,
+    "sha256": "1c4ba9aabc2e36321dcfdc3b86daebace41aa39969eaedb449e4a385d6011af1",
+    "section_source": "python_pathlib_03.md",
+    "section_sha256": "4a83977c5a613e77b7b4a430243920ea40427041858af49872d2acbf036086d5"
+  },
+  {
+    "name": "asyncio-task",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/asyncio-task.rst",
+    "bytes": 44719,
+    "sha256": "7e6ae5118b7f42b28ab457ebb892fef1a36461bcec53ae614c49d229d5beaaa4",
+    "section_source": "python_asyncio_task_00.md",
+    "section_sha256": "7fbb0787fd063c62c89e96de5f384cc02ae61c2fe382a3a05c7c362f7855d460"
+  },
+  {
+    "name": "asyncio-task",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/asyncio-task.rst",
+    "bytes": 44719,
+    "sha256": "7e6ae5118b7f42b28ab457ebb892fef1a36461bcec53ae614c49d229d5beaaa4",
+    "section_source": "python_asyncio_task_01.md",
+    "section_sha256": "6195718c0b8e9829c0269196c25415c61963f9d0aebb925a36c229b2c2cd5a3d"
+  },
+  {
+    "name": "asyncio-task",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/asyncio-task.rst",
+    "bytes": 44719,
+    "sha256": "7e6ae5118b7f42b28ab457ebb892fef1a36461bcec53ae614c49d229d5beaaa4",
+    "section_source": "python_asyncio_task_02.md",
+    "section_sha256": "08300e6ed39d30c54ca638a2ca7cfcfe3be2b9ed80a40beb1321837c7a840912"
+  },
+  {
+    "name": "logging",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/logging.rst",
+    "bytes": 72418,
+    "sha256": "70edcff05f815a8cb287e6011a75e22bfc86b1743e33feff0775409db750d532",
+    "section_source": "python_logging_00.md",
+    "section_sha256": "092f801a665fbc5ce267b4d75e4536de2bcbb3fb580fc9de066acea1a61a65f8"
+  },
+  {
+    "name": "logging",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/logging.rst",
+    "bytes": 72418,
+    "sha256": "70edcff05f815a8cb287e6011a75e22bfc86b1743e33feff0775409db750d532",
+    "section_source": "python_logging_01.md",
+    "section_sha256": "ffa7ccef66617a06c076dbfbfcffe0ec47e5748900f57ba5f7b8e89470db4df7"
+  },
+  {
+    "name": "logging",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/logging.rst",
+    "bytes": 72418,
+    "sha256": "70edcff05f815a8cb287e6011a75e22bfc86b1743e33feff0775409db750d532",
+    "section_source": "python_logging_02.md",
+    "section_sha256": "d6ec082d819fb40bc7d410a68f58ed1de1f9018a89acc4af0a02b172cda0588c"
+  },
+  {
+    "name": "logging",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/logging.rst",
+    "bytes": 72418,
+    "sha256": "70edcff05f815a8cb287e6011a75e22bfc86b1743e33feff0775409db750d532",
+    "section_source": "python_logging_03.md",
+    "section_sha256": "a489fee8c64f869fa6bfb501a453701c1eabbfa7a740044d542ed109a6d221c4"
+  },
+  {
+    "name": "logging",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/logging.rst",
+    "bytes": 72418,
+    "sha256": "70edcff05f815a8cb287e6011a75e22bfc86b1743e33feff0775409db750d532",
+    "section_source": "python_logging_04.md",
+    "section_sha256": "e4a72760e506ea35000539bb8dfa23afe3983f1a8bf260644a7dbadc27f3097e"
+  },
+  {
+    "name": "concurrent.futures",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/concurrent.futures.rst",
+    "bytes": 22210,
+    "sha256": "b930ef1169c1b4a752feeb44228cabc7ca1d11c7daa2356197a3393d8686a524",
+    "section_source": "python_concurrent_futures_00.md",
+    "section_sha256": "205f82f0a74118d9dd75a4c310c5f3ce6faecb3f0094601509087e4d2b309fb1"
+  },
+  {
+    "name": "concurrent.futures",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.12.7/Doc/library/concurrent.futures.rst",
+    "bytes": 22210,
+    "sha256": "b930ef1169c1b4a752feeb44228cabc7ca1d11c7daa2356197a3393d8686a524",
+    "section_source": "python_concurrent_futures_01.md",
+    "section_sha256": "8ab24d68df9aa1c8e263da5483c88e858b1bdc65224c383199a947892e5c5093"
+  }
+]

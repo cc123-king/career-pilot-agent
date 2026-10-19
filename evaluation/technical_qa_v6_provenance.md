@@ -1,0 +1,3 @@
+# Technical QA v6 provenance
+
+36 author-labeled questions: development 18 and frozen author-labeled holdout 18, each with 12 answerable and 6 no-answer questions. Documents are official CPython v3.12.7 library documentation (six source files, PSF license retained) plus the original twelve project guides. SOURCES.json records download URLs and hashes. RST is preserved; each source is split on paragraph boundaries for document-size bounds. These are not independently human-labeled questions. Development and known v5 regressions must remain separate from the new holdout. Anchor existence checks do not measure model correctness. No personal resume or runtime database is included.

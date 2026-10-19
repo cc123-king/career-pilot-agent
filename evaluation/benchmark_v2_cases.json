@@ -1,0 +1,662 @@
+[
+  {
+    "case_id": "v2-dev-resume",
+    "split": "dev",
+    "category": "direct",
+    "question": "简历项目内容应怎样说明个人负责的工作和可验证结果？",
+    "evidence": [
+      {
+        "source": "resume_guidance.md",
+        "anchor": "本人负责的模块、采用的技术方案"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-story",
+    "split": "dev",
+    "category": "direct",
+    "question": "Agent 项目的面试讲解应覆盖哪些关键环节？",
+    "evidence": [
+      {
+        "source": "interview_guidance.md",
+        "anchor": "业务问题、系统架构、本人职责"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-auth",
+    "split": "dev",
+    "category": "paraphrase",
+    "question": "遇到 API 认证失败和参数错误，还应该持续重试吗？",
+    "evidence": [
+      {
+        "source": "api_failure_guide.md",
+        "anchor": "认证失败与参数错误应先修复配置或输入"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-log",
+    "split": "dev",
+    "category": "direct",
+    "question": "排查 API 故障时，日志可以保存完整密钥和简历吗？",
+    "evidence": [
+      {
+        "source": "api_failure_guide.md",
+        "anchor": "不要记录完整密钥、个人简历或供应商异常响应正文"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-quote",
+    "split": "dev",
+    "category": "direct",
+    "question": "知识库引用最基本要绑定哪些信息？",
+    "evidence": [
+      {
+        "source": "evidence_binding_guide.md",
+        "anchor": "来源文件、分块标识和原文片段"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-partial",
+    "split": "dev",
+    "category": "paraphrase",
+    "question": "复合问题仅一半有依据，可以当作资料充足吗？",
+    "evidence": [
+      {
+        "source": "evidence_binding_guide.md",
+        "anchor": "只要一项缺少依据，就说明资料不足"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-rrf",
+    "split": "dev",
+    "category": "direct",
+    "question": "RRF 融合分数能否解释为资料可回答问题的概率？",
+    "evidence": [
+      {
+        "source": "retrieval_design_guide.md",
+        "anchor": "不是资料足以回答问题的概率"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-noise",
+    "split": "dev",
+    "category": "direct",
+    "question": "检索评测中为何要记录分块规模和引入相似干扰资料？",
+    "evidence": [
+      {
+        "source": "retrieval_design_guide.md",
+        "anchor": "候选库应明显大于最终返回数量"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-split",
+    "split": "dev",
+    "category": "paraphrase",
+    "question": "一组测试题已经拿来改策略，还能作为最终成绩依据吗？",
+    "evidence": [
+      {
+        "source": "evaluation_protocol_guide.md",
+        "anchor": "已经用于修改策略的测试题应转为回归用例"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-false-refusal",
+    "split": "dev",
+    "category": "direct",
+    "question": "如何避免靠全部拒答取得好看的无答案指标？",
+    "evidence": [
+      {
+        "source": "evaluation_protocol_guide.md",
+        "anchor": "同时报告可回答题被误拒的比例"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-health",
+    "split": "dev",
+    "category": "paraphrase",
+    "question": "健康接口成功是不是表示所有外部模型和数据库都可用？",
+    "evidence": [
+      {
+        "source": "deployment_readiness_guide.md",
+        "anchor": "健康接口返回成功不能证明外部模型、索引与数据库都可用"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-cache-invalid",
+    "split": "dev",
+    "category": "direct",
+    "question": "知识文件更新后，分块和向量缓存应怎样处理？",
+    "evidence": [
+      {
+        "source": "source_version_guide.md",
+        "anchor": "旧分块和向量缓存必须失效"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-history",
+    "split": "dev",
+    "category": "direct",
+    "question": "恢复历史分析时应该采用当时配置还是悄悄重算？",
+    "evidence": [
+      {
+        "source": "history_privacy_guide.md",
+        "anchor": "不得在用户不知情时自动采用新规则改写历史分数"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-path",
+    "split": "dev",
+    "category": "direct",
+    "question": "模型给出工具资源路径以后还要核对什么？",
+    "evidence": [
+      {
+        "source": "tool_execution_guide.md",
+        "anchor": "是否处于允许范围"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-atlas-limit",
+    "split": "dev",
+    "category": "direct",
+    "question": "Atlas 演示服务单次文件数和单文件大小上限各是多少？",
+    "evidence": [
+      {
+        "source": "demo_service_policy.md",
+        "anchor": "最多导入 10 个文件"
+      },
+      {
+        "source": "demo_service_policy.md",
+        "anchor": "最大为 5 MB"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-atlas-read",
+    "split": "dev",
+    "category": "paraphrase",
+    "question": "Atlas 样例的只读状态查询最多等多久、再试几次？",
+    "evidence": [
+      {
+        "source": "demo_service_policy.md",
+        "anchor": "超时为 8 秒，最多重试 2 次"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-mercury",
+    "split": "dev",
+    "category": "direct",
+    "question": "Mercury 的查询缓存保留多久，缓存键需要包含什么？",
+    "evidence": [
+      {
+        "source": "demo_cache_policy.md",
+        "anchor": "有效期为 15 分钟"
+      },
+      {
+        "source": "demo_cache_policy.md",
+        "anchor": "问题文本、知识指纹与模型标识"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-versions",
+    "split": "dev",
+    "category": "multi_source",
+    "question": "如何记录知识版本，并在数据变更后使缓存失效？",
+    "evidence": [
+      {
+        "source": "source_version_guide.md",
+        "anchor": "知识版本、题集指纹和实现版本"
+      },
+      {
+        "source": "demo_cache_policy.md",
+        "anchor": "知识内容或模型发生变化时立即失效"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-retry-idempotent",
+    "split": "dev",
+    "category": "multi_source",
+    "question": "接口重试和工具写入为何都需要处理幂等？",
+    "evidence": [
+      {
+        "source": "api_failure_guide.md",
+        "anchor": "避免重复创建业务记录"
+      },
+      {
+        "source": "tool_execution_guide.md",
+        "anchor": "使用幂等标识避免重复执行"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-personal",
+    "split": "dev",
+    "category": "multi_source",
+    "question": "公开样例和个人简历事实分别应怎样保证真实性？",
+    "evidence": [
+      {
+        "source": "history_privacy_guide.md",
+        "anchor": "明确标注为演示样例"
+      },
+      {
+        "source": "resume_guidance.md",
+        "anchor": "不得为了匹配岗位而编造"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-dev-live-users",
+    "split": "dev",
+    "category": "negative",
+    "question": "我当前两个项目各有多少真实活跃用户？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-dev-timeout-global",
+    "split": "dev",
+    "category": "negative",
+    "question": "这些指南规定所有业务工具统一超时几秒？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-dev-my-retry",
+    "split": "dev",
+    "category": "negative",
+    "question": "我的求职分析服务实际最多重试几次？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-dev-atlas-qps",
+    "split": "dev",
+    "category": "negative",
+    "question": "Atlas 演示服务线上实测每秒能承受多少请求？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-dev-mercury-rate",
+    "split": "dev",
+    "category": "negative",
+    "question": "Mercury 缓存命中率实测是多少？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-dev-partial-limit",
+    "split": "dev",
+    "category": "negative",
+    "question": "Atlas 最多导入多少文件，它的生产环境可用性是多少？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-dev-unlisted-service",
+    "split": "dev",
+    "category": "negative",
+    "question": "Aurora 服务的缓存过期时间和重试上限分别是多少？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-dev-acceptance",
+    "split": "dev",
+    "category": "negative",
+    "question": "按照指南改简历后，我被目标公司录取的概率是多少？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-dev-today",
+    "split": "dev",
+    "category": "negative",
+    "question": "本地今天的实时降雨量是多少？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-dev-tool-concurrency",
+    "split": "dev",
+    "category": "negative",
+    "question": "工具执行指南规定任务并发上限必须为多少？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-test-skills",
+    "split": "test",
+    "category": "paraphrase",
+    "question": "如何让简历中的技能有项目经历作为依据？",
+    "evidence": [
+      {
+        "source": "resume_guidance.md",
+        "anchor": "使用场景、个人职责和实现结果"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-eval-story",
+    "split": "test",
+    "category": "direct",
+    "question": "面试讲技术难点之后还应说明哪些验证和改进内容？",
+    "evidence": [
+      {
+        "source": "interview_guidance.md",
+        "anchor": "解决方案、测试结果和后续改进"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-backoff",
+    "split": "test",
+    "category": "paraphrase",
+    "question": "接口被限流时，等待和重试应遵循什么原则？",
+    "evidence": [
+      {
+        "source": "api_failure_guide.md",
+        "anchor": "读取服务返回的等待提示"
+      },
+      {
+        "source": "api_failure_guide.md",
+        "anchor": "有上限的退避"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-failure-state",
+    "split": "test",
+    "category": "direct",
+    "question": "接口异常可以用空结果当作成功返回吗？",
+    "evidence": [
+      {
+        "source": "api_failure_guide.md",
+        "anchor": "不能把空结果伪装成成功"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-quote-visible",
+    "split": "test",
+    "category": "paraphrase",
+    "question": "核验引用时，能使用未实际发给模型的原文吗？",
+    "evidence": [
+      {
+        "source": "evidence_binding_guide.md",
+        "anchor": "实际送入模型的资料中逐字核对"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-scope",
+    "split": "test",
+    "category": "direct",
+    "question": "别的应用提供了某个配置数字，可以直接作为当前应用答案吗？",
+    "evidence": [
+      {
+        "source": "evidence_binding_guide.md",
+        "anchor": "其他应用的数字不能替代当前应用的配置"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-calibrate",
+    "split": "test",
+    "category": "paraphrase",
+    "question": "关键词和融合排序的分数可以套用同一个阈值吗？",
+    "evidence": [
+      {
+        "source": "retrieval_design_guide.md",
+        "anchor": "不能直接把不同分数当作同一尺度"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-rerank",
+    "split": "test",
+    "category": "direct",
+    "question": "候选排在首位以后，还需要做什么事实检查？",
+    "evidence": [
+      {
+        "source": "retrieval_design_guide.md",
+        "anchor": "仍需要检查事实充分性"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-labels",
+    "split": "test",
+    "category": "direct",
+    "question": "多来源可回答题应怎样标注证据？",
+    "evidence": [
+      {
+        "source": "evaluation_protocol_guide.md",
+        "anchor": "多来源题要列出全部必要证据"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-hard-neg",
+    "split": "test",
+    "category": "paraphrase",
+    "question": "负例除了完全跑题，还应该覆盖哪两类相关但难回答的问题？",
+    "evidence": [
+      {
+        "source": "evaluation_protocol_guide.md",
+        "anchor": "同主题但缺少事实的问题"
+      },
+      {
+        "source": "evaluation_protocol_guide.md",
+        "anchor": "只有部分信息可回答"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-deployment-proof",
+    "split": "test",
+    "category": "direct",
+    "question": "只在 Windows 本地测试过，可以声称通过 Linux CI 或生产部署吗？",
+    "evidence": [
+      {
+        "source": "deployment_readiness_guide.md",
+        "anchor": "不能据此声称已通过 Linux CI 或生产部署"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-delete",
+    "split": "test",
+    "category": "direct",
+    "question": "知识文件删除时，相关分块和向量应如何处理？",
+    "evidence": [
+      {
+        "source": "source_version_guide.md",
+        "anchor": "一并移除其分块、向量与检索引用"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-snapshot",
+    "split": "test",
+    "category": "paraphrase",
+    "question": "更新索引时怎样避免同一请求混用旧内容和新内容？",
+    "evidence": [
+      {
+        "source": "source_version_guide.md",
+        "anchor": "先构建新快照，再切换当前版本"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-personal-proof",
+    "split": "test",
+    "category": "direct",
+    "question": "通用求职指南能证明候选人拥有某项成绩吗？",
+    "evidence": [
+      {
+        "source": "history_privacy_guide.md",
+        "anchor": "不能证明候选人已经掌握某技能、拥有某项成绩"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-cancel",
+    "split": "test",
+    "category": "paraphrase",
+    "question": "发出任务取消请求是否可以立即显示为取消完成？",
+    "evidence": [
+      {
+        "source": "tool_execution_guide.md",
+        "anchor": "区分已请求取消和已完成取消"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-atlas-write",
+    "split": "test",
+    "category": "direct",
+    "question": "Atlas 文档写入失败后是否自动重试，调用方该怎样重发？",
+    "evidence": [
+      {
+        "source": "demo_service_policy.md",
+        "anchor": "文档写入失败不自动重试"
+      },
+      {
+        "source": "demo_service_policy.md",
+        "anchor": "复用同一个幂等键明确重发"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-atlas-error",
+    "split": "test",
+    "category": "direct",
+    "question": "Atlas 导入文件超过限制时会返回什么错误，是否截断文件？",
+    "evidence": [
+      {
+        "source": "demo_service_policy.md",
+        "anchor": "返回 import_limit_exceeded，不会静默截断文件"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-mercury-connect",
+    "split": "test",
+    "category": "direct",
+    "question": "Mercury 示例连接失败的重试次数和每次等待上限是多少？",
+    "evidence": [
+      {
+        "source": "demo_cache_policy.md",
+        "anchor": "最多重试 3 次，单次等待上限为 4 秒"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-eval-evidence",
+    "split": "test",
+    "category": "multi_source",
+    "question": "引用出处存在是否等于回答正确，评测还应观察什么误拒问题？",
+    "evidence": [
+      {
+        "source": "evidence_binding_guide.md",
+        "anchor": "不能自动证明整个陈述被原文支持"
+      },
+      {
+        "source": "evaluation_protocol_guide.md",
+        "anchor": "可回答题被误拒的比例"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-update-provenance",
+    "split": "test",
+    "category": "multi_source",
+    "question": "文件内容变更和模型变更时缓存如何失效，报告如何追溯版本？",
+    "evidence": [
+      {
+        "source": "demo_cache_policy.md",
+        "anchor": "知识内容或模型发生变化时立即失效"
+      },
+      {
+        "source": "source_version_guide.md",
+        "anchor": "知识版本、题集指纹和实现版本"
+      }
+    ]
+  },
+  {
+    "case_id": "v2-test-my-recall",
+    "split": "test",
+    "category": "negative",
+    "question": "候选人的 CareerPilot 项目生产检索召回率实际达到多少？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-test-my-uptime",
+    "split": "test",
+    "category": "negative",
+    "question": "我的 Agent 服务上个月的可用性具体是多少？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-test-atlas-billing",
+    "split": "test",
+    "category": "negative",
+    "question": "Atlas 演示环境每月实际产生多少模型费用？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-test-mercury-users",
+    "split": "test",
+    "category": "negative",
+    "question": "Mercury 演示服务目前注册用户有多少名？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-test-mercury-upload",
+    "split": "test",
+    "category": "negative",
+    "question": "Mercury 的单个导入文件最大能有多少 MB？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-test-atlas-cache",
+    "split": "test",
+    "category": "negative",
+    "question": "Atlas 查询缓存的有效期必须为多久？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-test-partial-history",
+    "split": "test",
+    "category": "negative",
+    "question": "恢复旧记录应保留什么配置，以及本项目现有多少条历史记录？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-test-partial-cancel",
+    "split": "test",
+    "category": "negative",
+    "question": "取消请求应怎样传递，以及所有工具保证在几秒内取消？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-test-company-pay",
+    "split": "test",
+    "category": "negative",
+    "question": "目标公司 AI 开发岗位今年的具体薪资范围是多少？",
+    "evidence": []
+  },
+  {
+    "case_id": "v2-test-unprovided-date",
+    "split": "test",
+    "category": "negative",
+    "question": "这些文件最后一次真实生产部署发生在哪一天？",
+    "evidence": []
+  }
+]

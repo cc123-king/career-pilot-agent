@@ -1,0 +1,22 @@
+{
+  "input_kind": "synthetic",
+  "new_model_requests": 0,
+  "pending_confirmation": {
+    "score": null,
+    "pending_count": 2
+  },
+  "complete_confirmation": {
+    "score": 100.0,
+    "matched_required": [
+      "Python",
+      "FastAPI"
+    ]
+  },
+  "alias_example": {
+    "resume": "Fast API",
+    "job": "FastAPI",
+    "matched": true
+  },
+  "fact_count": 10,
+  "history_restored": true
+}

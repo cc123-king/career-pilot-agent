@@ -1,190 +1,59 @@
 # CareerPilot Agent
 
-基于 **Python + LangGraph + FastAPI + Gradio** 的多智能体求职助手。系统读取简历和招聘 JD，依次完成结构化解析、轻量 RAG 检索、可解释人岗匹配、简历优化建议、模拟面试题生成和投递状态管理。
+面向简历与岗位分析的可追溯应用：提取简历和JD、逐项核对来源与岗位要求，生成技能覆盖报告、修改建议和面试问题，并恢复历史草稿。
 
-项目默认运行在 **Demo 模式**：不需要 API Key，不会产生模型费用。有 OpenAI 或 OpenAI 兼容 API 时，可以在 `.env` 中启用大模型个性化增强。
-
-> 重要原则：系统只根据简历中的已有事实给建议，不会为了提高匹配度编造技能、经历或项目数据。
-
-## 项目亮点
-
-- 使用 LangGraph 编排 7～8 个有状态节点，展示状态、节点、边和条件路由；
-- 支持 PDF、DOCX、TXT、Markdown 简历解析；
-- 使用 Pydantic 定义简历、岗位、评分、建议和面试题等结构化数据；
-- 匹配分数由必备技能、加分技能、关键词和项目证据四部分组成，可解释、可复现；
-- 内置轻量 RAG 基线，不下载 Embedding 模型也能检索本地求职知识；
-- 提供 Gradio 演示页面和 FastAPI REST API；
-- 使用 SQLite 管理投递记录和分析快照；
-- API 未配置或调用失败时自动降级，保证演示可用；
-- 包含自动测试、示例简历、示例 JD、项目讲解稿和简历描述。
-
-## 系统架构
+- LangGraph组织7个状态节点；FastAPI与Gradio共用入口。
+- 支持PDF、DOCX、图片OCR；规则模式可离线运行，结构化模型提取可选。
+- 岗位要求采用“确认、排除误提取、待核实”；待核实项暂停评分，排除原因进入报告。
+- SQLite保存来源、确认状态、检索配置与草稿；明确别名匹配保留证据原文。
 
 ```mermaid
 flowchart LR
-    A[简历文件或文本] --> B[ResumeAgent]
-    J[招聘 JD] --> C[JobAgent]
-    B --> C
-    C --> D[RAGAgent]
-    D --> E[MatchAgent]
-    E --> F[ResumeCoachAgent]
-    F --> G[InterviewAgent]
-    G --> H{是否配置 API Key}
-    H -- 是 --> I[LLMAgent]
-    H -- 否 --> K[ReportAgent]
-    I --> K
-    K --> L[匹配报告]
-    K --> M[(SQLite 投递记录)]
+    D[简历与JD] --> P[解析与来源校验]
+    P --> H[岗位三态核对]
+    H --> R[关键词或混合检索]
+    R --> M[技能覆盖与证据]
+    M --> A[建议 面试与报告]
+    A --> S[SQLite历史与事实草稿]
 ```
 
-工作流中的共享状态由 `CareerState` 定义。每个 Agent 节点只负责一个明确任务，并将结构化结果写回状态。`InterviewAgent` 后使用条件边判断是否需要调用大模型；未配置密钥时直接进入 `ReportAgent`。
+## 快速开始
 
-## 目录结构
-
-```text
-career-pilot-agent/
-├─ src/career_pilot/
-│  ├─ workflow.py       # LangGraph 工作流
-│  ├─ parsers.py        # PDF/DOCX/TXT/MD 和 JD 解析工具
-│  ├─ matching.py       # 可解释匹配算法
-│  ├─ agents.py         # 简历建议与面试题 Agent
-│  ├─ knowledge.py      # 轻量 RAG 检索器
-│  ├─ llm.py            # OpenAI/兼容 API 增强与结构化输出
-│  ├─ database.py       # SQLite 投递管理
-│  ├─ api.py            # FastAPI 接口
-│  └─ ui.py             # Gradio 页面
-├─ knowledge/           # 本地求职知识库
-├─ examples/            # 可直接演示的简历和 JD
-├─ tests/               # 自动测试
-├─ docs/                # 简历描述和面试讲解
-├─ setup.bat            # Windows 一键安装
-├─ run_ui.bat           # Windows 一键启动页面
-└─ run_api.bat          # Windows 一键启动 API
-```
-
-## Windows 快速开始
-
-系统要求 Python 3.11 或更高版本。项目已经适配“不允许执行 PowerShell 脚本”的电脑，不需要运行 `Activate.ps1`。
-
-### 方法一：双击运行
-
-1. 双击 `setup.bat`，等待依赖安装完成；
-2. 双击 `run_ui.bat`；
-3. 浏览器打开 <http://127.0.0.1:7860>；
-4. 点击页面中的“载入示例”；
-5. 点击“开始多 Agent 分析”。
-
-### 方法二：PowerShell 命令
+Python 3.12，在项目根目录执行：
 
 ```powershell
-cd career-pilot-agent
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e ".[dev]"
-Copy-Item .env.example .env
-.\.venv\Scripts\python.exe -m career_pilot.ui
+.\.venv\Scripts\python.exe scripts/run_web.py --port 8001
 ```
 
-全程使用虚拟环境中的 Python，不需要激活虚拟环境。
+打开 [网页](http://127.0.0.1:8001/ui/) 或 [API文档](http://127.0.0.1:8001/docs)。规则提取与关键词检索无需模型配置。
 
-## 启动 FastAPI
-
-双击 `run_api.bat`，或运行：
+## 固定样例与演示
 
 ```powershell
-.\.venv\Scripts\python.exe -m career_pilot.api
+.\.venv\Scripts\python.exe scripts/run_showcase.py
 ```
 
-启动后访问：
+输入为 [合成简历](examples/resume.txt) 与 [示例JD](examples/job.md)。先只确认一项要求会暂停评分；全部确认后固定样例为100分，并验证草稿恢复。
+查看 [三分钟演示步骤](docs/SHOWCASE.md) 与 [实际样例结果](docs/examples/showcase-result.json)。
 
-- API 文档：<http://127.0.0.1:8000/docs>
-- 健康检查：<http://127.0.0.1:8000/health>
-- 文本分析：`POST /api/v1/analyze`
-- 文件分析：`POST /api/v1/analyze-file`
-- 投递记录：`GET/POST /api/v1/applications`
-
-文本分析示例：
-
-```json
-{
-  "resume_text": "这里粘贴至少 20 个字符的简历文字",
-  "jd_text": "这里粘贴至少 20 个字符的招聘 JD",
-  "company": "示例公司",
-  "role": "AI Agent 应用开发工程师"
-}
-```
-
-## 运行测试
+## 验证与边界
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q
 ```
 
-测试覆盖：
+2026-10-19本地Windows两套依赖环境各443项完整回归通过。评分、建议和面试问题采用规则；分数表示确认范围内的技能覆盖，不是录用概率。
+来源匹配只保证文本有依据，分类与经历真实性仍需核对。RAG问答使用已核验原文生成逐项陈述，并审查陈述是否受到引用支持；首次有效判不足时尝试有引用候选回答恢复，标准流程最多3次聊天调用。
+当前面向本机单用户演示。v3曾在不含 `.env` 的全新Python 3.12环境完成安装、312项回归与实际启动验证；本轮443项结果分别来自当前环境与独立依赖环境。远程CI结果以本仓库Actions记录为准。
 
-- 简历和 JD 结构化解析；
-- 文件类型和错误输入校验；
-- 完整 LangGraph 工作流；
-- 报告生成和导出；
-- SQLite 投递记录的增删改查。
+[完整运行参考](docs/REFERENCE.md) · [核对接口与v3说明](docs/JOB_READY_UPGRADE.md) · [历史检索基线](docs/retrieval-evaluation.md) · [v4历史评测](docs/RAG_EVIDENCE_V4.md) · [v5完整回答证据链](docs/RAG_ANSWER_V5.md)
 
-## 启用大模型增强（可选）
+v5已完成35题真实问答初评，v5.1完成11道失败题复测；仍有语义误拒。详见 [真实评测与修复报告](docs/RAG_LIVE_V5_1.md)。v4结果为历史回归。
 
-首次运行后会生成 `.env`。默认内容是：
+v6.2 已完成有引用候选回答恢复、加权RRF与相邻分块窗口。已知35题：19/19完成、16/16正常拒答；技术36题：22/24完成、11/12正常拒答，另1负例拦截。助手复核发现3条技术回答有引用或语气条件问题，不能把程序通过率当事实准确率。语料为34文档/1218分块，题集为作者标注且已重复使用。见 [真实验收、失败案例与限制](docs/RAG_LIVE_V6_2.md)。历史v5.1与v6初测单独保留。
 
-```dotenv
-LLM_PROVIDER=demo
-```
+[逐题公开证据](evaluation/results/README.md) · [当前项目描述](docs/resume-project-suggestion.md)
 
-### OpenAI
-
-```dotenv
-LLM_PROVIDER=openai
-OPENAI_API_KEY=你的密钥
-OPENAI_MODEL=gpt-5-mini
-```
-
-OpenAI 路径使用 Responses API 的 `responses.parse` 和 Pydantic 结构化输出。API Key 只放在本机 `.env`，该文件已被 `.gitignore` 排除。
-
-### OpenAI 兼容接口
-
-```dotenv
-LLM_PROVIDER=compatible
-LLM_API_KEY=你的密钥
-LLM_BASE_URL=兼容接口地址
-LLM_MODEL=模型名称
-```
-
-是否支持 JSON 输出取决于服务提供商。调用失败时系统会保留规则分析结果，并在报告中显示降级警告。
-
-## 匹配算法
-
-综合分数不是模型凭感觉生成，而是以下四部分的加权结果：
-
-| 维度 | 权重 | 说明 |
-|---|---:|---|
-| 必备技能覆盖 | 55% | 简历是否覆盖 JD 明确要求的核心技术 |
-| 加分技能覆盖 | 15% | 简历是否覆盖 JD 的加分项 |
-| JD 关键词覆盖 | 15% | 整体技术关键词交集 |
-| 项目证据质量 | 15% | 技能是否能在项目或经历原文中找到依据 |
-
-当前版本是可解释基线，后续可以增加同义词向量匹配、岗位级权重学习和人工标注评测集。
-
-## 项目安全与隐私
-
-- Demo 模式下简历内容不发送给任何模型服务；
-- SQLite 数据只保存在本机 `data/applications.db`；
-- `.env` 和数据库文件不会被 Git 提交；
-- 大模型增强前会移除邮箱和手机号；
-- 系统明确提示不能编造简历内容；
-- 对外部署前仍应增加登录、文件病毒检查、访问控制和数据删除机制。
-
-## 项目来源说明
-
-本项目是独立实现，工作流设计参考了 LangChain 官方教学仓库 [deep_research_from_scratch](https://github.com/langchain-ai/deep_research_from_scratch) 中“Scope → Research → Write”的分阶段 Agent 思想，并将其重新设计为求职场景下的简历解析、岗位分析、RAG、匹配、建议和面试工作流。代码、数据模型、页面、数据库和测试均在本项目中重新实现。
-
-项目采用 MIT License。参考上游项目同样采用 MIT License。
-
-## 简历和面试材料
-
-- [简历项目描述](docs/RESUME_BULLETS.md)
-- [面试讲解手册](docs/INTERVIEW_GUIDE.md)
+源代码采用MIT许可。技术文档语料保留CPython v3.12.7的PSF许可与来源，见evaluation/technical_corpus/LICENSE.txt和SOURCES.json。本次发布替换早期不兼容模块与启动入口，历史实现可在Git历史中查看。

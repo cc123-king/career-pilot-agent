@@ -1,0 +1,2609 @@
+{
+  "evaluation": "technical_repeated_suite",
+  "dataset_sha256": "2d9fa367409a00f27ce5ef92090c22420b9ddcc67e160ebc56bf9f9d819e5aed",
+  "models": {
+    "embedding": {
+      "provider_host": "dashscope.aliyuncs.com",
+      "model": "text-embedding-v4"
+    },
+    "llm": {
+      "provider_host": "dashscope.aliyuncs.com",
+      "model": "qwen-plus"
+    }
+  },
+  "configuration": {
+    "pipeline_version": "grounded-rag-v6.2",
+    "max_characters": 300,
+    "top_k": 6,
+    "min_score": 0.0,
+    "candidate_k": 20,
+    "rank_constant": 60,
+    "keyword_weight": 1.0,
+    "vector_weight": 2.0,
+    "window_radius": 1,
+    "fusion_weight": 1.0,
+    "lexical_weight": 0.0
+  },
+  "source_sha256": {
+    "scripts/evaluate_answer_pipeline.py": "c2a11650dc5b7613ca3f2a23fe998522000f9b8b25523826db874089a0f4c6fd",
+    "src/career_pilot/llm.py": "4be7dff4808aa0ac011b20d7bf7950f92e9bbdbe9ac00921e8d4ddcbde5501a4",
+    "src/career_pilot/rag/factory.py": "3fcf37c3ee2e9b487a93df280dbc6a2fd8972d68fc4caa8032ba758b3f2de665",
+    "src/career_pilot/rag/evidence.py": "122c0d18564897457a79857786a687e14c7cdb9741b4a9e56e2d13690ee30a59",
+    "src/career_pilot/rag/grounding.py": "1a2fc0ca66249fff078320cfb784b4325baadb9f8bc23623ddd931edbf194435",
+    "src/career_pilot/rag/service.py": "1d9e704d124a146c7d8192e31318e12dfd21c8911152a5f7d320adfd701c0a34",
+    "src/career_pilot/rag/context.py": "58c77a028a24803bc45efc1bf5e2788fdac54452f7e01e2ec0e46d15f963653c",
+    "src/career_pilot/rag/models.py": "51be9135f9aecbea367b5889ccee75aa535087531b8898a89c2ad10364fb8cc8",
+    "src/career_pilot/rag/embeddings.py": "5757a484685e22f587c3bed28ccc56f672c317fe8e2a0ec66ba6529d0d83047a",
+    "src/career_pilot/rag/vector_index.py": "42eac91583a3d7f3a1784e220b1708337dfb02b89902faee87353e477cc48b69",
+    "src/career_pilot/rag/retrieval.py": "e672e010380b6d3e2161393933c9f64306630d065f15c96dde1c25faba478b7a",
+    "src/career_pilot/rag/rrf.py": "f08f6be2f4ca08fae8e5220607467438a0df161a32d21534cfd7f5fe97902b2e",
+    "src/career_pilot/rag/reranking.py": "eba6272da651a525d92ce659fea3ab835f49cd024a937ca024410f344d3f4c0e",
+    "src/career_pilot/rag/hybrid_retrieval.py": "c76cfcf0e6fde39969ae4656a0a15f3ce5234987e28db24ad7df720822f43b8f",
+    "src/career_pilot/rag/windows.py": "cb563a7fe53fdf3f5ff2489904144dbbf95eb482f38c607795928104c86819dc"
+  },
+  "prompt_sha256": {
+    "evidence": "1cf798e2f3ccb624b9ffd9c9f79f5fd609c76410201d5c68bf1ca40877183adb",
+    "review": "9f6fdc5efe6fa7814f1f6c54fbc31d2d39a8d66705ce3fd20d883abe4b79982c",
+    "draft": "e78f2e198858853cacfe8a1ac5183a54f202c959a24c0747c88f442f48ff4169",
+    "proposal": "dccdc622603c3a165af6f1754d21bd79525b125b8f33d0a026d277a0aba22bcf",
+    "audit": "13f6029034faf210ebb4ae89921b9bb357298bc6dc9b4f1bb673096bb0f7da09"
+  },
+  "cumulative_new_request_attempts": {
+    "embedding": 123,
+    "chat": 105
+  },
+  "summary": {
+    "case_count": 36,
+    "answerable_count": 24,
+    "unanswerable_count": 12,
+    "answerable_completed": 22,
+    "answerable_completion_rate": 0.9166666666666666,
+    "valid_unanswerable_refusals": 11,
+    "valid_unanswerable_refusal_rate": 0.9166666666666666,
+    "invalid_or_unavailable_count": 3,
+    "accepted_pattern_checks_passed": 21,
+    "warning": "Completion, model-audit agreement and lexical checks are not independent factual accuracy."
+  },
+  "by_original_group": {
+    "development": {
+      "case_count": 18,
+      "answerable_count": 12,
+      "unanswerable_count": 6,
+      "answerable_completed": 12,
+      "answerable_completion_rate": 1.0,
+      "valid_unanswerable_refusals": 6,
+      "valid_unanswerable_refusal_rate": 1.0,
+      "invalid_or_unavailable_count": 0,
+      "accepted_pattern_checks_passed": 11,
+      "warning": "Completion, model-audit agreement and lexical checks are not independent factual accuracy."
+    },
+    "heldout_author_labeled": {
+      "case_count": 18,
+      "answerable_count": 12,
+      "unanswerable_count": 6,
+      "answerable_completed": 10,
+      "answerable_completion_rate": 0.8333333333333334,
+      "valid_unanswerable_refusals": 5,
+      "valid_unanswerable_refusal_rate": 0.8333333333333334,
+      "invalid_or_unavailable_count": 3,
+      "accepted_pattern_checks_passed": 10,
+      "warning": "Completion, model-audit agreement and lexical checks are not independent factual accuracy."
+    }
+  },
+  "results": [
+    {
+      "case_id": "v6-tech-01",
+      "group": "development",
+      "question": "json.dumps 要按字典键排序，应启用哪个参数？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "json.dumps 要按字典键排序，应启用哪个参数？",
+        "answer": "json.dumps 要按字典键排序，应启用 sort_keys 参数[资料3][资料4]",
+        "sources": [
+          {
+            "citation_id": 3,
+            "chunk_id": "window-27df1f0a8ae879320169",
+            "title": "Python 3.12.7 json 原始文档摘录 2",
+            "source": "python_json_01.md",
+            "score": 0.6666666666666667,
+            "constituent_chunk_ids": [
+              "python_json_01-8",
+              "python_json_01-9",
+              "python_json_01-10"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          },
+          {
+            "citation_id": 4,
+            "chunk_id": "window-2ee1967be86d6d811eca",
+            "title": "Python 3.12.7 json 原始文档摘录 1",
+            "source": "python_json_00.md",
+            "score": 0.6354166666666666,
+            "constituent_chunk_ids": [
+              "python_json_00-29",
+              "python_json_00-30",
+              "python_json_00-31"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 2,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 1,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "json.dumps 要按字典键排序，应启用 sort_keys 参数",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 3,
+              "quote": "If *sort_keys* is true (default: ``False``), then the output of dictionaries will be sorted by key;"
+            },
+            {
+              "citation_id": 4,
+              "quote": "If *sort_keys* is true (default: ``False``), then the output of dictionaries will be sorted by key."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text 明确指出应启用 sort_keys 参数，与两条引文一致：二者均说明当 sort_keys 为 true 时，字典输出按键排序；引文使用 *sort_keys* 表示参数名，与 claim 中 'sort_keys 参数' 构成忠实同义指代；未新增事实、未扩大范围、未错误数值或反转否定。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "requirement 是对问题的直接复述，claim.text 给出了明确答案 'sort_keys 参数'，完整回应了该要求。"
+          }
+        ]
+      },
+      "cached_stage_count": 3
+    },
+    {
+      "case_id": "v6-tech-02",
+      "group": "heldout_author_labeled",
+      "question": "ensure_ascii=False 会怎样处理非 ASCII 字符？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "ensure_ascii=False 会怎样处理非 ASCII 字符？",
+        "answer": "ensure_ascii=False 时，非 ASCII 字符将原样输出。[资料1]",
+        "sources": [
+          {
+            "citation_id": 1,
+            "chunk_id": "window-eddee9b72d780ce039a4",
+            "title": "Python 3.12.7 json 原始文档摘录 2",
+            "source": "python_json_01.md",
+            "score": 0.9747474747474748,
+            "constituent_chunk_ids": [
+              "python_json_01-5",
+              "python_json_01-6",
+              "python_json_01-7"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 1,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "ensure_ascii=False 时，非 ASCII 字符将原样输出。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "If *ensure_ascii* is false, these characters will be output as-is."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text 中的'原样输出'是 'output as-is' 的忠实同义改写，对象（非ASCII字符）、条件（ensure_ascii=False）和行为均与引文完全一致，无新增、无缩小、无反转。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "claim.text 直接回答了该要求，明确说明了 ensure_ascii=False 时对非 ASCII 字符的处理方式。"
+          }
+        ]
+      },
+      "cached_stage_count": 3
+    },
+    {
+      "case_id": "v6-tech-03",
+      "group": "development",
+      "question": "allow_nan=False 时序列化 NaN 或 Infinity 会有什么结果？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "allow_nan=False 时序列化 NaN 或 Infinity 会有什么结果？",
+        "answer": "allow_nan=False 时序列化 NaN、Infinity 或 -Infinity 会引发 ValueError 异常[资料1][资料3]",
+        "sources": [
+          {
+            "citation_id": 1,
+            "chunk_id": "window-60fcee041b8db3582b93",
+            "title": "Python 3.12.7 json 原始文档摘录 1",
+            "source": "python_json_00.md",
+            "score": 0.9571428571428572,
+            "constituent_chunk_ids": [
+              "python_json_00-22",
+              "python_json_00-23",
+              "python_json_00-24"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          },
+          {
+            "citation_id": 3,
+            "chunk_id": "window-aa0e5b3152c36836c521",
+            "title": "Python 3.12.7 json 原始文档摘录 2",
+            "source": "python_json_01.md",
+            "score": 0.8728139904610493,
+            "constituent_chunk_ids": [
+              "python_json_01-7",
+              "python_json_01-8",
+              "python_json_01-9"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 2,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 1,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "allow_nan=False 时序列化 NaN、Infinity 或 -Infinity 会引发 ValueError 异常",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "If *allow_nan* is false (default: ``True``), then it will be a :exc:`ValueError` to serialize out of range :class:`float` values (``nan``, ``inf``, ``-inf``) in strict compliance of the JSON specification."
+            },
+            {
+              "citation_id": 3,
+              "quote": "Otherwise, it will be a :exc:`ValueError` to encode such floats."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "两条引文均明确指出当 allow_nan=False 时，尝试序列化 nan、inf、-inf（即 NaN、Infinity、-Infinity）会引发 ValueError；claim.text 中的 'NaN、Infinity 或 -Infinity' 与引文中的 '(nan, inf, -inf)' 忠实对应，'引发 ValueError 异常' 与 ':exc:`ValueError`' 为标准同义表述；无新增、扩大或错误信息。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "claim.text 直接、完整回答了该要求：明确给出了 allow_nan=False 时序列化 NaN 或 Infinity 的结果（即引发 ValueError 异常），且覆盖了 -Infinity（符合问题中‘或 Infinity’的广义理解，且引文和 claim 均包含 -inf/-Infinity，属合理涵盖）。"
+          }
+        ]
+      },
+      "cached_stage_count": 3
+    },
+    {
+      "case_id": "v6-tech-04",
+      "group": "heldout_author_labeled",
+      "question": "反序列化无效 JSON 文档时会抛出什么异常？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "反序列化无效 JSON 文档时会抛出什么异常？",
+        "answer": "反序列化无效 JSON 文档时会抛出 JSONDecodeError 异常[资料5]",
+        "sources": [
+          {
+            "citation_id": 5,
+            "chunk_id": "window-aec815427085bc98c6f4",
+            "title": "Python 3.12.7 json 原始文档摘录 2",
+            "source": "python_json_01.md",
+            "score": 0.6256410256410256,
+            "constituent_chunk_ids": [
+              "python_json_01-18",
+              "python_json_01-19",
+              "python_json_01-20"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 1,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "反序列化无效 JSON 文档时会抛出 JSONDecodeError 异常",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 5,
+              "quote": ".. exception:: JSONDecodeError(msg, doc, pos)\n\nSubclass of :exc:`ValueError` with the following additional attributes:"
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text 明确指出抛出 JSONDecodeError 异常，evidence.quote 中明确声明 '.. exception:: JSONDecodeError(msg, doc, pos)'，且该行是文档中对 JSONDecodeError 的定义性声明，直接支持其作为反序列化无效 JSON 时抛出的异常；虽未在 quote 中显式写'反序列化无效 JSON 时抛出'，但该条目位于 Python json 模块文档中对异常的规范定义节，结合上下文（如标准库行为）及 claim 的限定语境（问题明确指向反序列化无效 JSON），该命名和位置构成充分支持；无新增事实、数值错误或范围扩大。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "claim.text 直接回答了问题：抛出 JSONDecodeError 异常，与 requirement 所问完全对应。"
+          }
+        ]
+      },
+      "cached_stage_count": 3
+    },
+    {
+      "case_id": "v6-tech-05",
+      "group": "development",
+      "question": "向 SQL 语句绑定 Python 值时，文档推荐怎样避免 SQL 注入？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "向 SQL 语句绑定 Python 值时，文档推荐怎样避免 SQL 注入？",
+        "answer": "文档推荐始终使用占位符而非字符串格式化来绑定 Python 值到 SQL 语句，以避免 SQL 注入攻击[资料2]\n\n文档推荐使用 DB-API 的参数替换机制，即在查询字符串中使用占位符，并将实际值作为元组提供给游标 execute 方法的第二个参数[资料3]",
+        "sources": [
+          {
+            "citation_id": 2,
+            "chunk_id": "window-a4e6278f6de47d0c9ae4",
+            "title": "Python 3.12.7 sqlite3 原始文档摘录 1",
+            "source": "python_sqlite3_00.md",
+            "score": 0.6559139784946236,
+            "constituent_chunk_ids": [
+              "python_sqlite3_00-25",
+              "python_sqlite3_00-26",
+              "python_sqlite3_00-27"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          },
+          {
+            "citation_id": 3,
+            "chunk_id": "window-b3dd0b604031fe78a6ab",
+            "title": "Python 3.12.7 sqlite3 原始文档摘录 5",
+            "source": "python_sqlite3_04.md",
+            "score": 0.6354166666666666,
+            "constituent_chunk_ids": [
+              "python_sqlite3_04-26",
+              "python_sqlite3_04-27",
+              "python_sqlite3_04-28"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 2,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 2,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "文档推荐始终使用占位符而非字符串格式化来绑定 Python 值到 SQL 语句，以避免 SQL 注入攻击",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 2,
+              "quote": "Always use placeholders instead of :ref:`string formatting <tut-formatting>` to bind Python values to SQL statements, to avoid `SQL injection attacks`_"
+            }
+          ]
+        },
+        {
+          "claim_id": 2,
+          "text": "文档推荐使用 DB-API 的参数替换机制，即在查询字符串中使用占位符，并将实际值作为元组提供给游标 execute 方法的第二个参数",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 3,
+              "quote": "Instead, use the DB-API's parameter substitution. To insert a variable into a query string, use a placeholder in the string, and substitute the actual values into the query by providing them as a :class:`tuple` of values to the second argument of the cursor's :meth:`~Cursor.execute` method."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text 忠实转述了 citation_id:2 的 quote：'Always use placeholders instead of string formatting to bind Python values to SQL statements, to avoid SQL injection attacks'；'始终使用占位符而非字符串格式化'对应'Always use placeholders instead of string formatting'，'绑定 Python 值到 SQL 语句'对应'bind Python values to SQL statements'，'以避免 SQL 注入攻击'对应'to avoid SQL injection attacks'；无新增、无反转、无范围扩大。"
+          },
+          {
+            "claim_id": 2,
+            "supported": true,
+            "reason": "claim.text 准确归纳了 citation_id:3 的 quote：'use the DB-API's parameter substitution' → '使用 DB-API 的参数替换机制'；'use a placeholder in the string' → '在查询字符串中使用占位符'；'providing them as a tuple of values to the second argument of the cursor's execute method' → '将实际值作为元组提供给游标 execute 方法的第二个参数'；术语如'参数替换'是'parameter substitution'的标准译法，'元组'对应'tuple'，未引入外部知识，未添加未提及的细节（如具体占位符语法%?或?）。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "requirements 明确要求'文档推荐怎样避免 SQL 注入'，两个 claims 共同完整回答了该问题：claim 1 给出核心原则（用占位符而非字符串格式化），claim 2 补充实现机制（DB-API 参数替换 + 元组传参），二者均源自文档引文，覆盖了'怎样'的操作方式。"
+          }
+        ]
+      },
+      "cached_stage_count": 3
+    },
+    {
+      "case_id": "v6-tech-06",
+      "group": "heldout_author_labeled",
+      "question": "sqlite3 连接的 check_same_thread=True 时被其他线程使用，会怎样？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "sqlite3 连接的 check_same_thread=True 时被其他线程使用，会怎样？",
+        "answer": "当 sqlite3 连接的 check_same_thread=True 时，若被创建线程以外的其他线程使用，会抛出 ProgrammingError 异常。[资料1]",
+        "sources": [
+          {
+            "citation_id": 1,
+            "chunk_id": "window-fff90d2824f7110d8115",
+            "title": "Python 3.12.7 sqlite3 原始文档摘录 1",
+            "source": "python_sqlite3_00.md",
+            "score": 0.9307359307359307,
+            "constituent_chunk_ids": [
+              "python_sqlite3_00-44",
+              "python_sqlite3_00-45",
+              "python_sqlite3_00-46"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 1,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "当 sqlite3 连接的 check_same_thread=True 时，若被创建线程以外的其他线程使用，会抛出 ProgrammingError 异常。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "If ``True`` (default), :exc:`ProgrammingError` will be raised if the database connection is used by a thread other than the one that created it."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text 精确复述了 evidence.quote 的核心含义：check_same_thread=True（默认）时，若连接被创建线程以外的线程使用，则抛出 ProgrammingError；'会抛出 ProgrammingError 异常' 是对 ':exc:`ProgrammingError` will be raised' 的忠实同义转述，对象（连接）、条件（被其他线程使用）、结果（抛异常）均严格对应，无新增、无弱化、无范围扩大。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "requirement 明确询问‘会怎样’，claim.text 给出了确定性行为结论（抛出 ProgrammingError 异常），且该结论有直接引文支持，构成实质回答。"
+          }
+        ]
+      },
+      "cached_stage_count": 2
+    },
+    {
+      "case_id": "v6-tech-07",
+      "group": "development",
+      "question": "设置 check_same_thread=False 后，多线程写入是否还需要使用者协调？",
+      "answerable": true,
+      "answer_pattern_checks_passed": false,
+      "result": {
+        "question": "设置 check_same_thread=False 后，多线程写入是否还需要使用者协调？",
+        "answer": "设置 check_same_thread=False 后，多线程写入仍需要使用者协调以避免数据腐败。[资料1]",
+        "sources": [
+          {
+            "citation_id": 1,
+            "chunk_id": "window-fff90d2824f7110d8115",
+            "title": "Python 3.12.7 sqlite3 原始文档摘录 1",
+            "source": "python_sqlite3_00.md",
+            "score": 0.9061864061864061,
+            "constituent_chunk_ids": [
+              "python_sqlite3_00-44",
+              "python_sqlite3_00-45",
+              "python_sqlite3_00-46"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 1,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "设置 check_same_thread=False 后，多线程写入仍需要使用者协调以避免数据腐败。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "If ``False``, the connection may be accessed in multiple threads; write operations may need to be serialized by the user to\n\navoid data corruption."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text 中‘仍需要使用者协调以避免数据腐败’忠实对应 evidence.quote 中‘write operations may need to be serialized by the user to avoid data corruption’，其中‘serialized by the user’即‘使用者协调’，‘data corruption’即‘数据腐败’，语义一致且未新增事实、未扩大范围、未反转否定。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "该要求直接询问‘是否还需要使用者协调’，claim.text 明确回答‘仍需要’，且有引文支持，构成实质回答。"
+          }
+        ]
+      },
+      "cached_stage_count": 3
+    },
+    {
+      "case_id": "v6-tech-08",
+      "group": "heldout_author_labeled",
+      "question": "sqlite3.connect 的 timeout 参数控制什么等待行为？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "sqlite3.connect 的 timeout 参数控制什么等待行为？",
+        "answer": "sqlite3.connect 的 timeout 参数控制连接在表被锁定时等待的秒数，超时后将抛出 OperationalError 异常。[资料2]",
+        "sources": [
+          {
+            "citation_id": 2,
+            "chunk_id": "window-55d5447688552ee0873b",
+            "title": "Python 3.12.7 sqlite3 原始文档摘录 1",
+            "source": "python_sqlite3_00.md",
+            "score": 0.6559139784946236,
+            "constituent_chunk_ids": [
+              "python_sqlite3_00-38",
+              "python_sqlite3_00-39",
+              "python_sqlite3_00-40"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 1,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "sqlite3.connect 的 timeout 参数控制连接在表被锁定时等待的秒数，超时后将抛出 OperationalError 异常。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 2,
+              "quote": ":param float timeout: How many seconds the connection should wait before raising an :exc:`OperationalError` when a table is locked. If another connection opens a transaction to modify a table, that table will be locked until the transaction is committed. Default five seconds."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text 准确复述了 evidence.quote 的核心内容：timeout 控制表被锁定时的等待秒数，超时后抛出 OperationalError；quote 明确说明 'How many seconds the connection should wait before raising an :exc:`OperationalError` when a table is locked'，且未引入新增事实、未扩大范围、数值（秒数）和异常类型均一致。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "requirement 要求解释 timeout 参数控制的等待行为，claim.text 明确指出其控制‘表被锁定时等待的秒数’及超时后果，直接、完整回答了该问题。"
+          }
+        ]
+      },
+      "cached_stage_count": 2
+    },
+    {
+      "case_id": "v6-tech-09",
+      "group": "development",
+      "question": "PurePath.suffixes 返回什么形式的扩展名？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "PurePath.suffixes 返回什么形式的扩展名？",
+        "answer": "PurePath.suffixes 返回一个包含路径所有文件扩展名的列表，每个扩展名以点号开头，例如 ['.tar', '.gar']。[资料1]",
+        "sources": [
+          {
+            "citation_id": 1,
+            "chunk_id": "window-bc14f8cb7f6e16dedaf1",
+            "title": "Python 3.12.7 pathlib 原始文档摘录 1",
+            "source": "python_pathlib_00.md",
+            "score": 0.6666666666666667,
+            "constituent_chunk_ids": [
+              "python_pathlib_00-47",
+              "python_pathlib_00-48",
+              "python_pathlib_00-49"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 1,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "PurePath.suffixes 返回一个包含路径所有文件扩展名的列表，每个扩展名以点号开头，例如 ['.tar', '.gar']。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "A list of the path's file extensions::\n\n>>> PurePosixPath('my/library.tar.gar').suffixes ['.tar', '.gar'] >>> PurePosixPath('my/library.tar.gz').suffixes ['.tar', '.gz'] >>> PurePosixPath('my/library').suffixes []"
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "引文明确说明 suffixes 返回 'a list of the path's file extensions'，并给出三个示例：['.tar', '.gar']、['.tar', '.gz']、[]，完全支持 claim 中‘返回一个包含路径所有文件扩展名的列表，每个扩展名以点号开头’的陈述；示例中扩展名均带前导点号，且空列表对应无扩展名情况，未新增事实、未扩大范围、数值/形式与引文一致。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "claim.text 直接回答了 requirement 所问‘返回什么形式的扩展名’，明确指出是‘以点号开头的列表’，并给出典型示例，覆盖问题核心。"
+          }
+        ]
+      },
+      "cached_stage_count": 3
+    },
+    {
+      "case_id": "v6-tech-10",
+      "group": "heldout_author_labeled",
+      "question": "沿文件系统路径向上遍历前，为什么文档推荐先调用 Path.resolve？",
+      "answerable": true,
+      "answer_pattern_checks_passed": false,
+      "result": {
+        "question": "沿文件系统路径向上遍历前，为什么文档推荐先调用 Path.resolve？",
+        "answer": "资料核验结果未通过格式或原文校验，本次未生成回答。",
+        "sources": [],
+        "retrieved_count": 0,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": false,
+        "evidence_status": "invalid",
+        "evidence_reason": "unsupported_or_untraceable_evidence",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": false,
+        "answer_status": "not_checked",
+        "answer_reason": null,
+        "answer_claim_count": 0,
+        "llm_request_count": 1
+      },
+      "generated_claims": [],
+      "model_audit": null,
+      "cached_stage_count": 1
+    },
+    {
+      "case_id": "v6-tech-11",
+      "group": "development",
+      "question": "PurePath.stem 表示路径的哪部分？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "PurePath.stem 表示路径的哪部分？",
+        "answer": "PurePath.stem 表示路径的最终路径组件，不包含其后缀。[资料1]",
+        "sources": [
+          {
+            "citation_id": 1,
+            "chunk_id": "window-b8290da8c849f39a54c5",
+            "title": "Python 3.12.7 pathlib 原始文档摘录 1",
+            "source": "python_pathlib_00.md",
+            "score": 0.9029605263157895,
+            "constituent_chunk_ids": [
+              "python_pathlib_00-48",
+              "python_pathlib_00-49",
+              "python_pathlib_00-50"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 1,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "PurePath.stem 表示路径的最终路径组件，不包含其后缀。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "The final path component, without its suffix::\n\n>>> PurePosixPath('my/library.tar.gz').stem 'library.tar'"
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text 'PurePath.stem 表示路径的最终路径组件，不包含其后缀' 是对 evidence.quote 中 'The final path component, without its suffix' 的忠实同义改写；示例 'library.tar' 也印证了该定义（.tar.gz 中仅去除最末后缀 .gz，保留 .tar，符合 stem 定义），未引入新增事实、未扩大范围、未反转否定、数值/单位/范围均无误。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "requirement 要求说明 PurePath.stem 表示路径的哪部分，claim.text 已明确给出定义性回答，且被引文直接支持。"
+          }
+        ]
+      },
+      "cached_stage_count": 3
+    },
+    {
+      "case_id": "v6-tech-12",
+      "group": "heldout_author_labeled",
+      "question": "PurePath 的相对路径运算会检查底层文件结构吗？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "PurePath 的相对路径运算会检查底层文件结构吗？",
+        "answer": "PurePath 的相对路径运算不会检查底层文件结构。[资料5]\n\nPurePath 对象提供不实际访问文件系统的路径处理操作。[资料4]\n\nPurePath 的相关方法是基于字符串的，既不访问文件系统，也不特殊处理 \"..\" 段。[资料6]",
+        "sources": [
+          {
+            "citation_id": 4,
+            "chunk_id": "window-8e23f52733616480a507",
+            "title": "Python 3.12.7 pathlib 原始文档摘录 1",
+            "source": "python_pathlib_00.md",
+            "score": 0.6354166666666666,
+            "constituent_chunk_ids": [
+              "python_pathlib_00-12",
+              "python_pathlib_00-13",
+              "python_pathlib_00-14"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          },
+          {
+            "citation_id": 5,
+            "chunk_id": "window-6d784b99ef2b13b8e6e1",
+            "title": "Python 3.12.7 pathlib 原始文档摘录 2",
+            "source": "python_pathlib_01.md",
+            "score": 0.6256410256410256,
+            "constituent_chunk_ids": [
+              "python_pathlib_01-12",
+              "python_pathlib_01-13",
+              "python_pathlib_01-14"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          },
+          {
+            "citation_id": 6,
+            "chunk_id": "window-595c01d5906cbfa42bf2",
+            "title": "Python 3.12.7 pathlib 原始文档摘录 1",
+            "source": "python_pathlib_00.md",
+            "score": 0.6161616161616162,
+            "constituent_chunk_ids": [
+              "python_pathlib_00-55",
+              "python_pathlib_00-56",
+              "python_pathlib_00-57"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 3,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 3,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "PurePath 的相对路径运算不会检查底层文件结构。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 5,
+              "quote": "This function is part of :class:`PurePath` and works with strings. It does not check or access the underlying file structure."
+            }
+          ]
+        },
+        {
+          "claim_id": 2,
+          "text": "PurePath 对象提供不实际访问文件系统的路径处理操作。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 4,
+              "quote": "Pure path objects provide path-handling operations which don't actually access a filesystem."
+            }
+          ]
+        },
+        {
+          "claim_id": 3,
+          "text": "PurePath 的相关方法是基于字符串的，既不访问文件系统，也不特殊处理 \"..\" 段。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 6,
+              "quote": "This method is string-based; it neither accesses the filesystem nor treats \"``..``\" segments specially."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text '不会检查底层文件结构' 与 evidence.quote 中 'does not check or access the underlying file structure' 忠实对应，否定语义、对象（underlying file structure）、动作（check）均一致。"
+          },
+          {
+            "claim_id": 2,
+            "supported": true,
+            "reason": "claim.text '不实际访问文件系统' 是 evidence.quote 'don't actually access a filesystem' 的忠实同义改写，'Pure path objects' 与 'PurePath 对象' 指代一致，'path-handling operations' 与 '路径处理操作' 匹配。"
+          },
+          {
+            "claim_id": 3,
+            "supported": true,
+            "reason": "claim.text 中的三个断言（基于字符串、不访问文件系统、不特殊处理 \"..\" 段）全部在 evidence.quote 中被明确覆盖：'string-based'、'neither accesses the filesystem'、'nor treats \"``..``\" segments specially'，引文中的转义和格式差异（如 ``..`` vs \"..\"）属排版等价，不影响语义支持。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "该要求直接询问 PurePath 相对路径运算是否检查底层文件结构，claim_id=1 明确给出否定回答并获引文支持；claim_id=2 和 claim_id=3 提供补充佐证，但核心问题已在 claim_id=1 中实质回答。"
+          }
+        ]
+      },
+      "cached_stage_count": 3
+    },
+    {
+      "case_id": "v6-tech-13",
+      "group": "development",
+      "question": "为什么 create_task 后要保存返回 Task 的引用？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "为什么 create_task 后要保存返回 Task 的引用？",
+        "answer": "因为事件循环仅对任务保持弱引用，若不保存 create_task 返回的 Task 引用，该任务可能在执行完成前被垃圾回收。[资料1]",
+        "sources": [
+          {
+            "citation_id": 1,
+            "chunk_id": "window-15b44195de6aed0f966c",
+            "title": "Python 3.12.7 asyncio-task 原始文档摘录 1",
+            "source": "python_asyncio_task_00.md",
+            "score": 0.6666666666666667,
+            "constituent_chunk_ids": [
+              "python_asyncio_task_00-24",
+              "python_asyncio_task_00-25",
+              "python_asyncio_task_00-26"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 1,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "因为事件循环仅对任务保持弱引用，若不保存 create_task 返回的 Task 引用，该任务可能在执行完成前被垃圾回收。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "Save a reference to the result of this function, to avoid a task disappearing mid-execution. The event loop only keeps weak references to tasks. A task that isn't referenced elsewhere may get garbage collected at any time, even before it's done."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text 准确转述了 evidence.quote 的核心因果：事件循环仅持弱引用 → 若不保存引用 → 任务可能在完成前被垃圾回收。'mid-execution' 对应 '执行完成前'，'disappearing' 和 'garbage collected' 在上下文中等价，'isn't referenced elsewhere' 对应 '不保存引用'，无新增事实、数值错误或范围扩大。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "claim.text 直接回答了‘为什么’，给出了根本原因（弱引用）和后果（提前被回收），与 requirement 完全匹配。"
+          }
+        ]
+      },
+      "cached_stage_count": 3
+    },
+    {
+      "case_id": "v6-tech-14",
+      "group": "heldout_author_labeled",
+      "question": "吞掉 CancelledError 会对 TaskGroup 和 asyncio.timeout 有什么影响？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "吞掉 CancelledError 会对 TaskGroup 和 asyncio.timeout 有什么影响？",
+        "answer": "吞掉 CancelledError 会导致 TaskGroup 内部实现异常，可能引发误行为[资料4]\n\n吞掉 CancelledError 会导致 asyncio.timeout 内部实现异常，可能引发误行为[资料4]",
+        "sources": [
+          {
+            "citation_id": 4,
+            "chunk_id": "window-012f0defa3495e7e4ad3",
+            "title": "Python 3.12.7 asyncio-task 原始文档摘录 1",
+            "source": "python_asyncio_task_00.md",
+            "score": 0.6559139784946236,
+            "constituent_chunk_ids": [
+              "python_asyncio_task_00-30",
+              "python_asyncio_task_00-31",
+              "python_asyncio_task_00-32"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 2,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "吞掉 CancelledError 会导致 TaskGroup 内部实现异常，可能引发误行为",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 4,
+              "quote": "The asyncio components that enable structured concurrency, like :class:`asyncio.TaskGroup` and :func:`asyncio.timeout`, are implemented using cancellation internally and might misbehave if a coroutine swallows :exc:`asyncio.CancelledError`."
+            }
+          ]
+        },
+        {
+          "claim_id": 2,
+          "text": "吞掉 CancelledError 会导致 asyncio.timeout 内部实现异常，可能引发误行为",
+          "requirement_ids": [
+            2
+          ],
+          "evidence": [
+            {
+              "citation_id": 4,
+              "quote": "The asyncio components that enable structured concurrency, like :class:`asyncio.TaskGroup` and :func:`asyncio.timeout`, are implemented using cancellation internally and might misbehave if a coroutine swallows :exc:`asyncio.CancelledError`."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "引文明确指出 TaskGroup（作为 structured concurrency 组件）内部使用 cancellation 实现，若协程吞掉 CancelledError，则可能 misbehave；claim 中的‘内部实现异常’和‘可能引发误行为’是对原文‘implemented using cancellation internally’和‘might misbehave’的忠实同义转述。"
+          },
+          {
+            "claim_id": 2,
+            "supported": true,
+            "reason": "引文将 asyncio.timeout 与 TaskGroup 并列作为依赖内部 cancellation 的 structured concurrency 组件，并统一声明吞掉 CancelledError 会导致其 misbehave；claim 中的表述是该句的直接、准确归纳，未新增事实、未扩大范围、未改变因果。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "claim_id=1 明确回答了吞掉 CancelledError 对 TaskGroup 的影响，对应 requirement_ids=[1]。"
+          },
+          {
+            "requirement_id": 2,
+            "answered": true,
+            "reason": "claim_id=2 明确回答了吞掉 CancelledError 对 asyncio.timeout 的影响，对应 requirement_ids=[2]。"
+          }
+        ]
+      },
+      "cached_stage_count": 3
+    },
+    {
+      "case_id": "v6-tech-15",
+      "group": "development",
+      "question": "TaskGroup.create_task 相比 create_task 提供了哪种任务组织方式？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "TaskGroup.create_task 相比 create_task 提供了哪种任务组织方式？",
+        "answer": "TaskGroup.create_task 提供了基于任务组（task group）的任务组织方式，将任务创建与统一等待机制结合。[资料1]\n\nTaskGroup.create_task 通过异步上下文管理器组织任务，所有加入该组的任务在上下文退出时被自动 await。[资料2]\n\nTaskGroup.create_task 提供基于结构化并发（structural concurrency）的任务组织方式，支持对一组相关任务进行等待并提供强安全保证。[资料4]\n\nTaskGroup.create_task 是 create_task 的现代替代方案，以任务组为单位组织和管理任务。[资料6]",
+        "sources": [
+          {
+            "citation_id": 1,
+            "chunk_id": "window-6df3538d565fbd51ae99",
+            "title": "Python 3.12.7 asyncio-task 原始文档摘录 1",
+            "source": "python_asyncio_task_00.md",
+            "score": 0.6666666666666667,
+            "constituent_chunk_ids": [
+              "python_asyncio_task_00-32",
+              "python_asyncio_task_00-33",
+              "python_asyncio_task_00-34"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          },
+          {
+            "citation_id": 2,
+            "chunk_id": "window-bb2037c59827de551f4a",
+            "title": "Python 3.12.7 asyncio-task 原始文档摘录 1",
+            "source": "python_asyncio_task_00.md",
+            "score": 0.6559139784946236,
+            "constituent_chunk_ids": [
+              "python_asyncio_task_00-34",
+              "python_asyncio_task_00-35",
+              "python_asyncio_task_00-36"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          },
+          {
+            "citation_id": 4,
+            "chunk_id": "window-4be83031278def25c06b",
+            "title": "Python 3.12.7 asyncio-task 原始文档摘录 1",
+            "source": "python_asyncio_task_00.md",
+            "score": 0.6354166666666666,
+            "constituent_chunk_ids": [
+              "python_asyncio_task_00-23",
+              "python_asyncio_task_00-24",
+              "python_asyncio_task_00-25"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          },
+          {
+            "citation_id": 6,
+            "chunk_id": "window-2759a46670c5ef93ff3e",
+            "title": "Python 3.12.7 asyncio-task 原始文档摘录 1",
+            "source": "python_asyncio_task_00.md",
+            "score": 0.6161616161616162,
+            "constituent_chunk_ids": [
+              "python_asyncio_task_00-8",
+              "python_asyncio_task_00-9",
+              "python_asyncio_task_00-10"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 4,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 4,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "TaskGroup.create_task 提供了基于任务组（task group）的任务组织方式，将任务创建与统一等待机制结合。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "Task groups combine a task creation API with a convenient and reliable way to wait for all tasks in the group to finish."
+            }
+          ]
+        },
+        {
+          "claim_id": 2,
+          "text": "TaskGroup.create_task 通过异步上下文管理器组织任务，所有加入该组的任务在上下文退出时被自动 await。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 2,
+              "quote": "An :ref:`asynchronous context manager <async-context-managers>` holding a group of tasks. Tasks can be added to the group using :meth:`create_task`. All tasks are awaited when the context manager exits."
+            }
+          ]
+        },
+        {
+          "claim_id": 3,
+          "text": "TaskGroup.create_task 提供基于结构化并发（structural concurrency）的任务组织方式，支持对一组相关任务进行等待并提供强安全保证。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 4,
+              "quote": ":meth:`asyncio.TaskGroup.create_task` is a new alternative leveraging structural concurrency; it allows for waiting for a group of related tasks with strong safety guarantees."
+            }
+          ]
+        },
+        {
+          "claim_id": 4,
+          "text": "TaskGroup.create_task 是 create_task 的现代替代方案，以任务组为单位组织和管理任务。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 6,
+              "quote": "The :class:`asyncio.TaskGroup` class provides a more modern alternative to :func:`create_task`. Using this API, the last example becomes::\n\nasync def main(): async with asyncio.TaskGroup() as tg: task1 = tg.create_task( say_after(1, 'hello'))"
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text 中‘基于任务组的任务组织方式，将任务创建与统一等待机制结合’被 citation_id:1 的 quote 直接支持：‘Task groups combine a task creation API with a convenient and reliable way to wait for all tasks in the group to finish.’ 其中 combine...with... 对应‘结合’，task creation API 对应‘任务创建’，wait for all tasks...finish 对应‘统一等待机制’，task groups 对应‘任务组’。"
+          },
+          {
+            "claim_id": 2,
+            "supported": true,
+            "reason": "claim.text 中‘通过异步上下文管理器组织任务’‘所有任务在上下文退出时被自动 await’被 citation_id:2 的 quote 完整支持：‘An asynchronous context manager holding a group of tasks. Tasks can be added...using create_task. All tasks are awaited when the context manager exits.’ 术语、主体、行为、时机均严格匹配。"
+          },
+          {
+            "claim_id": 3,
+            "supported": true,
+            "reason": "claim.text 中‘基于结构化并发’‘支持对一组相关任务进行等待’‘提供强安全保证’三要素均被 citation_id:4 的 quote 准确覆盖：‘leveraging structural concurrency’‘waiting for a group of related tasks’‘strong safety guarantees’，无新增、无弱化、无范围扩大。"
+          },
+          {
+            "claim_id": 4,
+            "supported": true,
+            "reason": "claim.text 中‘是 create_task 的现代替代方案’‘以任务组为单位组织和管理任务’被 citation_id:6 的 quote 直接支持：‘provides a more modern alternative to create_task’；示例代码中 async with asyncio.TaskGroup() as tg: tg.create_task(...) 明确体现‘以任务组为单位组织’，且 passage 未提及其他组织单位，故‘任务组为单位’属忠实归纳。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "原始问题‘TaskGroup.create_task 相比 create_task 提供了哪种任务组织方式？’被全部 4 个 claims 共同实质回答：分别从任务组整合机制、上下文管理器范式、结构化并发模型、现代替代定位四个互补角度说明其组织方式，覆盖问题核心‘哪种组织方式’，且无遗漏关键维度（如未要求对比性能/语法细节等）。"
+          }
+        ]
+      },
+      "cached_stage_count": 3
+    },
+    {
+      "case_id": "v6-tech-16",
+      "group": "heldout_author_labeled",
+      "question": "asyncio.TaskGroup 与 asyncio.timeout 内部使用什么机制？",
+      "answerable": true,
+      "answer_pattern_checks_passed": false,
+      "result": {
+        "question": "asyncio.TaskGroup 与 asyncio.timeout 内部使用什么机制？",
+        "answer": "资料核验结果未通过格式或原文校验，本次未生成回答。",
+        "sources": [],
+        "retrieved_count": 0,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": false,
+        "evidence_status": "invalid",
+        "evidence_reason": "invalid_evidence_response",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": false,
+        "answer_status": "not_checked",
+        "answer_reason": null,
+        "answer_claim_count": 0,
+        "llm_request_count": 1
+      },
+      "generated_claims": [],
+      "model_audit": null,
+      "cached_stage_count": 1
+    },
+    {
+      "case_id": "v6-tech-17",
+      "group": "development",
+      "question": "logger.propagate=False 对日志向祖先处理器传播有什么影响？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "logger.propagate=False 对日志向祖先处理器传播有什么影响？",
+        "answer": "当 logger.propagate=False 时，日志消息不会传递给祖先记录器的处理器。[资料3]\n\n当 logger.propagate=False 时，日志传播在此记录器处停止，该记录器是链中最后一个将其处理器提供给事件处理的记录器。[资料1]",
+        "sources": [
+          {
+            "citation_id": 1,
+            "chunk_id": "window-c2cf47226cc2923b2255",
+            "title": "Python 3.12.7 logging 原始文档摘录 1",
+            "source": "python_logging_00.md",
+            "score": 0.6666666666666667,
+            "constituent_chunk_ids": [
+              "python_logging_00-24",
+              "python_logging_00-25",
+              "python_logging_00-26"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          },
+          {
+            "citation_id": 3,
+            "chunk_id": "window-faa9521bfb81597eef32",
+            "title": "Python 3.12.7 logging 原始文档摘录 1",
+            "source": "python_logging_00.md",
+            "score": 0.6354166666666666,
+            "constituent_chunk_ids": [
+              "python_logging_00-22",
+              "python_logging_00-23",
+              "python_logging_00-24"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 2,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 2,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "当 logger.propagate=False 时，日志消息不会传递给祖先记录器的处理器。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 3,
+              "quote": "If this evaluates to false, logging messages are not passed to the handlers of ancestor loggers."
+            }
+          ]
+        },
+        {
+          "claim_id": 2,
+          "text": "当 logger.propagate=False 时，日志传播在此记录器处停止，该记录器是链中最后一个将其处理器提供给事件处理的记录器。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "If any logger in the chain ``A.B.C``, ``A.B``, ``A`` has its ``propagate`` attribute set to false, then that is the last logger whose handlers are offered the event to\n\nhandle, and propagation stops at that point."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text '日志消息不会传递给祖先记录器的处理器' 是 citation_id:3 中 'logging messages are not passed to the handlers of ancestor loggers' 的忠实中文同义转述，对象（日志消息）、动作（不传递）、目标（祖先记录器的处理器）完全一致，无新增、无缩小、无反转。"
+          },
+          {
+            "claim_id": 2,
+            "supported": true,
+            "reason": "claim.text 中'传播在此记录器处停止'和'该记录器是链中最后一个将其处理器提供给事件处理的记录器'，与 citation_id:1 的 quote 完全对应：'propagation stops at that point' 和 'that is the last logger whose handlers are offered the event to handle'，'链 A.B.C, A.B, A' 明确支持'链中'语境，未引入额外条件或数值偏差。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "requirements[0] 是对 propagate=False 影响的直接询问；claims 1 和 2 共同完整回答了该影响：既说明了不向祖先处理器传递（claim 1），也说明了传播在此终止（claim 2），覆盖了机制本质，且均被引文直接支持。"
+          }
+        ]
+      },
+      "cached_stage_count": 3
+    },
+    {
+      "case_id": "v6-tech-18",
+      "group": "heldout_author_labeled",
+      "question": "非根 logger 的级别是 NOTSET 时，有效级别如何确定？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "非根 logger 的级别是 NOTSET 时，有效级别如何确定？",
+        "answer": "非根 logger 的级别是 NOTSET 时，其有效级别通过向上遍历祖先 logger 链确定，直到找到级别不为 NOTSET 的祖先或到达根 logger。[资料1]\n\n若在祖先链中找到级别不为 NOTSET 的祖先，则该祖先的级别即为当前 logger 的有效级别。[资料1]\n\n若遍历至根 logger 且其级别为 NOTSET，则所有日志消息都将被处理。[资料1]\n\n若遍历至根 logger 且其级别不为 NOTSET，则根 logger 的级别即为当前 logger 的有效级别。[资料1]\n\n若非根 logger 的 setLevel 未设置为 NOTSET 以外的值，则其有效级别由向根方向遍历、首次遇到的非 NOTSET 级别决定。[资料5]",
+        "sources": [
+          {
+            "citation_id": 1,
+            "chunk_id": "window-bb558ad127877098a9b3",
+            "title": "Python 3.12.7 logging 原始文档摘录 1",
+            "source": "python_logging_00.md",
+            "score": 0.9307359307359307,
+            "constituent_chunk_ids": [
+              "python_logging_00-33",
+              "python_logging_00-34",
+              "python_logging_00-35"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          },
+          {
+            "citation_id": 5,
+            "chunk_id": "window-6b59026b2f2bb1e48292",
+            "title": "Python 3.12.7 logging 原始文档摘录 1",
+            "source": "python_logging_00.md",
+            "score": 0.6161616161616162,
+            "constituent_chunk_ids": [
+              "python_logging_00-38",
+              "python_logging_00-39",
+              "python_logging_00-40"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 2,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 5,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "非根 logger 的级别是 NOTSET 时，其有效级别通过向上遍历祖先 logger 链确定，直到找到级别不为 NOTSET 的祖先或到达根 logger。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "The term 'delegation to the parent' means that if a logger has a level of NOTSET, its chain of ancestor loggers is traversed until either an ancestor with a level other than NOTSET is found, or the root is reached."
+            }
+          ]
+        },
+        {
+          "claim_id": 2,
+          "text": "若在祖先链中找到级别不为 NOTSET 的祖先，则该祖先的级别即为当前 logger 的有效级别。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "If an ancestor is found with a level other than NOTSET, then that ancestor's level is treated as the effective level of the logger where the ancestor search began, and is used to determine how a logging event is handled."
+            }
+          ]
+        },
+        {
+          "claim_id": 3,
+          "text": "若遍历至根 logger 且其级别为 NOTSET，则所有日志消息都将被处理。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "If the root is reached, and it has a level of NOTSET, then all messages will be processed."
+            }
+          ]
+        },
+        {
+          "claim_id": 4,
+          "text": "若遍历至根 logger 且其级别不为 NOTSET，则根 logger 的级别即为当前 logger 的有效级别。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "Otherwise, the root's level will be used as the effective level."
+            }
+          ]
+        },
+        {
+          "claim_id": 5,
+          "text": "若非根 logger 的 setLevel 未设置为 NOTSET 以外的值，则其有效级别由向根方向遍历、首次遇到的非 NOTSET 级别决定。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 5,
+              "quote": "Indicates the effective level for this logger. If a value other than :const:`NOTSET` has been set using :meth:`setLevel`, it is returned. Otherwise, the hierarchy is traversed towards the root until a value other than :const:`NOTSET` is found, and that value is returned."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "引文1明确说明：当logger级别为NOTSET时，遍历祖先logger链，直到找到非NOTSET级别的祖先或到达root。claim.text中'向上遍历祖先logger链'、'直到找到级别不为NOTSET的祖先或到达根logger'与quote完全对应，属忠实转述。"
+          },
+          {
+            "claim_id": 2,
+            "supported": true,
+            "reason": "引文1明确指出：若找到非NOTSET级别的祖先，则该祖先的级别被'as the effective level of the logger where the ancestor search began'，即作为起始logger的有效级别。claim.text中'该祖先的级别即为当前logger的有效级别'是准确归纳。"
+          },
+          {
+            "claim_id": 3,
+            "supported": true,
+            "reason": "引文1原句'If the root is reached, and it has a level of NOTSET, then all messages will be processed.'与claim.text字面一致，'所有日志消息都将被处理'是直接翻译，无新增或偏差。"
+          },
+          {
+            "claim_id": 4,
+            "supported": true,
+            "reason": "引文1中'Otherwise, the root's level will be used as the effective level.'中的'Otherwise'指代前句'root is reached and it has level NOTSET'的否定情形，即root被到达且其level ≠ NOTSET，此时root level即为effective level。claim.text准确表达了该条件和结论。"
+          },
+          {
+            "claim_id": 5,
+            "supported": true,
+            "reason": "引文5明确分两种情况：若setLevel设为非NOTSET值则返回该值；否则向根遍历直至找到首个非NOTSET值并返回。claim.text中'若非根logger的setLevel未设置为NOTSET以外的值'对应前件，'由向根方向遍历、首次遇到的非NOTSET级别决定'对应后件，'首次遇到'即引文中'traversed until a value other than NOTSET is found'的合理同义表达，无扩大或错误。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "requirements仅有一条，即询问非根logger在NOTSET时有效级别如何确定；全部5个claims共同完整覆盖了该问题的全部逻辑分支（祖先查找、root为NOTSET、root非NOTSET、setLevel设置状态），且每个claim均有直接引文支持，因此该要求已被实质回答。"
+          }
+        ]
+      },
+      "cached_stage_count": 2
+    },
+    {
+      "case_id": "v6-tech-19",
+      "group": "development",
+      "question": "根 logger 已有处理器时，重复调用 basicConfig 默认会怎样？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "根 logger 已有处理器时，重复调用 basicConfig 默认会怎样？",
+        "answer": "根 logger 已有处理器时，重复调用 basicConfig 默认不执行任何操作。[资料5]",
+        "sources": [
+          {
+            "citation_id": 5,
+            "chunk_id": "window-b23890a667bfda086d65",
+            "title": "Python 3.12.7 logging 原始文档摘录 5",
+            "source": "python_logging_04.md",
+            "score": 0.6354166666666666,
+            "constituent_chunk_ids": [
+              "python_logging_04-11",
+              "python_logging_04-12",
+              "python_logging_04-13"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 1,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "根 logger 已有处理器时，重复调用 basicConfig 默认不执行任何操作。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 5,
+              "quote": "This function does nothing if the root logger already has handlers configured, unless the keyword argument *force* is set to ``True``."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text 中的'默认不执行任何操作'是对 evidence.quote 中 'does nothing ... unless force is set to True' 的忠实同义改写，准确传达了默认行为（即 force=False 时无动作），对象（根 logger 已有 handlers）、条件（默认/未设 force）和结果（no operation）均严格匹配，未新增、反转或扩大范围。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "该要求直接询问默认行为，claim.text 明确给出了答案：'默认不执行任何操作'，且被引文直接支持。"
+          }
+        ]
+      },
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-tech-20",
+      "group": "heldout_author_labeled",
+      "question": "没有找到任何日志处理器时，文档指出消息会交给什么？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "没有找到任何日志处理器时，文档指出消息会交给什么？",
+        "answer": "没有找到任何日志处理器时，消息会交给lastResort上设置的处理器。[资料4]",
+        "sources": [
+          {
+            "citation_id": 4,
+            "chunk_id": "window-8f90dc532c6b80811e0b",
+            "title": "Python 3.12.7 logging 原始文档摘录 1",
+            "source": "python_logging_00.md",
+            "score": 0.6354166666666666,
+            "constituent_chunk_ids": [
+              "python_logging_00-63",
+              "python_logging_00-64"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 1,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "没有找到任何日志处理器时，消息会交给lastResort上设置的处理器。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 4,
+              "quote": "If no handler is attached to this logger (or any of its ancestors, taking into account the relevant :attr:`Logger.propagate` attributes), the message will be sent to the handler set on :attr:`lastResort`."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text 中的 'lastResort上设置的处理器' 忠实对应 evidence.quote 中的 'the handler set on :attr:`lastResort`'，对象、条件（无handler attached to logger或其祖先）和动作（message will be sent to）均一致，未新增事实、未扩大范围、未改变否定条件。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "该要求已由 claim.text 直接、明确回答：消息会交给 lastResort 上设置的处理器。"
+          }
+        ]
+      },
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-tech-21",
+      "group": "development",
+      "question": "线程池任务等待同一池内另一个 Future 的结果可能产生什么问题？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "线程池任务等待同一池内另一个 Future 的结果可能产生什么问题？",
+        "answer": "线程池任务等待同一池内另一个 Future 的结果可能导致死锁，因为执行线程被占用而无法完成被等待的 Future。[资料1]\n\n当两个任务相互等待对方的 Future 结果时，会形成循环依赖，导致双方均无法完成。[资料1]",
+        "sources": [
+          {
+            "citation_id": 1,
+            "chunk_id": "window-0c9069f7392743ee7a04",
+            "title": "Python 3.12.7 concurrent.futures 原始文档摘录 1",
+            "source": "python_concurrent_futures_00.md",
+            "score": 0.6666666666666667,
+            "constituent_chunk_ids": [
+              "python_concurrent_futures_00-19",
+              "python_concurrent_futures_00-20",
+              "python_concurrent_futures_00-21"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 2,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "线程池任务等待同一池内另一个 Future 的结果可能导致死锁，因为执行线程被占用而无法完成被等待的 Future。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "This will never complete because there is only one worker thread and # it is executing this function. print(f.result())"
+            }
+          ]
+        },
+        {
+          "claim_id": 2,
+          "text": "当两个任务相互等待对方的 Future 结果时，会形成循环依赖，导致双方均无法完成。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "b will never complete because it is waiting on a. return 5\n\ndef wait_on_a(): time.sleep(5) print(a.result()) # a will never complete because it is waiting on b."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "引文明确指出 'This will never complete because there is only one worker thread and it is executing this function. print(f.result())'，直接支持'执行线程被占用而无法完成被等待的 Future'这一机制，并隐含死锁（never complete）结论；'可能导致死锁'是对此现象的合理概括，未新增事实、未扩大范围、未错误归因。"
+          },
+          {
+            "claim_id": 2,
+            "supported": true,
+            "reason": "引文 'b will never complete because it is waiting on a. ... a will never complete because it is waiting on b.' 明确呈现双向等待、互为依赖、双方均 never complete 的循环依赖场景，claim 中'相互等待''循环依赖''双方均无法完成'均为对原文的忠实归纳，无新增或扭曲。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "原始问题询问'可能产生什么问题'，两个 claims 分别从单线程阻塞导致死锁、多任务间循环依赖两个角度回答了该问题，覆盖了 passage 提供的全部实质信息，且结论均源自 evidence，已实质性回答。"
+          }
+        ]
+      },
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-tech-22",
+      "group": "heldout_author_labeled",
+      "question": "ThreadPoolExecutor.map 的 chunksize 会改变分块行为吗？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "ThreadPoolExecutor.map 的 chunksize 会改变分块行为吗？",
+        "answer": "ThreadPoolExecutor.map 的 chunksize 不会改变分块行为。[资料1]",
+        "sources": [
+          {
+            "citation_id": 1,
+            "chunk_id": "window-a2963a3dd29d82e54c60",
+            "title": "Python 3.12.7 concurrent.futures 原始文档摘录 1",
+            "source": "python_concurrent_futures_00.md",
+            "score": 0.6666666666666667,
+            "constituent_chunk_ids": [
+              "python_concurrent_futures_00-8",
+              "python_concurrent_futures_00-9",
+              "python_concurrent_futures_00-10"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 1,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "ThreadPoolExecutor.map 的 chunksize 不会改变分块行为。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "With :class:`ThreadPoolExecutor`, *chunksize* has no effect."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "引文明确指出 ThreadPoolExecutor 中 chunksize 无效果，与 claim 所述‘不会改变分块行为’为忠实同义改写（no effect → 不会改变），对象、范围、否定性均一致。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "claim.text 直接回答了该要求：明确否定 chunksize 对分块行为的影响。"
+          }
+        ]
+      },
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-tech-23",
+      "group": "development",
+      "question": "shutdown(cancel_futures=True) 会取消已运行或已完成的任务吗？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "shutdown(cancel_futures=True) 会取消已运行或已完成的任务吗？",
+        "answer": "shutdown(cancel_futures=True) 不会取消已运行的任务。[资料1]\n\nshutdown(cancel_futures=True) 不会取消已完成的任务。[资料1]",
+        "sources": [
+          {
+            "citation_id": 1,
+            "chunk_id": "window-edad306ba262fd393ba2",
+            "title": "Python 3.12.7 concurrent.futures 原始文档摘录 1",
+            "source": "python_concurrent_futures_00.md",
+            "score": 0.9342105263157895,
+            "constituent_chunk_ids": [
+              "python_concurrent_futures_00-14",
+              "python_concurrent_futures_00-15",
+              "python_concurrent_futures_00-16"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 2,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "shutdown(cancel_futures=True) 不会取消已运行的任务。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "Any futures that are completed or running won't be cancelled, regardless of the value of *cancel_futures*."
+            }
+          ]
+        },
+        {
+          "claim_id": 2,
+          "text": "shutdown(cancel_futures=True) 不会取消已完成的任务。",
+          "requirement_ids": [
+            2
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "Any futures that are completed or running won't be cancelled, regardless of the value of *cancel_futures*."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "引文明确指出 'Any futures that are completed or running won't be cancelled, regardless of the value of *cancel_futures*.'，其中 'running' 对应已运行的任务，'won't be cancelled' 直接支持 '不会取消' 的结论。"
+          },
+          {
+            "claim_id": 2,
+            "supported": true,
+            "reason": "同一引文中的 'completed' 明确涵盖已完成的任务，'won't be cancelled' 直接支持 '不会取消已完成的任务' 这一陈述。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "claim_id=1 明确回答了 'shutdown(cancel_futures=True) 会取消已运行的任务吗？'——答案是否定的，且有直接引文支持。"
+          },
+          {
+            "requirement_id": 2,
+            "answered": true,
+            "reason": "claim_id=2 明确回答了 'shutdown(cancel_futures=True) 会取消已完成的任务吗？'——答案是否定的，且有直接引文支持。"
+          }
+        ]
+      },
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-tech-24",
+      "group": "heldout_author_labeled",
+      "question": "cancel_futures=True 且 wait=True 时，已经开始的任务如何处理？",
+      "answerable": true,
+      "answer_pattern_checks_passed": true,
+      "result": {
+        "question": "cancel_futures=True 且 wait=True 时，已经开始的任务如何处理？",
+        "answer": "当 cancel_futures=True 且 wait=True 时，executor 已开始运行的所有 futures 将在该方法返回前完成，其余 futures 被取消。[资料1]",
+        "sources": [
+          {
+            "citation_id": 1,
+            "chunk_id": "window-edad306ba262fd393ba2",
+            "title": "Python 3.12.7 concurrent.futures 原始文档摘录 1",
+            "source": "python_concurrent_futures_00.md",
+            "score": 0.9166137566137567,
+            "constituent_chunk_ids": [
+              "python_concurrent_futures_00-14",
+              "python_concurrent_futures_00-15",
+              "python_concurrent_futures_00-16"
+            ],
+            "page_number": null,
+            "extraction_method": null,
+            "source_type": null
+          }
+        ],
+        "retrieved_count": 1,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "supported",
+        "evidence_reason": "all_requirements_have_verified_quotes",
+        "evidence_recovery_used": false,
+        "answer_check_used_model": true,
+        "answer_status": "supported",
+        "answer_reason": "all_claims_have_verified_support",
+        "answer_claim_count": 1,
+        "llm_request_count": 3
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "当 cancel_futures=True 且 wait=True 时，executor 已开始运行的所有 futures 将在该方法返回前完成，其余 futures 被取消。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "If both *cancel_futures* and *wait* are ``True``, all futures that the executor has started running will be completed prior to this method returning. The remaining futures are cancelled."
+            }
+          ]
+        }
+      ],
+      "model_audit": {
+        "question_fully_answered": true,
+        "fully_supported": true,
+        "checks": [
+          {
+            "claim_id": 1,
+            "supported": true,
+            "reason": "claim.text 忠实转述了 evidence.quote 的全部关键信息：条件（both cancel_futures and wait are True）、已开始运行的 futures 的处理（will be completed prior to this method returning）、其余 futures 的处理（are cancelled）。对象（futures that the executor has started running）、时间（prior to this method returning）、因果/并列关系均准确对应，无新增、删减或扭曲。"
+          }
+        ],
+        "requirements_complete": true,
+        "requirement_checks": [
+          {
+            "requirement_id": 1,
+            "answered": true,
+            "reason": "requirement 要求说明 'cancel_futures=True 且 wait=True 时，已经开始的任务如何处理'，claim.text 明确回答了该问题：已开始运行的 futures 将完成，其余被取消。"
+          }
+        ]
+      },
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-negative-01",
+      "group": "development",
+      "question": "候选人的生产服务最近一周真实请求失败率是多少？",
+      "answerable": false,
+      "answer_pattern_checks_passed": null,
+      "result": {
+        "question": "候选人的生产服务最近一周真实请求失败率是多少？",
+        "answer": "当前资料不足以完整回答该问题，缺少可核对的原文依据。",
+        "sources": [],
+        "retrieved_count": 0,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "insufficient",
+        "evidence_reason": "answer_first_recovery_insufficient",
+        "evidence_recovery_used": true,
+        "answer_check_used_model": false,
+        "answer_status": "insufficient",
+        "answer_reason": "no_complete_grounded_proposal",
+        "answer_claim_count": 0,
+        "llm_request_count": 2
+      },
+      "generated_claims": [],
+      "model_audit": null,
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-negative-02",
+      "group": "heldout_author_labeled",
+      "question": "候选人项目当前实际注册用户是多少人？",
+      "answerable": false,
+      "answer_pattern_checks_passed": null,
+      "result": {
+        "question": "候选人项目当前实际注册用户是多少人？",
+        "answer": "当前资料不足以完整回答该问题，缺少可核对的原文依据。",
+        "sources": [],
+        "retrieved_count": 0,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "insufficient",
+        "evidence_reason": "answer_first_recovery_insufficient",
+        "evidence_recovery_used": true,
+        "answer_check_used_model": false,
+        "answer_status": "insufficient",
+        "answer_reason": "no_complete_grounded_proposal",
+        "answer_claim_count": 0,
+        "llm_request_count": 2
+      },
+      "generated_claims": [],
+      "model_audit": null,
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-negative-03",
+      "group": "development",
+      "question": "本项目最近一月真实模型账单具体是多少元？",
+      "answerable": false,
+      "answer_pattern_checks_passed": null,
+      "result": {
+        "question": "本项目最近一月真实模型账单具体是多少元？",
+        "answer": "当前资料不足以完整回答该问题，缺少可核对的原文依据。",
+        "sources": [],
+        "retrieved_count": 0,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "insufficient",
+        "evidence_reason": "answer_first_recovery_insufficient",
+        "evidence_recovery_used": true,
+        "answer_check_used_model": false,
+        "answer_status": "insufficient",
+        "answer_reason": "no_complete_grounded_proposal",
+        "answer_claim_count": 0,
+        "llm_request_count": 2
+      },
+      "generated_claims": [],
+      "model_audit": null,
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-negative-04",
+      "group": "heldout_author_labeled",
+      "question": "候选人在目标公司的实际薪资报价是多少？",
+      "answerable": false,
+      "answer_pattern_checks_passed": null,
+      "result": {
+        "question": "候选人在目标公司的实际薪资报价是多少？",
+        "answer": "当前资料不足以完整回答该问题，缺少可核对的原文依据。",
+        "sources": [],
+        "retrieved_count": 0,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "insufficient",
+        "evidence_reason": "answer_first_recovery_insufficient",
+        "evidence_recovery_used": true,
+        "answer_check_used_model": false,
+        "answer_status": "insufficient",
+        "answer_reason": "no_complete_grounded_proposal",
+        "answer_claim_count": 0,
+        "llm_request_count": 2
+      },
+      "generated_claims": [],
+      "model_audit": null,
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-negative-05",
+      "group": "development",
+      "question": "候选人服务器的线上 P95 延迟实测是多少毫秒？",
+      "answerable": false,
+      "answer_pattern_checks_passed": null,
+      "result": {
+        "question": "候选人服务器的线上 P95 延迟实测是多少毫秒？",
+        "answer": "当前资料不足以完整回答该问题，缺少可核对的原文依据。",
+        "sources": [],
+        "retrieved_count": 0,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "insufficient",
+        "evidence_reason": "answer_first_recovery_insufficient",
+        "evidence_recovery_used": true,
+        "answer_check_used_model": false,
+        "answer_status": "insufficient",
+        "answer_reason": "no_complete_grounded_proposal",
+        "answer_claim_count": 0,
+        "llm_request_count": 2
+      },
+      "generated_claims": [],
+      "model_audit": null,
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-negative-06",
+      "group": "heldout_author_labeled",
+      "question": "候选人实际处理过的最大数据库具体有多少行？",
+      "answerable": false,
+      "answer_pattern_checks_passed": null,
+      "result": {
+        "question": "候选人实际处理过的最大数据库具体有多少行？",
+        "answer": "当前资料不足以完整回答该问题，缺少可核对的原文依据。",
+        "sources": [],
+        "retrieved_count": 0,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "insufficient",
+        "evidence_reason": "answer_first_recovery_insufficient",
+        "evidence_recovery_used": true,
+        "answer_check_used_model": false,
+        "answer_status": "insufficient",
+        "answer_reason": "no_complete_grounded_proposal",
+        "answer_claim_count": 0,
+        "llm_request_count": 2
+      },
+      "generated_claims": [],
+      "model_audit": null,
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-negative-07",
+      "group": "development",
+      "question": "json.dumps 怎样按键排序，以及候选人生产服务的真实吞吐量是多少？",
+      "answerable": false,
+      "answer_pattern_checks_passed": null,
+      "result": {
+        "question": "json.dumps 怎样按键排序，以及候选人生产服务的真实吞吐量是多少？",
+        "answer": "当前资料不足以完整回答该问题，缺少可核对的原文依据。",
+        "sources": [],
+        "retrieved_count": 0,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "insufficient",
+        "evidence_reason": "answer_first_recovery_insufficient",
+        "evidence_recovery_used": true,
+        "answer_check_used_model": false,
+        "answer_status": "insufficient",
+        "answer_reason": "no_complete_grounded_proposal",
+        "answer_claim_count": 0,
+        "llm_request_count": 2
+      },
+      "generated_claims": [],
+      "model_audit": null,
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-negative-08",
+      "group": "heldout_author_labeled",
+      "question": "check_same_thread=False 时怎样避免写冲突，以及本项目过去一年实际数据损坏多少次？",
+      "answerable": false,
+      "answer_pattern_checks_passed": null,
+      "result": {
+        "question": "check_same_thread=False 时怎样避免写冲突，以及本项目过去一年实际数据损坏多少次？",
+        "answer": "当前资料不足以完整回答该问题，缺少可核对的原文依据。",
+        "sources": [],
+        "retrieved_count": 0,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "insufficient",
+        "evidence_reason": "answer_first_recovery_insufficient",
+        "evidence_recovery_used": true,
+        "answer_check_used_model": false,
+        "answer_status": "insufficient",
+        "answer_reason": "no_complete_grounded_proposal",
+        "answer_claim_count": 0,
+        "llm_request_count": 2
+      },
+      "generated_claims": [],
+      "model_audit": null,
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-negative-09",
+      "group": "development",
+      "question": "TaskGroup 使用什么并发组织方式，以及候选人的生产任务取消成功率是多少？",
+      "answerable": false,
+      "answer_pattern_checks_passed": null,
+      "result": {
+        "question": "TaskGroup 使用什么并发组织方式，以及候选人的生产任务取消成功率是多少？",
+        "answer": "当前资料不足以完整回答该问题，缺少可核对的原文依据。",
+        "sources": [],
+        "retrieved_count": 0,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "insufficient",
+        "evidence_reason": "answer_first_recovery_insufficient",
+        "evidence_recovery_used": true,
+        "answer_check_used_model": false,
+        "answer_status": "insufficient",
+        "answer_reason": "no_complete_grounded_proposal",
+        "answer_claim_count": 0,
+        "llm_request_count": 2
+      },
+      "generated_claims": [],
+      "model_audit": null,
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-negative-10",
+      "group": "heldout_author_labeled",
+      "question": "Path.resolve 能处理什么路径要素，以及候选人项目实际使用的云区域是什么？",
+      "answerable": false,
+      "answer_pattern_checks_passed": null,
+      "result": {
+        "question": "Path.resolve 能处理什么路径要素，以及候选人项目实际使用的云区域是什么？",
+        "answer": "当前资料不足以完整回答该问题，缺少可核对的原文依据。",
+        "sources": [],
+        "retrieved_count": 0,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "insufficient",
+        "evidence_reason": "answer_first_recovery_insufficient",
+        "evidence_recovery_used": true,
+        "answer_check_used_model": false,
+        "answer_status": "insufficient",
+        "answer_reason": "no_complete_grounded_proposal",
+        "answer_claim_count": 0,
+        "llm_request_count": 2
+      },
+      "generated_claims": [],
+      "model_audit": null,
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-negative-11",
+      "group": "development",
+      "question": "线程池可能出现什么相互等待问题，以及本项目线上最近一次死锁的时间是什么？",
+      "answerable": false,
+      "answer_pattern_checks_passed": null,
+      "result": {
+        "question": "线程池可能出现什么相互等待问题，以及本项目线上最近一次死锁的时间是什么？",
+        "answer": "当前资料不足以完整回答该问题，缺少可核对的原文依据。",
+        "sources": [],
+        "retrieved_count": 0,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "insufficient",
+        "evidence_reason": "answer_first_recovery_insufficient",
+        "evidence_recovery_used": true,
+        "answer_check_used_model": false,
+        "answer_status": "insufficient",
+        "answer_reason": "no_complete_grounded_proposal",
+        "answer_claim_count": 0,
+        "llm_request_count": 2
+      },
+      "generated_claims": [],
+      "model_audit": null,
+      "cached_stage_count": 0
+    },
+    {
+      "case_id": "v6-negative-12",
+      "group": "heldout_author_labeled",
+      "question": "Python logging 没有处理器时会怎样，以及候选人日志平台的真实保留天数是多少？",
+      "answerable": false,
+      "answer_pattern_checks_passed": null,
+      "result": {
+        "question": "Python logging 没有处理器时会怎样，以及候选人日志平台的真实保留天数是多少？",
+        "answer": "回答未通过原文依据核验，本次不展示未经支持的结论。",
+        "sources": [],
+        "retrieved_count": 0,
+        "used_model": true,
+        "candidate_count": 6,
+        "verification_used_model": true,
+        "generation_used_model": true,
+        "evidence_status": "invalid",
+        "evidence_reason": "answer_first_recovery_invalid",
+        "evidence_recovery_used": true,
+        "answer_check_used_model": false,
+        "answer_status": "invalid",
+        "answer_reason": "invalid_or_untraceable_claims",
+        "answer_claim_count": 0,
+        "llm_request_count": 2
+      },
+      "generated_claims": [
+        {
+          "claim_id": 1,
+          "text": "Python logging 没有处理器时，会使用 lastResort 处理器（一个写入 sys.stderr 的 StreamHandler，级别为 WARNING），直接将日志消息打印到标准错误输出；该行为自 Python 3.2 起取代了原先的 'no handlers could be found for logger XYZ' 错误提示。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 2,
+              "quote": "A \"handler of last resort\" is available through this attribute. This is a :class:`StreamHandler` writing to ``sys.stderr`` with a level of ``WARNING``, and is used to handle logging events in the absence of any logging configuration. The end result is to just print the message to ``sys.stderr``. This replaces the earlier error message saying that \"no handlers could be found for logger XYZ\"."
+            }
+          ]
+        },
+        {
+          "claim_id": 2,
+          "text": "资料中未提供候选人日志平台的真实保留天数。",
+          "requirement_ids": [
+            1
+          ],
+          "evidence": [
+            {
+              "citation_id": 1,
+              "quote": "日志记录错误类型、阶段、请求编号与耗时。不要记录完整密钥、个人简历或供应商异常响应正文。"
+            }
+          ]
+        }
+      ],
+      "model_audit": null,
+      "cached_stage_count": 0
+    }
+  ],
+  "independent_human_review": false,
+  "fresh_heldout_after_iteration": false,
+  "timing_is_production_p95": false,
+  "note": "Same stages reuse cached real responses. Counts inherit earlier attempts in this iteration. Original group names are strata; this is a repeated author-labeled suite."
+}
