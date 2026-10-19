@@ -1,0 +1,52 @@
+[
+  {
+    "case_id": "resume-structure",
+    "question": "项目介绍和项目内容分别应该写什么？",
+    "expected_sources": ["resume_guidance.md"]
+  },
+  {
+    "case_id": "resume-learning",
+    "question": "尚未掌握但准备学习的技能，可以写成已经完成的经历吗？",
+    "expected_sources": ["resume_guidance.md"]
+  },
+  {
+    "case_id": "resume-evidence",
+    "question": "简历里的技能怎样关联使用场景、个人职责和实现结果？",
+    "expected_sources": ["resume_guidance.md"]
+  },
+  {
+    "case_id": "resume-honesty",
+    "question": "为了匹配岗位，可以编造项目的用户数量或性能指标吗？",
+    "expected_sources": ["resume_guidance.md"]
+  },
+  {
+    "case_id": "interview-story",
+    "question": "介绍 Agent 项目时，业务问题、系统架构和测试结果应该按照怎样的顺序展开？",
+    "expected_sources": ["interview_guidance.md"]
+  },
+  {
+    "case_id": "interview-tools",
+    "question": "工具调用需要说明哪些输入输出契约、参数校验、超时重试和幂等处理？",
+    "expected_sources": ["interview_guidance.md"]
+  },
+  {
+    "case_id": "interview-side-effects",
+    "question": "为什么不能把大模型生成的参数直接传给有副作用的业务工具？",
+    "expected_sources": ["interview_guidance.md"]
+  },
+  {
+    "case_id": "interview-rag",
+    "question": "RAG 评测应该统计哪些检索召回率、引用正确性和拒答指标？",
+    "expected_sources": ["interview_guidance.md"]
+  },
+  {
+    "case_id": "unanswerable-weather",
+    "question": "苏州明天具体气温是多少？",
+    "expected_sources": []
+  },
+  {
+    "case_id": "unanswerable-stock",
+    "question": "今天股票代码 600519 的收盘价是多少？",
+    "expected_sources": []
+  }
+]

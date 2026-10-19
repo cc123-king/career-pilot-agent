@@ -1,0 +1,15 @@
+services:
+  career:
+    build: .
+    ports: ["127.0.0.1:8001:8001"]
+    env_file: .env
+    environment:
+      CAREER_STATE_DB: /app/data/career.sqlite3
+    volumes: ["career-data:/app/data"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=5)"]
+      interval: 15s
+      timeout: 6s
+      retries: 5
+volumes:
+  career-data:

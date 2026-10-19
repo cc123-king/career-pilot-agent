@@ -1,11 +1,44 @@
+# Python虚拟环境
 .venv/
+
+# Python运行缓存
 __pycache__/
 *.py[cod]
-*.egg-info/
+
+# 测试和代码检查缓存
 .pytest_cache/
+.pytest-tmp/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# 本地配置和API密钥
 .env
-data/*.db
-data/*.db-*
-outputs/
-.idea/
+
+# 本地数据库
+*.db
+*.sqlite
+*.sqlite3
+
+# 用户上传和程序生成的文件
+data/uploads/
+data/reports/
+data/logs/
+
+# 编辑器配置
 .vscode/
+.idea/
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# Local application history and generated state
+data/
+**/*.sqlite3
+**/*.sqlite3-*
+
+# Generated package metadata
+*.egg-info/
+build/
+dist/

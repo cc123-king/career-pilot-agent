@@ -1,120 +1,105 @@
-"""Typed data contracts shared by the workflow, API, UI, and tests."""
-
-from __future__ import annotations
-
-from datetime import datetime, timezone
 from typing import Literal
-from uuid import uuid4
 
-from pydantic import BaseModel, Field
-
-
-def utc_now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+from pydantic import BaseModel, ConfigDict, Field
 
 
-class ResumeProfile(BaseModel):
-    name: str = "未识别"
-    email: str = ""
-    phone: str = ""
-    education: list[str] = Field(default_factory=list)
-    skills: list[str] = Field(default_factory=list)
-    experiences: list[str] = Field(default_factory=list)
-    projects: list[str] = Field(default_factory=list)
-    achievements: list[str] = Field(default_factory=list)
-    raw_summary: str = ""
+class StrictModel(BaseModel):
+    """Base model shared by all strictly validated project models."""
+
+    model_config = ConfigDict(
+        str_strip_whitespace=True,
+        extra="forbid",
+    )
 
 
-class JobProfile(BaseModel):
-    role: str = "目标岗位"
-    company: str = "目标公司"
-    required_skills: list[str] = Field(default_factory=list)
-    preferred_skills: list[str] = Field(default_factory=list)
-    responsibilities: list[str] = Field(default_factory=list)
-    experience_requirement: str = "未明确"
-    education_requirement: str = "未明确"
-    keywords: list[str] = Field(default_factory=list)
+class AnalysisRequest(StrictModel):
+    """Input data required to analyze a resume against a job."""
+
+    resume_text: str = Field(min_length=20, max_length=50_000)
+    job_description: str = Field(min_length=20, max_length=20_000)
+    company: str = Field(min_length=1, max_length=100)
+    role: str = Field(min_length=1, max_length=100)
 
 
-class ScoreBreakdown(BaseModel):
-    required_skills: int = Field(ge=0, le=100)
-    preferred_skills: int = Field(ge=0, le=100)
-    keyword_coverage: int = Field(ge=0, le=100)
-    evidence_quality: int = Field(ge=0, le=100)
+class ProjectEvidence(StrictModel):
+    """A project found in the candidate's resume."""
+
+    name: str = Field(min_length=1, max_length=200)
+    description: str = Field(min_length=10, max_length=2_000)
+    technologies: list[str] = Field(default_factory=list, max_length=50)
 
 
-class SkillEvidence(BaseModel):
-    skill: str
-    evidence: list[str] = Field(default_factory=list)
+class ResumeProfile(StrictModel):
+    """Structured information extracted from a resume."""
+
+    candidate_name: str | None = Field(default=None, max_length=100)
+    summary: str | None = Field(default=None, max_length=1_000)
+    skills: list[str] = Field(default_factory=list, max_length=100)
+    education: list[str] = Field(default_factory=list, max_length=20)
+    work_experience: list[str] = Field(default_factory=list, max_length=50)
+    projects: list[ProjectEvidence] = Field(default_factory=list, max_length=30)
 
 
-class MatchReport(BaseModel):
-    overall_score: int = Field(ge=0, le=100)
-    matched_skills: list[str] = Field(default_factory=list)
-    missing_skills: list[str] = Field(default_factory=list)
-    preferred_matches: list[str] = Field(default_factory=list)
-    transferable_skills: list[str] = Field(default_factory=list)
-    breakdown: ScoreBreakdown
-    evidence: list[SkillEvidence] = Field(default_factory=list)
-    risk_flags: list[str] = Field(default_factory=list)
-    summary: str = ""
+class JobProfile(StrictModel):
+    """Structured requirements extracted from a job description."""
+
+    company: str = Field(min_length=1, max_length=100)
+    role: str = Field(min_length=1, max_length=100)
+    responsibilities: list[str] = Field(default_factory=list, max_length=50)
+    required_skills: list[str] = Field(default_factory=list, max_length=100)
+    preferred_skills: list[str] = Field(default_factory=list, max_length=100)
+    keywords: list[str] = Field(default_factory=list, max_length=100)
 
 
-class AdviceItem(BaseModel):
-    priority: Literal["高", "中", "低"]
-    section: str
-    issue: str
-    suggestion: str
-    safe_example: str
+class SkillEvidence(StrictModel):
+    """Traceable resume evidence for a matched skill."""
+
+    skill: str = Field(min_length=1, max_length=100)
+    source_type: Literal["skills_section", "project"]
+    source_name: str = Field(min_length=1, max_length=200)
+    excerpt: str = Field(min_length=1, max_length=2_500)
 
 
-class InterviewQuestion(BaseModel):
-    category: Literal["项目深挖", "技术基础", "技能差距", "行为面试"]
-    question: str
-    why_asked: str
-    answer_framework: str
+class MatchResult(StrictModel):
+    """Explainable skill-matching result."""
+
+    score: float = Field(ge=0, le=100)
+    required_coverage: float = Field(ge=0, le=1)
+    preferred_coverage: float = Field(ge=0, le=1)
+    matched_required_skills: list[str] = Field(default_factory=list)
+    missing_required_skills: list[str] = Field(default_factory=list)
+    matched_preferred_skills: list[str] = Field(default_factory=list)
+    missing_preferred_skills: list[str] = Field(default_factory=list)
+    skill_evidence: list[SkillEvidence] = Field(default_factory=list)
+
+
+class ResumeAdvice(StrictModel):
+    """An actionable suggestion with separate resume and knowledge evidence."""
+
+    category: Literal[
+        "skill_gap",
+        "strengthen_evidence",
+        "highlight_project",
+        "resume_structure",
+        "knowledge_reference",
+    ]
+    priority: Literal["high", "medium", "low"]
+    title: str = Field(min_length=1, max_length=300)
+    reason: str = Field(min_length=1, max_length=2_000)
+    suggestion: str = Field(min_length=1, max_length=3_000)
     related_skills: list[str] = Field(default_factory=list)
+    resume_evidence: list[SkillEvidence] = Field(default_factory=list)
+    citation_id: int | None = Field(default=None, ge=1)
+    knowledge_excerpt: str | None = Field(default=None, max_length=10_000)
 
 
-class KnowledgeReference(BaseModel):
-    title: str
-    excerpt: str
-    relevance: float = Field(ge=0.0, le=1.0)
+class InterviewQuestion(StrictModel):
+    """An interview prompt with preparation points and traceable resume evidence."""
 
-
-class LLMEnhancement(BaseModel):
-    executive_summary: str
-    personalized_advice: list[str] = Field(default_factory=list, max_length=5)
-    interview_focus: list[str] = Field(default_factory=list, max_length=5)
-
-
-class AnalysisResult(BaseModel):
-    run_id: str = Field(default_factory=lambda: str(uuid4()))
-    created_at: str = Field(default_factory=utc_now_iso)
-    mode: str = "demo"
-    resume_profile: ResumeProfile
-    job_profile: JobProfile
-    match_report: MatchReport
-    advice: list[AdviceItem] = Field(default_factory=list)
-    interview_questions: list[InterviewQuestion] = Field(default_factory=list)
-    knowledge_references: list[KnowledgeReference] = Field(default_factory=list)
-    llm_enhancement: LLMEnhancement | None = None
-    workflow_trace: list[str] = Field(default_factory=list)
-    warnings: list[str] = Field(default_factory=list)
-
-
-class ApplicationCreate(BaseModel):
-    company: str
-    role: str
-    status: str = "准备投递"
-    match_score: int = Field(default=0, ge=0, le=100)
-    resume_name: str = ""
-    jd_excerpt: str = ""
-    notes: str = ""
-
-
-class ApplicationRecord(ApplicationCreate):
-    id: int
-    created_at: str
-    updated_at: str
-
+    category: Literal["project", "matched_skill", "skill_gap", "general"]
+    question: str = Field(min_length=1, max_length=1_000)
+    reason: str = Field(min_length=1, max_length=2_000)
+    answer_points: list[str] = Field(min_length=1, max_length=8)
+    follow_ups: list[str] = Field(default_factory=list, max_length=5)
+    related_skills: list[str] = Field(default_factory=list)
+    resume_evidence: list[SkillEvidence] = Field(default_factory=list)

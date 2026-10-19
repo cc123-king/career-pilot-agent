@@ -1,0 +1,7 @@
+林示例
+个人简介
+使用Python开发接口与检索应用，关注结果来源和可复现验证。
+技能
+Python、Fast API、SQLite
+项目经历
+示例文档助手：使用Python实现文档解析、查询与结果展示，并编写回归测试；技术栈：Python、Fast API、SQLite

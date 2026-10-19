@@ -1,10 +1,10 @@
 @echo off
+setlocal
 cd /d "%~dp0"
 if not exist ".venv\Scripts\python.exe" (
-  echo Please run setup.bat first.
+  echo Run setup.bat first.
   pause
   exit /b 1
 )
-".venv\Scripts\python.exe" -m career_pilot.api
+".venv\Scripts\python.exe" -B scripts/run_api.py --port 8000
 pause
-

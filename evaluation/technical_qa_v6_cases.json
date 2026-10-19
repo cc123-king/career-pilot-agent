@@ -1,0 +1,533 @@
+[
+  {
+    "case_id": "v6-tech-01",
+    "group": "development",
+    "answerable": true,
+    "question": "json.dumps 要按字典键排序，应启用哪个参数？",
+    "evidence": [
+      {
+        "source": "python_json_00.md",
+        "anchor": "If *sort_keys* is true (default: ``False``), then the output of\n   dictionaries will be sorted by key."
+      }
+    ],
+    "answer_checks": [
+      [
+        "sort_keys",
+        "按键"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-02",
+    "group": "heldout_author_labeled",
+    "answerable": true,
+    "question": "ensure_ascii=False 会怎样处理非 ASCII 字符？",
+    "evidence": [
+      {
+        "source": "python_json_00.md",
+        "anchor": "If *ensure_ascii* is\n   false, these characters will be output as-is."
+      }
+    ],
+    "answer_checks": [
+      [
+        "原样",
+        "as-is",
+        "不转义"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-03",
+    "group": "development",
+    "answerable": true,
+    "question": "allow_nan=False 时序列化 NaN 或 Infinity 会有什么结果？",
+    "evidence": [
+      {
+        "source": "python_json_00.md",
+        "anchor": "If *allow_nan* is false (default: ``True``), then it will be a\n   :exc:`ValueError`"
+      }
+    ],
+    "answer_checks": [
+      [
+        "ValueError"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-04",
+    "group": "heldout_author_labeled",
+    "answerable": true,
+    "question": "反序列化无效 JSON 文档时会抛出什么异常？",
+    "evidence": [
+      {
+        "source": "python_json_00.md",
+        "anchor": "If the data being deserialized is not a valid JSON document, a\n   :exc:`JSONDecodeError` will be raised."
+      }
+    ],
+    "answer_checks": [
+      [
+        "JSONDecodeError"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-05",
+    "group": "development",
+    "answerable": true,
+    "question": "向 SQL 语句绑定 Python 值时，文档推荐怎样避免 SQL 注入？",
+    "evidence": [
+      {
+        "source": "python_sqlite3_00.md",
+        "anchor": "Always use placeholders instead of :ref:`string formatting <tut-formatting>`"
+      }
+    ],
+    "answer_checks": [
+      [
+        "占位",
+        "placeholder"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-06",
+    "group": "heldout_author_labeled",
+    "answerable": true,
+    "question": "sqlite3 连接的 check_same_thread=True 时被其他线程使用，会怎样？",
+    "evidence": [
+      {
+        "source": "python_sqlite3_00.md",
+        "anchor": "If ``True`` (default), :exc:`ProgrammingError` will be raised"
+      }
+    ],
+    "answer_checks": [
+      [
+        "ProgrammingError"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-07",
+    "group": "development",
+    "answerable": true,
+    "question": "设置 check_same_thread=False 后，多线程写入是否还需要使用者协调？",
+    "evidence": [
+      {
+        "source": "python_sqlite3_00.md",
+        "anchor": "write operations may need to be serialized by the user\n       to avoid data corruption."
+      }
+    ],
+    "answer_checks": [
+      [
+        "串行",
+        "serializ"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-08",
+    "group": "heldout_author_labeled",
+    "answerable": true,
+    "question": "sqlite3.connect 的 timeout 参数控制什么等待行为？",
+    "evidence": [
+      {
+        "source": "python_sqlite3_00.md",
+        "anchor": "How many seconds the connection should wait before raising\n       an :exc:`OperationalError` when a table is locked."
+      }
+    ],
+    "answer_checks": [
+      [
+        "锁",
+        "locked",
+        "OperationalError"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-09",
+    "group": "development",
+    "answerable": true,
+    "question": "PurePath.suffixes 返回什么形式的扩展名？",
+    "evidence": [
+      {
+        "source": "python_pathlib_00.md",
+        "anchor": "A list of the path's file extensions"
+      }
+    ],
+    "answer_checks": [
+      [
+        "列表",
+        "list"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-10",
+    "group": "heldout_author_labeled",
+    "answerable": true,
+    "question": "沿文件系统路径向上遍历前，为什么文档推荐先调用 Path.resolve？",
+    "evidence": [
+      {
+        "source": "python_pathlib_00.md",
+        "anchor": "recommended to first call :meth:`Path.resolve` so as to resolve\n      symlinks and eliminate ``\"..\"`` components."
+      }
+    ],
+    "answer_checks": [
+      [
+        "符号链接",
+        "symlink",
+        ".."
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-11",
+    "group": "development",
+    "answerable": true,
+    "question": "PurePath.stem 表示路径的哪部分？",
+    "evidence": [
+      {
+        "source": "python_pathlib_00.md",
+        "anchor": "The final path component, without its suffix"
+      }
+    ],
+    "answer_checks": [
+      [
+        "后缀",
+        "suffix"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-12",
+    "group": "heldout_author_labeled",
+    "answerable": true,
+    "question": "PurePath 的相对路径运算会检查底层文件结构吗？",
+    "evidence": [
+      {
+        "source": "python_pathlib_01.md",
+        "anchor": "It does not check or access the underlying file structure."
+      }
+    ],
+    "answer_checks": [
+      [
+        "不",
+        "not"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-13",
+    "group": "development",
+    "answerable": true,
+    "question": "为什么 create_task 后要保存返回 Task 的引用？",
+    "evidence": [
+      {
+        "source": "python_asyncio_task_00.md",
+        "anchor": "Save a reference to the result of this function, to avoid\n      a task disappearing mid-execution."
+      }
+    ],
+    "answer_checks": [
+      [
+        "弱引用",
+        "weak",
+        "消失"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-14",
+    "group": "heldout_author_labeled",
+    "answerable": true,
+    "question": "吞掉 CancelledError 会对 TaskGroup 和 asyncio.timeout 有什么影响？",
+    "evidence": [
+      {
+        "source": "python_asyncio_task_00.md",
+        "anchor": "might misbehave if\na coroutine swallows :exc:`asyncio.CancelledError`."
+      }
+    ],
+    "answer_checks": [
+      [
+        "异常",
+        "misbehav",
+        "失常"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-15",
+    "group": "development",
+    "answerable": true,
+    "question": "TaskGroup.create_task 相比 create_task 提供了哪种任务组织方式？",
+    "evidence": [
+      {
+        "source": "python_asyncio_task_00.md",
+        "anchor": "leveraging structural concurrency; it allows for waiting\n      for a group of related tasks with strong safety guarantees."
+      }
+    ],
+    "answer_checks": [
+      [
+        "结构",
+        "structur",
+        "一组"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-16",
+    "group": "heldout_author_labeled",
+    "answerable": true,
+    "question": "asyncio.TaskGroup 与 asyncio.timeout 内部使用什么机制？",
+    "evidence": [
+      {
+        "source": "python_asyncio_task_00.md",
+        "anchor": "are implemented using cancellation internally"
+      }
+    ],
+    "answer_checks": [
+      [
+        "取消",
+        "cancellation"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-17",
+    "group": "development",
+    "answerable": true,
+    "question": "logger.propagate=False 对日志向祖先处理器传播有什么影响？",
+    "evidence": [
+      {
+        "source": "python_logging_00.md",
+        "anchor": "propagation stops at that point."
+      }
+    ],
+    "answer_checks": [
+      [
+        "停止",
+        "stop"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-18",
+    "group": "heldout_author_labeled",
+    "answerable": true,
+    "question": "非根 logger 的级别是 NOTSET 时，有效级别如何确定？",
+    "evidence": [
+      {
+        "source": "python_logging_00.md",
+        "anchor": "its chain of ancestor loggers is traversed until either an ancestor with\n      a level other than NOTSET is found, or the root is reached."
+      }
+    ],
+    "answer_checks": [
+      [
+        "祖先",
+        "ancestor",
+        "父"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-19",
+    "group": "development",
+    "answerable": true,
+    "question": "根 logger 已有处理器时，重复调用 basicConfig 默认会怎样？",
+    "evidence": [
+      {
+        "source": "python_logging_04.md",
+        "anchor": "This function does nothing if the root logger already has handlers"
+      }
+    ],
+    "answer_checks": [
+      [
+        "不",
+        "nothing"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-20",
+    "group": "heldout_author_labeled",
+    "answerable": true,
+    "question": "没有找到任何日志处理器时，文档指出消息会交给什么？",
+    "evidence": [
+      {
+        "source": "python_logging_00.md",
+        "anchor": "the message will be sent to the handler set on :attr:`lastResort`."
+      }
+    ],
+    "answer_checks": [
+      [
+        "lastResort"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-21",
+    "group": "development",
+    "answerable": true,
+    "question": "线程池任务等待同一池内另一个 Future 的结果可能产生什么问题？",
+    "evidence": [
+      {
+        "source": "python_concurrent_futures_00.md",
+        "anchor": "Deadlocks can occur when the callable associated with a :class:`Future` waits on\nthe results of another :class:`Future`."
+      }
+    ],
+    "answer_checks": [
+      [
+        "死锁",
+        "deadlock"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-22",
+    "group": "heldout_author_labeled",
+    "answerable": true,
+    "question": "ThreadPoolExecutor.map 的 chunksize 会改变分块行为吗？",
+    "evidence": [
+      {
+        "source": "python_concurrent_futures_00.md",
+        "anchor": "With\n      :class:`ThreadPoolExecutor`, *chunksize* has no effect."
+      }
+    ],
+    "answer_checks": [
+      [
+        "不",
+        "no effect"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-23",
+    "group": "development",
+    "answerable": true,
+    "question": "shutdown(cancel_futures=True) 会取消已运行或已完成的任务吗？",
+    "evidence": [
+      {
+        "source": "python_concurrent_futures_00.md",
+        "anchor": "Any futures that\n      are completed or running won't be cancelled"
+      }
+    ],
+    "answer_checks": [
+      [
+        "不",
+        "not"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-tech-24",
+    "group": "heldout_author_labeled",
+    "answerable": true,
+    "question": "cancel_futures=True 且 wait=True 时，已经开始的任务如何处理？",
+    "evidence": [
+      {
+        "source": "python_concurrent_futures_00.md",
+        "anchor": "all futures that the\n      executor has started running will be completed prior to this method\n      returning."
+      }
+    ],
+    "answer_checks": [
+      [
+        "完成",
+        "complet"
+      ]
+    ]
+  },
+  {
+    "case_id": "v6-negative-01",
+    "group": "development",
+    "answerable": false,
+    "question": "候选人的生产服务最近一周真实请求失败率是多少？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v6-negative-02",
+    "group": "heldout_author_labeled",
+    "answerable": false,
+    "question": "候选人项目当前实际注册用户是多少人？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v6-negative-03",
+    "group": "development",
+    "answerable": false,
+    "question": "本项目最近一月真实模型账单具体是多少元？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v6-negative-04",
+    "group": "heldout_author_labeled",
+    "answerable": false,
+    "question": "候选人在目标公司的实际薪资报价是多少？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v6-negative-05",
+    "group": "development",
+    "answerable": false,
+    "question": "候选人服务器的线上 P95 延迟实测是多少毫秒？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v6-negative-06",
+    "group": "heldout_author_labeled",
+    "answerable": false,
+    "question": "候选人实际处理过的最大数据库具体有多少行？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v6-negative-07",
+    "group": "development",
+    "answerable": false,
+    "question": "json.dumps 怎样按键排序，以及候选人生产服务的真实吞吐量是多少？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v6-negative-08",
+    "group": "heldout_author_labeled",
+    "answerable": false,
+    "question": "check_same_thread=False 时怎样避免写冲突，以及本项目过去一年实际数据损坏多少次？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v6-negative-09",
+    "group": "development",
+    "answerable": false,
+    "question": "TaskGroup 使用什么并发组织方式，以及候选人的生产任务取消成功率是多少？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v6-negative-10",
+    "group": "heldout_author_labeled",
+    "answerable": false,
+    "question": "Path.resolve 能处理什么路径要素，以及候选人项目实际使用的云区域是什么？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v6-negative-11",
+    "group": "development",
+    "answerable": false,
+    "question": "线程池可能出现什么相互等待问题，以及本项目线上最近一次死锁的时间是什么？",
+    "evidence": [],
+    "answer_checks": []
+  },
+  {
+    "case_id": "v6-negative-12",
+    "group": "heldout_author_labeled",
+    "answerable": false,
+    "question": "Python logging 没有处理器时会怎样，以及候选人日志平台的真实保留天数是多少？",
+    "evidence": [],
+    "answer_checks": []
+  }
+]

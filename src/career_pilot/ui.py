@@ -1,239 +1,426 @@
-"""Gradio user interface for CareerPilot Agent."""
-
-from __future__ import annotations
-
-from pathlib import Path
-from typing import Any
+import logging
 
 import gradio as gr
+from fastapi import HTTPException
+from openai import (
+    APIConnectionError,
+    APIStatusError,
+    AuthenticationError,
+    RateLimitError,
+)
+from pydantic import ValidationError
 
-from .config import Settings
-from .database import ApplicationRepository
-from .models import AnalysisResult, ApplicationCreate
-from .reporting import applications_table, export_analysis, render_analysis_markdown
-from .service import CareerPilotService
+from career_pilot.api import (
+    ANALYSIS_EXAMPLE,
+    analyze_career,
+    get_rag_service,
+    ingest_knowledge_file,
+)
+from career_pilot.models import AnalysisRequest
+from career_pilot.rag.models import RAGAnswer
+from career_pilot.report import save_markdown_report
+
+logger = logging.getLogger(__name__)
+
+SOURCE_TYPE_LABELS = {
+    "text": "TXT",
+    "markdown": "Markdown",
+    "docx": "Word",
+    "pdf": "PDF",
+    "image": "图片",
+}
+
+EXTRACTION_METHOD_LABELS = {
+    "native_text": "原生文本",
+    "ocr": "OCR",
+}
 
 
-settings = Settings.from_env()
-service = CareerPilotService(settings)
-repository = ApplicationRepository(settings.database_path)
+def format_sources(result: RAGAnswer) -> str:
+    """Format retrieved sources for display in the UI."""
 
-TABLE_HEADERS = ["ID", "公司", "岗位", "状态", "匹配度", "简历姓名", "更新时间", "备注"]
-APP_CSS = """
-.hero {text-align:center; padding: 18px 0 6px;}
-.hero h1 {font-size: 2.2rem; margin-bottom: .35rem;}
-.hint {background: #f5f7fb; border-radius: 12px; padding: 12px 16px;}
-"""
+    if not result.sources:
+        return "本次回答没有引用知识库资料。"
+
+    lines: list[str] = []
+
+    for source in result.sources:
+        metadata: list[str] = []
+
+        if source.page_number is not None:
+            metadata.append(f"第 {source.page_number} 页")
+
+        if source.source_type is not None:
+            metadata.append(SOURCE_TYPE_LABELS[source.source_type])
+
+        if source.extraction_method is not None:
+            metadata.append(EXTRACTION_METHOD_LABELS[source.extraction_method])
+
+        metadata_text = "".join(f" | {item}" for item in metadata)
+
+        lines.append(
+            f"- [资料{source.citation_id}] "
+            f"**{source.title}**"
+            f" | `{source.source}`"
+            f"{metadata_text}"
+            f" | 重排序分数：{source.score:.3f}"
+        )
+
+    return "\n".join(lines)
 
 
-def _sample_text(filename: str) -> str:
-    path = settings.project_root / "examples" / filename
-    return path.read_text(encoding="utf-8") if path.exists() else ""
+def upload_knowledge_file(
+    file_path: str | None,
+) -> str:
+    """Ingest one uploaded file into the active knowledge base."""
+
+    if not file_path:
+        raise gr.Error("请先选择需要上传的文件。")
+
+    try:
+        result = ingest_knowledge_file(file_path)
+    except FileNotFoundError:
+        raise gr.Error("上传文件不存在，请重新选择。") from None
+    except ValueError as exc:
+        raise gr.Error(str(exc)) from None
+    except RuntimeError:
+        logger.exception("ui_document_ingestion_failed")
+        raise gr.Error("文件解析失败，请检查文件内容后重试。") from None
+    except Exception:
+        logger.exception("ui_document_upload_failed")
+        raise gr.Error("上传文件时发生异常，请查看终端日志。") from None
+
+    source_label = SOURCE_TYPE_LABELS[result.source_type]
+
+    return (
+        f"已加入知识库：**{result.filename}**"
+        f" | 类型：{source_label}"
+        f" | 页数：{result.page_count}"
+        f" | 新增分块：{result.chunk_count}"
+        f" | 当前上传文档："
+        f"{result.total_document_count} 个"
+        f" | 上传分块总数："
+        f"{result.total_chunk_count}"
+    )
 
 
-def run_analysis(
-    resume_file: Any,
+def answer_question(question: str) -> tuple[str, str, str]:
+    """Run one RAG request and prepare values for the UI."""
+
+    normalized_question = question.strip()
+
+    if not normalized_question:
+        raise gr.Error("请输入问题后再提交。")
+
+    if len(normalized_question) > 2000:
+        raise gr.Error("问题不能超过 2000 字符。")
+    try:
+        result = get_rag_service().answer(normalized_question)
+    except AuthenticationError:
+        raise gr.Error("大模型认证失败，请检查 API Key。") from None
+    except RateLimitError:
+        raise gr.Error("大模型请求过于频繁，请稍后重试。") from None
+    except APIConnectionError:
+        raise gr.Error("暂时无法连接大模型服务，请稍后重试。") from None
+    except APIStatusError:
+        raise gr.Error("大模型服务返回异常，请稍后重试。") from None
+    except Exception:
+        logger.exception("ui_rag_request_failed")
+        raise gr.Error("处理问题时发生异常，请查看终端日志。") from None
+
+    model_status = "已调用大模型" if result.used_model else "未调用大模型"
+    status = f"检索结果：{result.retrieved_count} 条 | {model_status}"
+
+    if result.evidence_status != "not_checked":
+        labels = {
+            "supported": "资料核验通过",
+            "insufficient": "资料不足，未展示完整回答",
+            "invalid": "资料或引用未通过核验",
+            "unavailable": "暂时无法核验资料",
+        }
+        status += " | " + labels[result.evidence_status]
+    if result.answer_status != "not_checked":
+        labels = {
+            "supported": "回答依据核验通过",
+            "insufficient": "未找到完整的有依据回答",
+            "invalid": "回答未通过依据核验",
+            "unavailable": "暂时无法完成回答核验",
+        }
+        status += " | " + labels[result.answer_status]
+    return result.answer, format_sources(result), status
+
+
+def clear_form() -> tuple[str, str, str, str]:
+    """Clear all interactive fields."""
+
+    return "", "", "", ""
+
+
+def analyze_resume(
     resume_text: str,
+    job_description: str,
     company: str,
     role: str,
-    jd_text: str,
-) -> tuple[str, dict[str, Any] | None, dict[str, Any] | None]:
+    retrieval_mode: str,
+) -> tuple[float, str, str, str, str, str, gr.Button]:
+    """Use the same validated analysis entry point as the FastAPI route."""
+
+    if retrieval_mode not in {"keyword", "hybrid"}:
+        raise gr.Error("请选择有效的检索方式。")
     try:
-        file_path = None
-        if resume_file:
-            file_path = getattr(resume_file, "name", resume_file)
-        result = service.analyze(
-            resume_path=file_path,
-            resume_text=resume_text or "",
-            company=company or "",
-            role=role or "",
-            jd_text=jd_text or "",
+        request = AnalysisRequest(
+            resume_text=resume_text,
+            job_description=job_description,
+            company=company,
+            role=role,
         )
-        payload = {"analysis": result.model_dump(), "jd_text": jd_text}
-        return render_analysis_markdown(result), payload, result.model_dump()
-    except Exception as exc:
-        return (
-            "# 分析失败\n\n"
-            f"> {exc}\n\n"
-            "请检查：简历是否含有可复制文字、JD 是否完整、文件格式是否为 PDF/DOCX/TXT/MD。",
-            None,
-            None,
-        )
+    except ValidationError as error:
+        first = error.errors()[0]
+        labels = {
+            "resume_text": "简历正文",
+            "job_description": "岗位要求",
+            "company": "公司",
+            "role": "岗位",
+        }
+        label = labels.get(first["loc"][0], "输入")
+        context = first.get("ctx", {})
+        if first["type"] == "string_too_short":
+            message = f"{label}至少需要 {context['min_length']} 个字符。"
+        elif first["type"] == "string_too_long":
+            message = f"{label}不能超过 {context['max_length']} 个字符。"
+        else:
+            message = f"请检查{label}的格式。"
+        raise gr.Error(message) from None
 
+    try:
+        result = analyze_career(request, retrieval_mode=retrieval_mode)
+    except AuthenticationError:
+        raise gr.Error("大模型认证失败，请检查 API Key。") from None
+    except RateLimitError:
+        raise gr.Error("大模型请求过于频繁，请稍后重试。") from None
+    except APIConnectionError:
+        raise gr.Error("暂时无法连接大模型服务，请稍后重试。") from None
+    except APIStatusError:
+        raise gr.Error("大模型服务返回异常，请稍后重试。") from None
+    except HTTPException as error:
+        raise gr.Error(str(error.detail)) from None
+    except Exception:
+        logger.exception("ui_career_analysis_failed")
+        raise gr.Error("分析失败，请查看服务端日志。") from None
 
-def save_application(
-    state: dict[str, Any] | None,
-    status: str,
-    notes: str,
-) -> str:
-    if not state or "analysis" not in state:
-        return "请先完成一次分析。"
-    result = AnalysisResult.model_validate(state["analysis"])
-    data = ApplicationCreate(
-        company=result.job_profile.company,
-        role=result.job_profile.role,
-        status=status,
-        match_score=result.match_report.overall_score,
-        resume_name=result.resume_profile.name,
-        jd_excerpt=(state.get("jd_text") or "")[:500],
-        notes=notes or "",
+    missing_required = "、".join(result.match_result.missing_required_skills) or (
+        "未发现缺失" if result.job_profile.required_skills else "未识别到必备技能要求"
     )
-    record = repository.create(data, result)
-    return f"已保存投递记录 #{record.id}：{record.company} / {record.role}。请到“投递管理”页刷新。"
-
-
-def refresh_applications() -> list[list[object]]:
-    return applications_table(repository.list())
-
-
-def update_application(record_id: float, status: str, notes: str) -> tuple[str, list[list[object]]]:
-    try:
-        record = repository.update_status(int(record_id), status, notes)
-        return f"已更新记录 #{record.id}。", applications_table(repository.list())
-    except Exception as exc:
-        return f"更新失败：{exc}", applications_table(repository.list())
-
-
-def export_report(state: dict[str, Any] | None) -> str | None:
-    if not state or "analysis" not in state:
-        return None
-    result = AnalysisResult.model_validate(state["analysis"])
-    path = export_analysis(result, settings.project_root / "outputs")
-    return str(path)
-
-
-def load_example() -> tuple[str, str, str, str]:
+    missing_preferred = "、".join(result.match_result.missing_preferred_skills) or (
+        "未发现缺失" if result.job_profile.preferred_skills else "未识别到加分技能要求"
+    )
+    status = (
+        f"请求编号：{result.request_id} | 节点：{len(result.workflow_trace)}"
+        f" | 引用资料：{len(result.knowledge_sources)}"
+    )
     return (
-        _sample_text("resume_example.txt"),
-        "星云智能科技",
-        "AI Agent 应用开发工程师",
-        _sample_text("jd_example.txt"),
+        result.match_result.score,
+        missing_required,
+        missing_preferred,
+        result.report_markdown,
+        status,
+        result.report_markdown,
+        gr.Button(interactive=True),
     )
 
 
-def build_demo() -> gr.Blocks:
-    with gr.Blocks(title="CareerPilot Agent") as demo:
-        analysis_state = gr.State(None)
-        gr.HTML(
-            "<div class='hero'><h1>CareerPilot Agent</h1>"
-            "<p>基于 LangGraph 的多智能体求职助手：读简历、拆 JD、算匹配、改简历、练面试</p></div>"
-        )
-        mode_text = "大模型增强已启用" if settings.ai_enabled else "演示模式：无需 API Key，不产生模型费用"
-        gr.Markdown(f"> **当前模式：{mode_text}**　｜　所有匹配结论都提供可解释依据。")
+def load_analysis_example() -> tuple[str, str, str, str, str]:
+    return (
+        ANALYSIS_EXAMPLE["resume_text"],
+        ANALYSIS_EXAMPLE["job_description"],
+        ANALYSIS_EXAMPLE["company"],
+        ANALYSIS_EXAMPLE["role"],
+        "keyword",
+    )
 
-        with gr.Tabs():
-            with gr.Tab("智能分析"):
-                with gr.Row():
-                    with gr.Column(scale=1):
-                        resume_file = gr.File(
-                            label="上传简历（PDF / DOCX / TXT / MD）",
-                            file_types=[".pdf", ".docx", ".txt", ".md"],
-                            type="filepath",
-                        )
-                        resume_text = gr.Textbox(
-                            label="或粘贴简历文字",
-                            lines=11,
-                            placeholder="上传文件后可以留空；扫描版 PDF 请把 OCR 文字粘贴到这里。",
-                        )
-                    with gr.Column(scale=1):
-                        company = gr.Textbox(label="公司", placeholder="例如：星云智能科技")
-                        role = gr.Textbox(label="岗位", placeholder="例如：AI Agent 应用开发工程师")
-                        jd_text = gr.Textbox(
-                            label="招聘 JD",
-                            lines=13,
-                            placeholder="粘贴岗位职责和任职要求……",
-                        )
 
-                with gr.Row():
-                    example_button = gr.Button("载入示例", variant="secondary")
-                    analyze_button = gr.Button("开始多 Agent 分析", variant="primary")
-                report_output = gr.Markdown("在左侧输入资料后点击“开始多 Agent 分析”。")
-                with gr.Accordion("查看结构化 JSON（面试时可用于讲结构化输出）", open=False):
-                    json_output = gr.JSON(label="AnalysisResult")
+def clear_analysis_inputs() -> tuple[str, str, str, str, str]:
+    return "", "", "", "", "keyword"
 
-                with gr.Row():
-                    application_status = gr.Dropdown(
-                        ["准备投递", "已投递", "笔试", "一面", "二面", "HR 面", "Offer", "已结束"],
-                        value="准备投递",
-                        label="投递状态",
-                    )
-                    application_notes = gr.Textbox(label="备注", placeholder="内推人、截止时间、下一步等")
-                with gr.Row():
-                    save_button = gr.Button("保存到投递管理")
-                    export_button = gr.Button("导出 Markdown 报告")
-                save_message = gr.Markdown()
-                exported_file = gr.File(label="导出的报告", interactive=False)
 
-                example_button.click(
-                    load_example,
-                    outputs=[resume_text, company, role, jd_text],
+def clear_analysis_results() -> tuple[None, str, str, str, str, str, None, gr.Button]:
+    """Invalidate the displayed result, session report, and old download together."""
+
+    return None, "", "", "", "", "", None, gr.Button(interactive=False)
+
+
+def export_analysis_report(report_markdown: str) -> str:
+    """Export only the report stored in this browser session."""
+
+    if not report_markdown or not report_markdown.strip():
+        raise gr.Error("请先完成简历分析，再导出报告。")
+    try:
+        path = save_markdown_report(report_markdown)
+    except OSError:
+        logger.exception("ui_report_export_failed")
+        raise gr.Error("报告保存失败，请检查目录权限后重试。") from None
+    return str(path.resolve())
+
+
+def build_ui() -> gr.Blocks:
+    """Build the CareerPilot browser interface."""
+
+    with gr.Blocks(
+        title="CareerPilot Agent",
+        analytics_enabled=False,
+        theme=gr.themes.Default(
+            primary_hue="green",
+            secondary_hue="blue",
+            neutral_hue="gray",
+            font=["Microsoft YaHei", "Arial", "sans-serif"],
+            font_mono=["Consolas", "monospace"],
+        ),
+    ) as demo:
+        gr.Markdown("# CareerPilot Agent")
+        with gr.Tab("简历分析"):
+            report_state = gr.State("")
+            with gr.Row():
+                company = gr.Textbox(label="公司", elem_id="analysis-company")
+                role = gr.Textbox(label="岗位", elem_id="analysis-role")
+            with gr.Row():
+                resume_text = gr.Textbox(
+                    label="简历正文",
+                    lines=8,
+                    max_lines=12,
+                    min_width=320,
+                    elem_id="analysis-resume",
                 )
-                analyze_button.click(
-                    run_analysis,
-                    inputs=[resume_file, resume_text, company, role, jd_text],
-                    outputs=[report_output, analysis_state, json_output],
+                job_description = gr.Textbox(
+                    label="岗位要求",
+                    lines=8,
+                    max_lines=12,
+                    min_width=320,
+                    elem_id="analysis-job",
                 )
-                save_button.click(
-                    save_application,
-                    inputs=[analysis_state, application_status, application_notes],
-                    outputs=[save_message],
+            retrieval_mode = gr.Radio(
+                choices=[("本地关键词", "keyword"), ("混合检索", "hybrid")],
+                value="keyword",
+                label="检索方式",
+            )
+            with gr.Row():
+                analyze_button = gr.Button(
+                    "分析简历", variant="primary", elem_id="analyze-button"
                 )
-                export_button.click(export_report, inputs=[analysis_state], outputs=[exported_file])
-
-            with gr.Tab("投递管理"):
-                gr.Markdown("记录每一次投递，并跟踪当前进度。SQLite 数据保存在本机。")
-                tracker_table = gr.Dataframe(
-                    headers=TABLE_HEADERS,
-                    value=applications_table(repository.list()),
+                example_button = gr.Button("载入示例", elem_id="example-button")
+                clear_analysis_button = gr.Button("清空输入")
+            analysis_status = gr.Markdown()
+            with gr.Row():
+                score = gr.Number(
+                    value=None,
+                    label="匹配分数",
+                    placeholder="待分析",
+                    precision=2,
                     interactive=False,
-                    wrap=True,
                 )
-                refresh_button = gr.Button("刷新记录")
-                with gr.Row():
-                    record_id = gr.Number(label="要更新的记录 ID", precision=0)
-                    new_status = gr.Dropdown(
-                        ["准备投递", "已投递", "笔试", "一面", "二面", "HR 面", "Offer", "已结束"],
-                        value="已投递",
-                        label="新状态",
-                    )
-                    new_notes = gr.Textbox(label="备注")
-                update_button = gr.Button("更新状态")
-                update_message = gr.Markdown()
-                refresh_button.click(refresh_applications, outputs=[tracker_table])
-                update_button.click(
-                    update_application,
-                    inputs=[record_id, new_status, new_notes],
-                    outputs=[update_message, tracker_table],
+                missing_required = gr.Textbox(label="必备技能缺口", interactive=False)
+                missing_preferred = gr.Textbox(label="加分技能缺口", interactive=False)
+            with gr.Row():
+                export_button = gr.Button(
+                    "导出报告", interactive=False, elem_id="export-button"
                 )
-
-            with gr.Tab("项目说明"):
-                gr.Markdown(
-                    """
-## 这个项目展示什么
-
-- LangGraph 状态图与条件路由
-- ResumeAgent、JobAgent、RAGAgent、MatchAgent、ResumeCoachAgent、InterviewAgent
-- PDF/DOCX 文档工具、可解释匹配、轻量 RAG、SQLite 持久化
-- Gradio 可视化页面与 FastAPI REST 接口
-- Pydantic 结构化输出，以及有 API Key 时的模型增强与失败降级
-
-系统默认不会调用付费模型。要启用大模型，请复制 `.env.example` 为 `.env` 并填写自己的配置。
-                    """
+                report_file = gr.File(
+                    label="报告文件", interactive=False, elem_id="report-download"
                 )
-        return demo
+            report = gr.Markdown(elem_id="analysis-report")
+            form_inputs = [resume_text, job_description, company, role, retrieval_mode]
+            result_outputs = [
+                score,
+                missing_required,
+                missing_preferred,
+                report,
+                analysis_status,
+                report_state,
+                report_file,
+                export_button,
+            ]
+            analyze_button.click(
+                fn=clear_analysis_results, outputs=result_outputs
+            ).then(
+                fn=analyze_resume,
+                inputs=form_inputs,
+                outputs=[*result_outputs[:6], export_button],
+                api_name="analyze_resume",
+            )
+            example_button.click(fn=load_analysis_example, outputs=form_inputs).then(
+                fn=clear_analysis_results, outputs=result_outputs
+            )
+            clear_analysis_button.click(
+                fn=clear_analysis_inputs, outputs=form_inputs
+            ).then(fn=clear_analysis_results, outputs=result_outputs)
+            for component in form_inputs:
+                component.input(
+                    fn=clear_analysis_results,
+                    outputs=result_outputs,
+                    queue=False,
+                )
+            export_button.click(
+                fn=export_analysis_report,
+                inputs=report_state,
+                outputs=report_file,
+                api_name="export_report",
+            )
+        from career_pilot.review_ui import build_review_tab
 
+        build_review_tab()
+        with gr.Tab("知识问答"):
+            with gr.Row():
+                knowledge_file = gr.File(
+                    label="知识文件",
+                    file_types=[
+                        ".txt",
+                        ".md",
+                        ".docx",
+                        ".pdf",
+                        ".png",
+                        ".jpg",
+                        ".jpeg",
+                    ],
+                    file_count="single",
+                    type="filepath",
+                )
+                upload_button = gr.Button("加入知识库", variant="secondary")
+            upload_status = gr.Markdown()
+            upload_button.click(
+                fn=upload_knowledge_file,
+                inputs=knowledge_file,
+                outputs=upload_status,
+                api_name="upload_knowledge",
+            ).then(fn=clear_analysis_results, outputs=result_outputs)
+            question = gr.Textbox(label="问题", lines=4, max_lines=8)
+            with gr.Row():
+                submit_button = gr.Button("提交问题", variant="primary")
+                clear_button = gr.Button("清空")
+            gr.Markdown("### 回答")
+            answer = gr.Markdown()
+            gr.Markdown("### 引用资料")
+            sources = gr.Markdown()
+            status = gr.Markdown()
+            submit_button.click(
+                fn=answer_question,
+                inputs=question,
+                outputs=[answer, sources, status],
+            )
+            question.submit(
+                fn=answer_question,
+                inputs=question,
+                outputs=[answer, sources, status],
+            )
+            clear_button.click(
+                fn=clear_form,
+                outputs=[question, answer, sources, status],
+            )
 
-def main() -> None:
-    demo = build_demo()
-    demo.launch(
-        server_name=settings.app_host,
-        server_port=settings.app_port,
-        share=False,
-        show_error=True,
-        theme=gr.themes.Soft(),
-        css=APP_CSS,
-    )
+    return demo
 
 
 if __name__ == "__main__":
-    main()
+    build_ui().launch(
+        server_name="127.0.0.1",
+        server_port=7860,
+        share=False,
+    )
