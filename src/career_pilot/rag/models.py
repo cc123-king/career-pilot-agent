@@ -18,6 +18,14 @@ class KnowledgeDocument(StrictModel):
     content: str = Field(min_length=1, max_length=100_000)
 
 
+class SourceScope(StrictModel):
+    """Source-derived declaration and paragraph; provenance, not semantic approval."""
+
+    api: str = Field(default="", max_length=200)
+    declaration: str = Field(default="", max_length=800)
+    text: str = Field(min_length=1, max_length=1600)
+
+
 class KnowledgeChunk(StrictModel):
     """A retrievable part of a knowledge document."""
 
@@ -27,6 +35,7 @@ class KnowledgeChunk(StrictModel):
     source: str = Field(min_length=1, max_length=500)
     content: str = Field(min_length=1, max_length=10_000)
     position: int = Field(ge=0)
+    source_scopes: list[SourceScope] = Field(default_factory=list, max_length=64)
     constituent_chunk_ids: list[str] = Field(default_factory=list, max_length=5)
     page_number: int | None = Field(default=None, ge=1)
     extraction_method: ExtractionMethod | None = None

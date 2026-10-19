@@ -1,0 +1,37 @@
+{
+  "version": "reliability-v9",
+  "local_windows_tests": {
+    "tests": 464,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "paid_model_retest_calls": 0,
+  "original_live_scores_replaced": false,
+  "limitations": "Known-data offline regression and scripted provider checks; not independent model or scientific accuracy.",
+  "cached_first_failure_replay": {
+    "kind": "cached_first_frozen_failure_replay",
+    "case_id": "v7-new-18",
+    "original_model_audit_passed": true,
+    "new_deterministic_guard_blocked": true,
+    "source_context_restored_from_original_constituent_chunks": true,
+    "paid_model_calls": 0,
+    "not_real_model_retest": true,
+    "not_general_semantic_accuracy": true
+  },
+  "source_span_diagnostic": {
+    "positive_questions": 24,
+    "before": 21,
+    "after": 24,
+    "authored_after_frozen_run": true,
+    "not_original_frozen_labels": true,
+    "frozen_anchor_complete_before": 18,
+    "frozen_anchor_complete_after": 19,
+    "note": "Five original anchors spanned examples or unrelated APIs; separate diagnostic required-fact spans are disclosed."
+  },
+  "known_40_question_material_budget_check": {
+    "fits": 40,
+    "total": 40,
+    "paragraph_deduplication_without_quote_loss": true
+  }
+}
